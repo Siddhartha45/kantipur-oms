@@ -3,8 +3,8 @@ from django.contrib.auth.backends import ModelBackend
 
 
 class EmailOrPhoneModelBackend(ModelBackend):
-    """custom authentication for authenticating users with both phone and email"""
-    
+    """Custom authentication for authenticating users with both phone and email"""
+
     def authenticate(self, request, email_or_phone=None, password=None, **kwargs):
         UserModel = get_user_model()
         try:
