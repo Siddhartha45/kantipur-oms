@@ -1,4 +1,4 @@
-MEMBERSHIP_TYPES = (("G", "General"), ("L", "Lifetime"), ("I", "Institutional"))
+MEMBERSHIP_TYPES = (("G", "General"), ("L", "Lifetime"))
 
 GENDER_CHOICES = (("M", "Male"), ("F", "Female"), ("O", "Others"))
 

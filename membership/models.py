@@ -2,9 +2,9 @@ from django.db import models
 
 from . import choices
 
-class Membership(models.Model):
+
+class GeneralAndLifetimeMembership(models.Model):
     membership_type = models.CharField(max_length=1, choices=choices.MEMBERSHIP_TYPES)
-    #Personal Information
     name_of_applicant = models.CharField(max_length=200)
     dob = models.CharField(max_length=10)
     gender = models.CharField(max_length=1, choices=choices.GENDER_CHOICES)
@@ -13,19 +13,18 @@ class Membership(models.Model):
     permanent_address = models.CharField(max_length=200)
     affiliation = models.CharField(max_length=200)
     citizenship_card_no = models.CharField(max_length=20)
-    #Education
     degree = models.CharField(max_length=3, choices=choices.DEGREE_CHOICES)
-    subject = models.CharField(max_length=200)
-    institution = models.CharField(max_length=200)
-    country = models.CharField(max_length=200)
-    passed_year = models.CharField(max_length=4)
-    #Documents
+    subject = models.CharField(max_length=200, blank=True, null=True)
+    institution = models.CharField(max_length=200, blank=True, null=True)
+    country = models.CharField(max_length=200, blank=True, null=True)
+    passed_year = models.CharField(max_length=4, blank=True, null=True)
     pp_photo = models.ImageField()
     citizenship = models.ImageField()
     masters_document = models.ImageField()
-    #Work Experience
     work_experience = models.TextField()
-    #For Institutional
+
+
+class InstitutionalMembership(models.Model):
     company_name = models.CharField(max_length=200)
     company_address = models.CharField(max_length=200)
     registration_no = models.CharField(max_length=200)

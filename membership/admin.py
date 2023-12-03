@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import GeneralAndLifetimeMembership, InstitutionalMembership
+
+
+admin.site.register(GeneralAndLifetimeMembership)
+admin.site.register(InstitutionalMembership)
