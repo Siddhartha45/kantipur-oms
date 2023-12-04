@@ -1,11 +1,14 @@
 from django.db import models
 
+from accounts.models import CustomUser
+
 from . import choices
 
 
 class GeneralAndLifetimeMembership(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="general_and_lifetime_user")
     membership_type = models.CharField(max_length=1, choices=choices.MEMBERSHIP_TYPES)
     #Personal Details
     name_of_applicant = models.CharField(max_length=200)
@@ -40,6 +43,7 @@ class GeneralAndLifetimeMembership(models.Model):
 class InstitutionalMembership(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="institutional_user")
     company_name = models.CharField(max_length=200)
     company_address = models.CharField(max_length=200)
     registration_no = models.CharField(max_length=200)
@@ -48,3 +52,6 @@ class InstitutionalMembership(models.Model):
     company_document = models.ImageField(upload_to='institutional_documents')
     working_field = models.CharField(max_length=200)
     contact_person = models.CharField(max_length=200)
+    
+    def __str__(self):
+        return self.company_name

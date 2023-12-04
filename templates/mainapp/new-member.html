@@ -961,54 +961,56 @@
                                     </form>
                                 </div>
 
-                                
+
                                 <div class="tab-pane fade" id="institutional-tab-pane" role="tabpanel" aria-labelledby="institutional-tab" tabindex="0">
-                                    <form action="" class="member-personal">
+                                    <form action="{% url 'institutional_membership' %}" method="post" class="member-personal" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        
                                         <h3>1. Institutional Information </h3>
                                         <div class="member-details">
                                             
                                             <div class="member-info">
                                                 <p class="required">Company Name</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="companynam" id="companynam" placeholder="Enter your company name" required>
+                                                    <input type="text" name="company_name" id="companynam" placeholder="Enter your company name" required>
                                                 </div>
                                             </div>
                                             <div class="member-info">
                                                 <p class="required">Address</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="companyaddress" id="companyaddress" placeholder="Enter your company address" required>
+                                                    <input type="text" name="company_address" id="companyaddress" placeholder="Enter your company address" required>
                                                 </div>
                                             </div>
                                            
                                             <div class="member-info">
                                                 <p class="required">Registration No.</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="regno" id="regno" placeholder="Enter Your Register Number" required>
+                                                    <input type="text" name="registration_no" id="regno" placeholder="Enter Your Register Number" required>
                                                 </div>
                                             </div>
                                             
                                         </div>
 
-                                        <h3>1. Institutional Information </h3>
+                                        <h3>1. Institutional Documents </h3>
                                         <div class="member-details">
                                             <div class="member-info2">
                                                 <p class="required">PAN</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="panimg" id="panimg" accept="image/*" required>
+                                                    <input type="file" name="pan_document" id="panimg" accept="image/*" required>
                                                 </div>
                                             </div>
 
                                             <div class="member-info2">
                                                 <p class="required">Registration</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="regimg" id="regimg" accept="image/*" required>
+                                                    <input type="file" name="registration_document" id="regimg" accept="image/*" required>
                                                 </div>
                                             </div>
 
                                             <div class="member-info2">
                                                 <p class="required">Other Documents</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="othimg" id="othimg" accept="image/*" required>
+                                                    <input type="file" name="company_document" id="othimg" accept="image/*" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -1017,29 +1019,20 @@
                                             <div class="member-info">
                                                 <p class="required">Working Field (Description):</p>
                                                 <div class="member-info">
-                                                    <textarea name="work-exp" id="work-exp" cols="10" rows="5"></textarea>
+                                                    <textarea name="working_field" id="work-exp" cols="10" rows="5"></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="member-info">
                                                 <p class="required">Contact Person</p>
                                                 <div class="info-inner">
-                                                    <input type="email" name="contact-email" id="contact-email" placeholder="Enter contact person email" required>
+                                                    <input type="email" name="contact_person" id="contact-email" placeholder="Enter contact person email" required>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        
-                                        <!-- <div class="member-details">
-                                            <div class="member-info">
-                                                <p>Contact Person</p>
-                                                <a href="">Hello@sagarsharma.net</a>
-                                            </div>
-                                        </div> -->
-
-
-
-                                        <button type="Submit">Submit</button>
+                                        <input type="hidden" name="form_type" value="institutional">
+                                        <button type="submit">Submit</button>
                                     </form>
                                 </div>
                               </div>

@@ -26,6 +26,7 @@ def sign_up(request):
                 email=email,
                 phone=phone,
                 password=make_password(password),
+                role="U"
             )
             return redirect("login")
         else:
