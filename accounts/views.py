@@ -28,22 +28,22 @@ def sign_up(request):
             return HttpResponse("user created")
         else:
             form = SignUpForm()
-    return render()
+    return render(request, "auth/signup.html")
 
 
 def login_page(request):
     if request.method == "POST":
-        email = request.POST.get("email")
+        email_or_phone = request.POST.get("email_or_phone")
         password = request.POST.get("password")
 
-        user = authenticate(request, email_or_phone=email, password=password)
+        user = authenticate(request, email_or_phone=email_or_phone, password=password)
 
         if user is not None:
             login(request, user)
-            return HttpResponse("Successfully logged in {}!".format(user))
+            return redirect('dashboard')
         else:
             return HttpResponse("incorrect credentials")
-    return render(request, "account/login.html")
+    return render(request, "auth/login.html")
 
 
 def logout_user(request):
