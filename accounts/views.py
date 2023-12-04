@@ -10,22 +10,24 @@ def sign_up(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
-            full_name = form.cleaned_data.get("full_name")
-            phone = form.cleaned_data.get("phone")
+            first_name = form.cleaned_data.get("first_name")
+            last_name = form.cleaned_data.get("last_name")
             email = form.cleaned_data.get("email")
+            phone = form.cleaned_data.get("phone")
             password = form.cleaned_data.get("password")
             confirm_password = form.cleaned_data.get("confirm_password")
 
             if password != confirm_password:
-                return redirect(request)
+                return redirect('signup')
 
             CustomUser.objects.create(
-                full_name=full_name,
-                phone=phone,
+                first_name=first_name,
+                last_name=last_name,
                 email=email,
+                phone=phone,
                 password=make_password(password),
             )
-            return HttpResponse("user created")
+            return redirect("login")
         else:
             form = SignUpForm()
     return render(request, "auth/signup.html")

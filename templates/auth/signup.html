@@ -41,7 +41,7 @@
         
         
                 <form method="post" , action="">
-        
+                    {% csrf_token %}
         
                     <div class="register-details">
                         <div class="register-email response">
@@ -65,7 +65,7 @@
                         <div class="register-email">
                             <p>Phone Number</p>
                             <div class="user-register">
-                                <input type="text" placeholder="Enter your Phone Number" name="phone_number">
+                                <input type="text" placeholder="Enter your Phone Number" name="phone">
                             </div>
                         </div>
                         <div class="register-email">
@@ -87,7 +87,7 @@
                             <p>Retype Password</p>
                             <div class="user-input">
         
-                                <input type="password" placeholder="Enter your Password" name="password" value="" id="passwords"
+                                <input type="password" placeholder="Enter your Password" name="confirm_password" value="" id="passwords"
                                     required="true" aria-label="password" aria-describedby="basic-addon1">
                                 <div class="input-group-append">
                                     <span span class="input-group-text" onclick="password_show_hiding();">
@@ -109,7 +109,7 @@
                         </div>
                         <div class="login-signup">
                             <p>Have an account?</p>
-                            <a href="">Login</a>
+                            <a href="{% url 'login' %}">Login</a>
                         </div>
                     </div>
                 </form>

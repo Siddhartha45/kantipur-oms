@@ -133,6 +133,7 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 """Using our own custom authentication to authenticate users with both phone and email"""
 AUTHENTICATION_BACKENDS = [
     'accounts.authentication.EmailOrPhoneModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 STATIC_URL = '/static/'

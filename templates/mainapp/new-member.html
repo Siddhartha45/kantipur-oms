@@ -1,4 +1,4 @@
-{% extends "mainapp/header-footer.html" %}
+{% extends "base/header-footer.html" %}
 {% load static %}
 {% block container %}
 
@@ -11,80 +11,7 @@
         <div class="row">
             <div class="col-md-2">
                 
-                <section id="left-dash">
-                    <div class="row">
-                        <div class="left-dash">
-                            <div class="left-dash-content">
-                                <div class="left-dash-upper">
-                                    <div class="logo">
-                                        <a href="">
-                                            
-                                        </a>
-                                    </div>
-
-                                    <a href="dashboard.html" class="left-dash-item">
-                                        <p>Dashboard</p>
-                                    </a>
-                                   
-                                    <a href="new-member.html" class="left-dash-item">
-                                        <p>New Membership</p>
-                                    </a>
-                                    
-                                    <a href="membership-status.html" class="left-dash-item">
-                                        <p>Membership Status</p>
-                                    </a>
-                
-                                    <a href="" class="left-dash-item">
-                                        <p>Logout</p>
-                                    </a>
-                                    
-                                </div>
-                               
-                
-                              
-                            </div>
-                        </div>
-                
-                        <div class="side-bar">
-                            <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions"
-                                aria-controls="offcanvasWithBothOptions"><i class="fa-solid fa-bars"
-                                    style="color: #FCB810; font-size: 25px"></i></button>
-                            <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
-                                aria-labelledby="offcanvasWithBothOptionsLabel">
-                
-                                <div class="offcanvas-header">
-                                    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel"></h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                </div>
-                
-                                <div class="left-dash-content">
-                                    <div class="left-dash-upper">
-                                        <div class="logo">
-                                            <a href="">
-                                            
-                                            </a>
-                                        </div>
-                
-                                        
-                                    <a href="" class="left-dash-item">
-                                        <p>New Membership</p>
-                                    </a>
-                                    
-                                    <a href="" class="left-dash-item">
-                                        <p>Membership Status</p>
-                                    </a>
-                
-                                    <a href="" class="left-dash-item">
-                                        <p>Logout</p>
-                                    </a>
-                                    
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                
+                {% include 'base/sidebar.html' %}
 
             </div>
             <div class="col-md-10">
@@ -569,12 +496,6 @@
                                         <h3>4. Work Experience</h3>
                                         <div class="member-details">
                                             <div class="member-info">
-                                                <p class="required">Work Experience</p>
-                                                <div class="member-info">
-                                                    <textarea name="work-exp" id="work-exp" cols="10" rows="5"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="member-info">
                                                 <p class="required">Brief Description</p>
                                                 <div class="member-info">
                                                     <textarea name="brief-des" id="brief-des" cols="10" rows="5"></textarea>
@@ -585,6 +506,8 @@
                                         <button type="Submit">Submit</button>
                                     </form>
                                 </div>
+
+
                                 <div class="tab-pane fade" id="lifetime-tab-pane" role="tabpanel" aria-labelledby="lifetime-tab" tabindex="0">
                                     <form action="" class="member-personal">
                                         <h3>1. Personal Information</h3>
@@ -1027,12 +950,6 @@
                                         <h3>4. Work Experience</h3>
                                         <div class="member-details">
                                             <div class="member-info">
-                                                <p class="required">Work Experience</p>
-                                                <div class="member-info">
-                                                    <textarea name="work-exp" id="work-exp" cols="10" rows="5"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="member-info">
                                                 <p class="required">Brief Description</p>
                                                 <div class="member-info">
                                                     <textarea name="brief-des" id="brief-des" cols="10" rows="5"></textarea>
@@ -1043,6 +960,8 @@
                                         <button type="Submit">Submit</button>
                                     </form>
                                 </div>
+
+                                
                                 <div class="tab-pane fade" id="institutional-tab-pane" role="tabpanel" aria-labelledby="institutional-tab" tabindex="0">
                                     <form action="" class="member-personal">
                                         <h3>1. Institutional Information </h3>
