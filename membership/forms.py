@@ -6,10 +6,10 @@ from .models import GeneralAndLifetimeMembership, InstitutionalMembership
 class InstitutionalMembershipForm(forms.ModelForm):
     class Meta:
         model = InstitutionalMembership
-        fields = "__all__"
+        exclude = ["created_by"]
 
 
 class GeneralAndLifetimeMembershipForm(forms.ModelForm):
     class Meta:
         model = GeneralAndLifetimeMembership
-        fields = "__all__"
+        exclude = ["created_by", "membership_type"]

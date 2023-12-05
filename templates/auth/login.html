@@ -48,7 +48,9 @@
                                 fill="#231F20" />
                         </svg> -->
                     </div>
-
+                    {% for message in messages %}
+                    {{message}}
+                    {% endfor %}
                     <div class="login-head">
                         <h5>Log in to your Account</h5>
                         <p>Please put your login credentials below.</p>
@@ -92,7 +94,7 @@
                         </div>
 
                         <div class="forget-password">
-                            <a href="forget-password.html">Forgot your Password?</a>
+                            <a href="{% url 'forget_password' %}">Forgot your Password?</a>
                         </div>
                         <div class="login-button">
                             <button type="submit">

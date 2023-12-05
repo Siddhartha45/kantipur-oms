@@ -18,7 +18,7 @@
                     <div class="dashboard-mid-part">
                         <div class="dashboard-content">
                             <div class="dash-user">
-                                <h3>Hello! {{request.user}}</h3>
+                                <h3>{{request.user.full_name}}</h3>
                             </div>
     
                             <div class="dash-middle-content">
@@ -58,7 +58,7 @@
     
                                             <div class="user-details">
                                                 <div class="name">
-                                                    <p>Trilochan Adhikari </p>
+                                                    <p>{{request.user.full_name}}</p>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17"
                                                         viewBox="0 0 17 17" fill="none">
                                                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -67,10 +67,10 @@
                                                     </svg>
                                                 </div>
                                                 <div class="email">
-                                                    <p>Email: <span>trilochanadhikari58@gmail.com</span></p>
+                                                    <p>Email: <span>{{request.user.email}}</span></p>
                                                 </div>
                                                 <div class="phone">
-                                                    <p>Membership No: <span>9851240022</span></p>
+                                                    <p>Phone No: <span>{{request.user.phone}}</span></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -80,7 +80,7 @@
                                                 <a href="">Edit profile</a>
                                             </button>
                                             <button>
-                                                <a href="">Change Password</a>
+                                                <a href="{% url 'change_password' %}">Change Password</a>
                                             </button>
                                         </div>
                                     </div>

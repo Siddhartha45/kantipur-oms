@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, HttpResponse
 
 from .forms import InstitutionalMembershipForm, GeneralAndLifetimeMembershipForm
 from .models import InstitutionalMembership, GeneralAndLifetimeMembership
+from . import choices
 
 
 def dashboard(request):
@@ -9,28 +10,11 @@ def dashboard(request):
 
 
 def new_membership_page(request):
-    return render(request, "mainapp/new-member.html")
-
-
-# def institutional_membership(request):
-#     if request.method == "POST":
-#         form_type = request.POST.get('form_type')
-        
-#         if form_type == 'institutional':
-#             form = InstitutionalMembershipForm(request.POST, request.FILES)
-#             if form.is_valid():
-#                 print(form.cleaned_data)
-#                 # InstitutionalMembership.objects.create(**form.cleaned_data)
-#                 form.save()
-#                 return redirect("dashboard")
-#             else:
-#                 print(form.errors)
-#                 return HttpResponse("invalid data")
+    gender = choices.GENDER_CHOICES
+    countries = choices.COUNTRY_CHOICES
     
-#     else:
-#         form1 = InstitutionalMembershipForm()
-    
-#     return render(request, 'mainapp/new-member.html', {'form1': form1})
+    context = {'gender': gender, 'countries': countries}
+    return render(request, "mainapp/new-member.html", context)
 
 
 def institutional_membership(request):
@@ -38,9 +22,7 @@ def institutional_membership(request):
         form = InstitutionalMembershipForm(request.POST, request.FILES)
         
         if form.is_valid():
-            institution_member = form.save(commit=False)
-            institution_member.created_by = request.user
-            institution_member.save()
+            InstitutionalMembership.objects.create(created_by=request.user, **form.cleaned_data)
             return redirect("dashboard")
         else:
             return redirect("new_membership_page")
@@ -51,9 +33,11 @@ def general_membership(request):
         form = GeneralAndLifetimeMembershipForm(request.POST, request.FILES)
         
         if form.is_valid():
+            print(form.cleaned_data)
             GeneralAndLifetimeMembership.objects.create(created_by=request.user, membership_type="G", **form.cleaned_data)
             return redirect("dashboard")
         else:
+            print(form.errors)
             return redirect("new_membership_page")
 
 

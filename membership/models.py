@@ -14,7 +14,7 @@ class GeneralAndLifetimeMembership(models.Model):
     name_of_applicant = models.CharField(max_length=200)
     dob = models.CharField(max_length=10)
     gender = models.CharField(max_length=1, choices=choices.GENDER_CHOICES)
-    nationality = models.CharField(max_length=200)
+    nationality = models.CharField(max_length=2, choices=choices.COUNTRY_CHOICES)
     issued_from = models.CharField(max_length=200)
     permanent_address = models.CharField(max_length=200)
     affiliation = models.CharField(max_length=200)
@@ -22,22 +22,25 @@ class GeneralAndLifetimeMembership(models.Model):
     #Educational Details
     be_subject = models.CharField(max_length=200)
     be_institution = models.CharField(max_length=200)
-    be_country = models.CharField(max_length=200)
+    be_country = models.CharField(max_length=2, choices=choices.COUNTRY_CHOICES)
     be_passed_year = models.CharField(max_length=4)
     me_subject = models.CharField(max_length=200)
     me_institution = models.CharField(max_length=200)
-    me_country = models.CharField(max_length=200)
+    me_country = models.CharField(max_length=2, choices=choices.COUNTRY_CHOICES)
     me_passed_year = models.CharField(max_length=4)
     phd_subject = models.CharField(max_length=200, blank=True, null=True)
     phd_institution = models.CharField(max_length=200, blank=True, null=True)
-    phd_country = models.CharField(max_length=200, blank=True, null=True)
+    phd_country = models.CharField(max_length=2, choices=choices.COUNTRY_CHOICES, blank=True, null=True)
     phd_passed_year = models.CharField(max_length=4, blank=True, null=True)
     #Documents
-    pp_photo = models.ImageField()
-    citizenship = models.ImageField()
-    masters_document = models.ImageField()
+    pp_photo = models.ImageField(upload_to='general_and_lifetime_documents')
+    citizenship = models.ImageField(upload_to='general_and_lifetime_documents')
+    masters_document = models.ImageField(upload_to='general_and_lifetime_documents')
     #Work Details
     work_experience = models.TextField()
+    
+    def __str__(self):
+        return self.name_of_applicant
 
 
 class InstitutionalMembership(models.Model):

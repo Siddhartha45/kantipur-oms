@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
+from django.contrib import messages
 
 from .models import CustomUser
 from .forms import SignUpForm
@@ -17,8 +18,16 @@ def sign_up(request):
             password = form.cleaned_data.get("password")
             confirm_password = form.cleaned_data.get("confirm_password")
 
+            if (
+                CustomUser.objects.filter(email=email).first()
+                or CustomUser.objects.filter(phone=phone).first()
+            ):
+                messages.error(request, "User with this email or phone already exists")
+                return redirect("signup")
+
             if password != confirm_password:
-                return redirect('signup')
+                messages.error(request, "Password didn't match!")
+                return redirect("signup")
 
             CustomUser.objects.create(
                 first_name=first_name,
@@ -26,11 +35,12 @@ def sign_up(request):
                 email=email,
                 phone=phone,
                 password=make_password(password),
-                role="U"
+                role="U",
             )
+            messages.success(request, "User created. Login with your new account.")
             return redirect("login")
-        else:
-            form = SignUpForm()
+    else:
+        form = SignUpForm()
     return render(request, "auth/signup.html")
 
 
@@ -43,12 +53,45 @@ def login_page(request):
 
         if user is not None:
             login(request, user)
-            return redirect('dashboard')
+            return redirect("dashboard")
         else:
-            return HttpResponse("incorrect credentials")
+            messages.error(
+                request, "Email Address/Phone Number or Password didn't match!"
+            )
+            return redirect("login")
     return render(request, "auth/login.html")
 
 
 def logout_user(request):
     logout(request)
-    return redirect('login')
+    return redirect("login")
+
+
+def change_password(request):
+    if request.method == "POST":
+        current_password = request.POST.get("current_password")
+        new_password = request.POST.get("new_password")
+        retype_new_password = request.POST.get("retype_new_password")
+
+        if current_password == "" or new_password == "" or retype_new_password == "":
+            messages.error(request, "Please fill all the fields")
+            return redirect("change_password")
+
+        if not request.user.check_password(current_password):
+            messages.error(request, "Incorrect Current Password")
+            return redirect("change_password")
+
+        if new_password != retype_new_password:
+            messages.error(request, "New Passwords didn't match")
+            return redirect("change_password")
+
+        if current_password == new_password:
+            messages.error(
+                request, "New Password should not be same as Current Password!"
+            )
+            return redirect("change_password")
+    return render(request, "auth/change-password.html")
+
+
+def forget_password(request):
+    return render(request, "auth/forget-password.html")
