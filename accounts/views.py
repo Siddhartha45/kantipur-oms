@@ -19,8 +19,8 @@ def sign_up(request):
             confirm_password = form.cleaned_data.get("confirm_password")
 
             if (
-                CustomUser.objects.filter(email=email).first()
-                or CustomUser.objects.filter(phone=phone).first()
+                CustomUser.objects.filter(email=email).exists()
+                or CustomUser.objects.filter(phone=phone).exists()
             ):
                 messages.error(request, "User with this email or phone already exists")
                 return redirect("signup")

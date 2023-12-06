@@ -19,7 +19,6 @@ def dashboard(request):
 def new_membership_page(request):
     gender = choices.GENDER_CHOICES
     countries = choices.COUNTRY_CHOICES
-
     context = {"gender": gender, "countries": countries}
     return render(request, "mainapp/new-member.html", context)
 
@@ -29,6 +28,7 @@ def institutional_membership(request):
         form = InstitutionalMembershipForm(request.POST, request.FILES)
 
         if form.is_valid():
+            print(form.cleaned_data)
             InstitutionalMembership.objects.create(
                 created_by=request.user, **form.cleaned_data
             )
@@ -38,6 +38,7 @@ def institutional_membership(request):
             )
             return redirect("payment")
         else:
+            print(form.errors)
             messages.error(request, "Please fill all the fields correctly")
             return redirect("new_membership_page")
 
@@ -84,13 +85,16 @@ def payment_page(request):
         form = PaymentForm(request.POST, request.FILES)
 
         if form.is_valid():
-            Payment.objects.create(user=request.user, **form.cleaned_data)
+            if not Payment.objects.filter(user=request.user).exists():
+                Payment.objects.create(user=request.user, **form.cleaned_data)
+            else:
+                messages.error(request, "Payment already done")
+                return redirect("dashboard")
             return redirect("payment_done_page")
         else:
             print(form.errors)
     else:
         form = PaymentForm()
-
     return render(request, "mainapp/payment.html")
 
 

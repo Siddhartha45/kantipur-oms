@@ -11,6 +11,7 @@ class GeneralAndLifetimeMembership(models.Model):
     created_by = models.OneToOneField(
         CustomUser, on_delete=models.CASCADE, related_name="general_and_lifetime_user"
     )
+    verification = models.BooleanField(default=False)
     membership_type = models.CharField(max_length=1, choices=choices.MEMBERSHIP_TYPES)
     # Personal Details
     name_of_applicant = models.CharField(max_length=200)
@@ -53,6 +54,7 @@ class InstitutionalMembership(models.Model):
     created_by = models.OneToOneField(
         CustomUser, on_delete=models.CASCADE, related_name="institutional_user"
     )
+    verification = models.BooleanField(default=False)
     company_name = models.CharField(max_length=200)
     company_address = models.CharField(max_length=200)
     registration_no = models.CharField(max_length=200)
