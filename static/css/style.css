@@ -2819,3 +2819,25 @@ h4.edu-head {
     width: 100%;
   }
 }
+
+.pay-img {
+  display: flex;
+  flex-direction: column;
+}
+.pay-khalti {
+  border-left: 1px solid #E4E4E4;
+}
+.pay-khalti img{
+    width: 200px;
+    padding: 20px;
+    margin-left: 20px;
+    border: 1px solid var(--Pra-Yellow);
+    border-radius: 20px;
+    transition: all 0.3s ease-in-out;
+}
+.pay-khalti img:hover {
+  background: #FFF2CB;
+}
+.pay-khalti h3 {
+  text-align: center;
+}

@@ -63,6 +63,7 @@ class InstitutionalMembership(models.Model):
     company_document = models.ImageField(upload_to="institutional_documents")
     working_field = models.CharField(max_length=200)
     contact_person = models.CharField(max_length=200)
+    # contact_number 
 
     def __str__(self):
         return self.company_name

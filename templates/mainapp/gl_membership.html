@@ -1,0 +1,78 @@
+{% extends "base/header-footer.html" %}
+{% load static %}
+{% block container %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/table.css' %}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+</head>
+
+<body>
+
+    
+
+    <section id="dashboard">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2">
+                
+                    {% include 'base/sidebar.html' %}
+    
+                </div>
+                <div class="col-md-10">
+                    <h4 class="upper-text">General And Lifetime Membership verification list</h4>
+                    <table id="example" class="display container" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Name of Applicant</th>
+                                <th>Citizenship Card No</th>
+                                <th>Gender</th>
+                                <th>Permanent Address</th>
+                                <th>View</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for members in members_for_verification %}
+                            <tr>
+                                <td>{{members.name_of_applicant}}</td>
+                                <td>{{members.citizenship_card_no}}</td>
+                                <td>{{members.gender}}</td>
+                                <td>{{members.permanent_address}}</td>
+                                <td>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z"/></svg>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+    
+    
+                </div>
+    
+    
+    
+            </div>
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.js">
+
+    </script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        new DataTable('#example');
+    </script>
+    
+</body>
+
+</html>
+
+{% endblock %}

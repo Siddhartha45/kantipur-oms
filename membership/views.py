@@ -1,3 +1,5 @@
+import requests
+
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 
@@ -7,7 +9,7 @@ from .forms import (
     PaymentForm,
 )
 from .models import InstitutionalMembership, GeneralAndLifetimeMembership, Payment
-from .decorators import only_users_without_any_membership
+from .decorators import only_users_without_any_membership, admin_only
 from . import choices
 
 
@@ -98,5 +100,39 @@ def payment_page(request):
     return render(request, "mainapp/payment.html")
 
 
+def verify_payment(request):
+    token = request.POST['token']
+    amount = request.POST['amount']
+    print("-----------------------------------------------khalti-------------------------------")
+    print(token, amount)
+    
+    url = "https://khalti.com/api/v2/payment/verify/"
+    
+    payload = {
+        'token': token,
+        'amount': amount
+        }
+    
+    headers = {
+    'Authorization': 'Key test_secret_key_f59e8b7d18b4499ca40f68195a846e9b'
+    }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+
 def payment_done_page(request):
     return render(request, "mainapp/membership-status.html")
+
+
+@admin_only
+def general_and_lifetime_membership_verification_list(request):
+    members_for_verification = GeneralAndLifetimeMembership.objects.all()
+    context = {"members_for_verification": members_for_verification}
+    return render(request, "mainapp/gl_membership.html", context)
+
+
+@admin_only
+def institutional_membership_verification_list(request):
+    members_for_verification = InstitutionalMembership.objects.all()
+    context = {"members_for_verification": members_for_verification}
+    return render(request, "mainapp/ins_membership.html", context)

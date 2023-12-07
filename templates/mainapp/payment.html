@@ -4,7 +4,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  
+    <head>
+        <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+    </head>
   <body>
 
 <section id="new-member">
@@ -44,39 +46,76 @@
                                 <div class="payment-detail">
                                     <div class="pay-img">
                                         <img src="https://shop.thegoddesszone.com/wp-content/uploads/2023/11/Screenshot-2023-11-27-at-13.00.21-779x1024.png" alt="">
-                                    </div>
-
-                                   <form action="" method="post", enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    <div class="member-details">
-                                        <div class="member-info2">
-                                            <p class="required">Upload Payment Screen Shot</p>
-                                            <div class="inner-image">
-                                                <input type="file" name="payment_ss" id="ss" accept="image/*" required>
+                                        <form action="">
+                                            <div class="member-details">
+                                                <div class="member-info2">
+                                                    <p class="required">Upload Payment Screen Shot</p>
+                                                    <div class="inner-image">
+                                                        <input type="file" name="ss" id="ss" accept="image/*" required>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
+                                            <button type="Submit">Submit</button>
+                                           </form>
                                     </div>
-                                    <button type="Submit">Submit</button>
-                                   </form>
+                                    <div class="pay-khalti">
+                                            <h3>Pay Using Khalti: </h3>
+                                            <img id="payment-button" src="{% static 'images/khalti-logo.png' %}" alt="">
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
 
-
-                        
                     </div>
-                    
                 </div>
-
-
             </div>
-
-
-
         </div>
     </div>
 </section>
+
+<script>
+    function verifyPayment(payload) {
+        $.ajax({
+            url: "{% url 'verify_payment' %}",
+            type: "POST",
+            data: payload,
+            dataType: 'json',
+            success: function (response) { alert(response) },
+            error: function (error) { alert(error.responseJSON['message']) }
+        });
+    }
+
+    var config = {
+        // replace the publicKey with yours
+        "publicKey": "live_public_key_d15ec20985d8484ba9f062c2b004ec9d",
+        "productIdentity": "1234567890",
+        "productName": "Dragon",
+        "productUrl": "http://gameofthrones.wikia.com/wiki/Dragons",
+        "paymentPreference": [
+            "KHALTI",
+            ],
+        "eventHandler": {
+            onSuccess (payload) {
+                // hit merchant api for initiating verfication
+                console.log(payload);
+                verifyPayment(payload)
+            },
+            onError (error) {
+                console.log(error);
+            },
+            onClose () {
+                console.log('widget is closing');
+            }
+        }
+    };
+
+    var checkout = new KhaltiCheckout(config);
+    var btn = document.getElementById("payment-button");
+    btn.onclick = function () {
+        // minimum transaction amount must be 10, i.e 1000 in paisa.
+        checkout.show({amount: 1000});
+    }
+</script>
 
 </body>
 </html>

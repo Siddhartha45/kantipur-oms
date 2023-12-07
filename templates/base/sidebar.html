@@ -5,7 +5,7 @@
                 <div class="left-dash-upper">
                     <div class="logo">
                         <a href="">
-                            
+                            {{request.user.first_name|upper}}
                         </a>
                     </div>
 
@@ -16,9 +16,13 @@
                     <a href="{% url 'new_membership_page' %}" class="left-dash-item">
                         <p>New Membership</p>
                     </a>
-                    
-                    <a href="membership-status.html" class="left-dash-item">
-                        <p>Membership Status</p>
+
+                    <a href="{% url 'gl_verification_list' %}" class="left-dash-item">
+                        <p>GL Verification List</p>
+                    </a>
+
+                    <a href="{% url 'ins_verification_list' %}" class="left-dash-item">
+                        <p>Ins Verification List</p>
                     </a>
 
                     <a href="{% url 'logout' %}" class="left-dash-item">

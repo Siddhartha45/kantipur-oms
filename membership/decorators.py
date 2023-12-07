@@ -24,3 +24,19 @@ def only_users_without_any_membership(view_func):
             return redirect("dashboard")
 
     return wrap
+
+
+def admin_only(view_func):
+    """Only allows users with role set to admin."""
+
+    def wrap(request, *args, **kwargs):
+        user = request.user
+        if (
+            user.is_authenticated
+            and user.role == "A"
+        ):
+            return view_func(request, *args, **kwargs)
+        else:
+            return redirect("dashboard")
+
+    return wrap
