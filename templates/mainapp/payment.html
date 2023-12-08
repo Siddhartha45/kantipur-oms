@@ -6,6 +6,7 @@
 <html lang="en">
     <head>
         <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     </head>
   <body>
 
@@ -39,6 +40,10 @@
                             </div>    
                         </div>
 
+                        {% for message in messages %}
+                        {{message}}
+                        {% endfor %}
+
                         <div class="payment-page">
                             <div class="payment-info">
                                 <h3>Please Deposit an amount of Rs. 5000 to continue membership registration. </h3>
@@ -46,17 +51,18 @@
                                 <div class="payment-detail">
                                     <div class="pay-img">
                                         <img src="https://shop.thegoddesszone.com/wp-content/uploads/2023/11/Screenshot-2023-11-27-at-13.00.21-779x1024.png" alt="">
-                                        <form action="">
+                                        <form method="post" action="{% url 'payment' %}" enctype="multipart/form-data">
+                                            {% csrf_token %}
                                             <div class="member-details">
                                                 <div class="member-info2">
                                                     <p class="required">Upload Payment Screen Shot</p>
                                                     <div class="inner-image">
-                                                        <input type="file" name="ss" id="ss" accept="image/*" required>
+                                                        <input type="file" name="payment_ss" id="ss" accept="image/*" required>
                                                     </div>
                                                 </div>
                                             </div>
                                             <button type="Submit">Submit</button>
-                                           </form>
+                                        </form>
                                     </div>
                                     <div class="pay-khalti">
                                             <h3>Pay Using Khalti: </h3>
@@ -88,9 +94,9 @@
     var config = {
         // replace the publicKey with yours
         "publicKey": "live_public_key_d15ec20985d8484ba9f062c2b004ec9d",
-        "productIdentity": "1234567890",
-        "productName": "Dragon",
-        "productUrl": "http://gameofthrones.wikia.com/wiki/Dragons",
+        "productIdentity": "{{request.user.id}}",
+        "productName": "Membership Payment",
+        "productUrl": "https://ss.com",
         "paymentPreference": [
             "KHALTI",
             ],

@@ -71,6 +71,7 @@ class InstitutionalMembership(models.Model):
 
 
 class Payment(models.Model):
+    # created_at = models.DateTimeField(auto_now_add=True)
     user = models.OneToOneField(
         CustomUser, on_delete=models.CASCADE, related_name="payment_user"
     )

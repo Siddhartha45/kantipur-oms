@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
-from django.contrib import messages
 from django.contrib.auth.views import PasswordResetView
+from django.contrib.auth.decorators import login_required
+
+from membership.decorators import user_login_check
 
 from .models import CustomUser
 from .forms import SignUpForm
@@ -45,6 +48,7 @@ def sign_up(request):
     return render(request, "auth/signup.html")
 
 
+@user_login_check
 def login_page(request):
     if request.method == "POST":
         email_or_phone = request.POST.get("email_or_phone")
@@ -68,6 +72,7 @@ def logout_user(request):
     return redirect("login")
 
 
+@login_required
 def change_password(request):
     user = request.user
 

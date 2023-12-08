@@ -1,8 +1,12 @@
 import requests
+import json
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from .forms import (
     InstitutionalMembershipForm,
@@ -15,6 +19,7 @@ from .decorators import only_users_without_any_membership, admin_only
 from . import choices
 
 
+@login_required
 def dashboard(request):
     user = request.user
     try:
@@ -100,28 +105,38 @@ def payment_page(request):
                 Payment.objects.create(user=request.user, **form.cleaned_data)
             else:
                 messages.error(request, "Payment already done")
-                return redirect("dashboard")
+                return redirect("payment")
             return redirect("payment_done_page")
         else:
+            messages.error(request, "Submit Screenshot of your payment.")
             print(form.errors)
     else:
         form = PaymentForm()
     return render(request, "mainapp/payment.html")
 
 
+@csrf_exempt
 def verify_payment(request):
-    token = request.POST["token"]
-    amount = request.POST["amount"]
-    print(
-        "-----------------------------------------------khalti-------------------------------"
-    )
-    print(token, amount)
+    data = request.POST
+    user_who_paid = data['product_identity']
+    name = data['product_name']
+    token = data['token']
+    amount = data['amount']
+    print(user_who_paid, name)
+    
+    # Payment.objects.create(user=user_who_paid)
 
     url = "https://khalti.com/api/v2/payment/verify/"
-
-    payload = {"token": token, "amount": amount}
-
-    headers = {"Authorization": "Key test_secret_key_f59e8b7d18b4499ca40f68195a846e9b"}
+    
+    payload = {
+    "token": token,
+    "amount": amount
+    }
+    
+    headers = {
+    "Authorization": "Key live_secret_key_6a3abe8040034519918d88657d2239f6"
+    }
+    
 
     response = requests.request("POST", url, headers=headers, data=payload)
 

@@ -37,3 +37,15 @@ def admin_only(view_func):
             return redirect("dashboard")
 
     return wrap
+
+
+def user_login_check(view_func):
+    """Restricts authenticated user from visiting the login page."""
+
+    def wrap(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return view_func(request, *args, **kwargs)
+        else:
+            return redirect("dashboard")
+
+    return wrap
