@@ -1,13 +1,14 @@
 import requests
 
-from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 
 from .forms import (
     InstitutionalMembershipForm,
     GeneralAndLifetimeMembershipForm,
-    PaymentForm, VerificationForm
+    PaymentForm,
+    VerificationForm,
 )
 from .models import InstitutionalMembership, GeneralAndLifetimeMembership, Payment
 from .decorators import only_users_without_any_membership, admin_only
@@ -25,7 +26,7 @@ def dashboard(request):
     return render(request, "mainapp/dashboard.html", context)
 
 
-# @only_users_without_any_membership
+@only_users_without_any_membership
 def new_membership_page(request):
     gender = choices.GENDER_CHOICES
     countries = choices.COUNTRY_CHOICES
@@ -109,21 +110,18 @@ def payment_page(request):
 
 
 def verify_payment(request):
-    token = request.POST['token']
-    amount = request.POST['amount']
-    print("-----------------------------------------------khalti-------------------------------")
+    token = request.POST["token"]
+    amount = request.POST["amount"]
+    print(
+        "-----------------------------------------------khalti-------------------------------"
+    )
     print(token, amount)
-    
+
     url = "https://khalti.com/api/v2/payment/verify/"
-    
-    payload = {
-        'token': token,
-        'amount': amount
-        }
-    
-    headers = {
-    'Authorization': 'Key test_secret_key_f59e8b7d18b4499ca40f68195a846e9b'
-    }
+
+    payload = {"token": token, "amount": amount}
+
+    headers = {"Authorization": "Key test_secret_key_f59e8b7d18b4499ca40f68195a846e9b"}
 
     response = requests.request("POST", url, headers=headers, data=payload)
 
@@ -154,11 +152,11 @@ def general_and_lifetime_membership_verification_page(request, id):
 
 def verify_general_or_lifetime_membership(request, id):
     verify_object = get_object_or_404(GeneralAndLifetimeMembership, id=id)
-    
+
     if request.method == "POST":
         form = VerificationForm(request.POST)
         if form.is_valid():
-            membership_no = form.cleaned_data.get('membership_no')
+            membership_no = form.cleaned_data.get("membership_no")
             verify_object.membership_no = membership_no
             verify_object.verification = True
             verify_object.save()

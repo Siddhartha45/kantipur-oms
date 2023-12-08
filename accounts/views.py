@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
@@ -70,7 +70,7 @@ def logout_user(request):
 
 def change_password(request):
     user = request.user
-    
+
     if request.method == "POST":
         current_password = request.POST.get("current_password")
         new_password = request.POST.get("new_password")
@@ -93,21 +93,26 @@ def change_password(request):
                 request, "New Password should not be same as Current Password!"
             )
             return redirect("change_password")
-        
+
         user.set_password(new_password)
         user.save()
-        messages.success(request, "Password Changed Successfully! Login with new password")
+        messages.success(
+            request, "Password Changed Successfully! Login with new password"
+        )
         return redirect("login")
-    
     return render(request, "auth/change-password.html")
 
 
 class CustomPasswordResetView(PasswordResetView):
-    """Customizing the django default passwordresetview to check if users email exist in database before sending mail"""
+    """
+    Customizing the django default passwordresetview to check if users email exist in 
+    database before sending mail
+    """
+
     def form_valid(self, form):
-        email = form.cleaned_data['email']
+        email = form.cleaned_data["email"]
         # Check if the email exists in the database
         if not CustomUser.objects.filter(email=email).exists():
-            messages.error(self.request, 'Email does not exist.')
+            messages.error(self.request, "Email does not exist.")
             return self.form_invalid(form)
         return super().form_valid(form)
