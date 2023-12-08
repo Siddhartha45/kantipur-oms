@@ -18,4 +18,8 @@ urlpatterns = [
     path("verify-payment", views.verify_payment, name="verify_payment"),
     path("general-and-lifetime-verification-list/", views.general_and_lifetime_membership_verification_list, name="gl_verification_list"),
     path("institutional-verification-list/", views.institutional_membership_verification_list, name="ins_verification_list"),
+    path("general-lifetime-membership-verification-page/<int:id>/", views.general_and_lifetime_membership_verification_page, name="gl_verification_page"),
+    path("verify-general-or-lifetime-membership/<int:id>/", views.verify_general_or_lifetime_membership, name="verify_gl_membership"),
+    path("institutional-membership-verification-page/<int:id>/", views.institutional_membership_verification_page, name="ins_verification_page"),
+    path("verify-institutional-membership/<int:id>/", views.verify_institution_membership, name="verify_ins_membership"),
 ]

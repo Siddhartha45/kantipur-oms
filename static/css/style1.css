@@ -45,19 +45,16 @@ body {
 .logo {
   display: flex;
   width: auto;
+  height: 60px;
   padding: 0px 25px 10px 15px;
   align-items: center;
   flex-shrink: 0;
   border-radius: 6px;
   background: var(--Pra-Yellow);
-  justify-content: center;
-}
-
-.logo img {
-  width: 100px;
 }
 
 .logo:hover {
+  background: #231f20;
   transition: all 0.3s ease-in-out;
 }
 
@@ -181,6 +178,20 @@ body {
   gap: 10px;
 }
 
+.mid-part .inner-box {
+  display: flex;
+  height: 528px;
+  padding: 100px 120px 100px 100px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 16px;
+  background: url(https://s3-alpha-sig.figma.com/img/7b85/7457/d75e7454722401cfb765b47fc98a8487?Expires=1693180800&Signature=ooMTFTbVa7DY-n~nz4y2AnIvV1GRivF6zfQ8nGAE6tqklp0XufR3e8tribnOzD0H6OtyA2HJl2~IboLvHhn29LxEoKKfzZwGHmECcXQH-h2O6DFOqMaDPPH51Xhnos3HBw6luI8~XiZ82NTBNaMFeKEfPCnjVFYsvdZHv9DBvShO-tBbRSKvwolL7C525zJMVNIShQxLBuAv5fp5ELFp-WGGncgyvj0UTTgGltkG3ncASlsWJktNp~fShGPC6x7AgEMuB2lfMwM4UsgXnfgRvDyO8KAeM~Beaz13RZ7hZgtUKxmj79pcbrQcGyxoy0BKkxjYnmKp9Lk5c34iF-3Cpg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4),
+    linear-gradient(192deg, #ffd200 0%, #fbb715 100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-blend-mode: color-burn, normal;
+  position: relative;
+}
 
 .mid-part .change-color {
   background-color: lightgray;
@@ -783,20 +794,14 @@ a.left-dash-item {
 }
 
 #dashboard .mid-part {
-  width: 100%;
   padding: 0px;
   border-radius: 16px;
 }
 
 #dashboard .mid-part .inner-box {
-  display: flex;
-  justify-content: center;
   width: auto;
   height: auto;
-  padding: 40px;
-  background: url(https://s3-alpha-sig.figma.com/img/7b85/7457/d75e7454722401cfb765b47fc98a8487?Expires=1693180800&Signature=ooMTFTbVa7DY-n~nz4y2AnIvV1GRivF6zfQ8nGAE6tqklp0XufR3e8tribnOzD0H6OtyA2HJl2~IboLvHhn29LxEoKKfzZwGHmECcXQH-h2O6DFOqMaDPPH51Xhnos3HBw6luI8~XiZ82NTBNaMFeKEfPCnjVFYsvdZHv9DBvShO-tBbRSKvwolL7C525zJMVNIShQxLBuAv5fp5ELFp-WGGncgyvj0UTTgGltkG3ncASlsWJktNp~fShGPC6x7AgEMuB2lfMwM4UsgXnfgRvDyO8KAeM~Beaz13RZ7hZgtUKxmj79pcbrQcGyxoy0BKkxjYnmKp9Lk5c34iF-3Cpg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4),
-    linear-gradient(192deg, #ffd200 0%, #fbb715 100%);
-    border-radius: 10px;
+  padding: 50px;
 }
 
 #dashboard .mid-part-back {
@@ -1396,7 +1401,7 @@ a.complain1 {
 /* Login Page */
 
 .login-left {
-
+  
   background: var(--Pra-Yellow);
   text-align: end;
 }
@@ -2264,10 +2269,6 @@ h4.edu-head {
   color: var(--TextColor);
 } 
 
-.pay-img {
-  margin-right: 20px;
-}
-
 .pay-img img {
   height: 400px;
   margin: 20px 0px;
@@ -2275,7 +2276,12 @@ h4.edu-head {
 
 .payment-detail {
   display: flex;
+  align-items: center;
   justify-content: start;
+}
+
+.payment-page form {
+  margin-left: 50px;
 }
 
 .payment-page form button {
@@ -2292,35 +2298,6 @@ h4.edu-head {
 .payment-page form button:hover {
   color: var(--Pra-White);
   background: var(--Pra-Black);
-}
-
-/* Added Code */
-
-.pay-img {
-  display: flex;
-  flex-direction: column;
-}
-
-.pay-khalti {
-  border-left: 1px solid #e4e4e4;
-}
-
-.pay-khalti img{
-    width: 200px;
-    padding: 20px;
-    margin-left: 20px;
-    border: 1px solid var(--Pra-Yellow);
-    border-radius: 20px;
-    transition: all 0.3s ease-in-out;
-}
-
-.pay-khalti img:hover {
-  background: #fff2cb;
-}
-
-
-.pay-khalti h3 {
-  text-align: center;
 }
 
 /* Eye Code */
@@ -2381,92 +2358,6 @@ h4.edu-head {
 .news-pop button:hover {
       background: var(--Pra-Black);
 }
-
-/* Change Password */
-.change-password {
-  border-radius: 6px;
-  padding: 25px;
-  background: #fff;
-  margin-top: 20px;
-}
-
-
-/* Membership Card */
-
-.member-card {
-  background: linear-gradient(20deg, #000, var(--Pra-Yellow));
-  width: 65%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid var(--TextColor);
-  border-radius: 10px;
-  padding: 20px;
-}
-
-.member-card-top {
-  margin-bottom: 20px;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.card-logo img {
-  width: 70px;
-}
-
-.card-no {
-  width: 100%;
-  text-align: center;
-}
-
-.card-no h3 {
-  margin-bottom: 0px;
-  font-size: 22px;
-  text-transform: uppercase;
-}
-
-.member-mid {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.member-image {
-  height: max-content;
-  padding: 10px;
-  margin-right:20px;
-  background: #fff;
-  border-radius: 10px;
-}
-
-.member-image img {
-  width: 100px;
-  border-radius: 10px;
-}
-
-.member-dash {
-  width: 100%;
-}
-
-.sub-detail {
-  padding: 5px;
-  background: #fff;
-  border-radius: 10px;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.sub-detail p {
-  margin-left: 10px;
-  margin-bottom: 0px;
-  font-size: 14px;
-}
-
-
 
 
 /* Responsive */
@@ -2546,6 +2437,10 @@ h4.edu-head {
 		height: auto !important;
 	}
 
+	#dashboard .mid-part {
+		display: none !important;
+	}
+
 	.complain {
 		justify-content: space-between;
 		gap: 10px !important;
@@ -2569,8 +2464,7 @@ h4.edu-head {
   }
 
 	.right-dash {
-    margin-top: 35px;
-		padding: 25px !important;
+		padding: 25px 25px 25px 10px !important;
 	}
 
 	#left-dash .offcanvas {
@@ -2833,7 +2727,7 @@ h4.edu-head {
 	}
 	
   .dash-middle-content {
-    flex-direction: column-reverse !important;
+    display: block !important;
   }
 
   .main-mid-complain-content {
@@ -2924,26 +2818,26 @@ h4.edu-head {
   .news-pop {
     width: 100%;
   }
+}
 
-  /* Added */
-  .pay-khalti {
-    border: none;
-    margin-top: 20px;
-  }
-
-  .payment-detail {
-    align-items: center;
-  }
-
-  #dashboard .mid-part {
-    margin-top: 20px;
-  }
-
-  .member-card {
-    width: 100%;
-  }
-
-  #dashboard .mid-part .inner-box {
-    padding: 0px;
-  }
+.pay-img {
+  display: flex;
+  flex-direction: column;
+}
+.pay-khalti {
+  border-left: 1px solid #E4E4E4;
+}
+.pay-khalti img{
+    width: 200px;
+    padding: 20px;
+    margin-left: 20px;
+    border: 1px solid var(--Pra-Yellow);
+    border-radius: 20px;
+    transition: all 0.3s ease-in-out;
+}
+.pay-khalti img:hover {
+  background: #FFF2CB;
+}
+.pay-khalti h3 {
+  text-align: center;
 }

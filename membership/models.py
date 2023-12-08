@@ -13,6 +13,7 @@ class GeneralAndLifetimeMembership(models.Model):
     )
     verification = models.BooleanField(default=False)
     membership_type = models.CharField(max_length=1, choices=choices.MEMBERSHIP_TYPES)
+    membership_no = models.CharField(max_length=5, blank=True, null=True)
     # Personal Details
     name_of_applicant = models.CharField(max_length=200)
     dob = models.CharField(max_length=10)
@@ -63,7 +64,7 @@ class InstitutionalMembership(models.Model):
     company_document = models.ImageField(upload_to="institutional_documents")
     working_field = models.CharField(max_length=200)
     contact_person = models.CharField(max_length=200)
-    # contact_number 
+    contact_number = models.CharField(max_length=10)
 
     def __str__(self):
         return self.company_name

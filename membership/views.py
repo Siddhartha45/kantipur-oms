@@ -1,12 +1,12 @@
 import requests
 
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.contrib import messages
 
 from .forms import (
     InstitutionalMembershipForm,
     GeneralAndLifetimeMembershipForm,
-    PaymentForm,
+    PaymentForm, VerificationForm
 )
 from .models import InstitutionalMembership, GeneralAndLifetimeMembership, Payment
 from .decorators import only_users_without_any_membership, admin_only
@@ -128,11 +128,45 @@ def payment_done_page(request):
 def general_and_lifetime_membership_verification_list(request):
     members_for_verification = GeneralAndLifetimeMembership.objects.all()
     context = {"members_for_verification": members_for_verification}
-    return render(request, "mainapp/gl_membership.html", context)
+    return render(request, "mainapp/gl_membership_list.html", context)
 
 
 @admin_only
 def institutional_membership_verification_list(request):
     members_for_verification = InstitutionalMembership.objects.all()
     context = {"members_for_verification": members_for_verification}
-    return render(request, "mainapp/ins_membership.html", context)
+    return render(request, "mainapp/ins_membership_list.html", context)
+
+
+def general_and_lifetime_membership_verification_page(request, id):
+    general_or_lifetime_object = get_object_or_404(GeneralAndLifetimeMembership, id=id)
+    context = {"gl": general_or_lifetime_object}
+    return render(request, "mainapp/general.html", context)
+
+
+def verify_general_or_lifetime_membership(request, id):
+    verify_object = get_object_or_404(GeneralAndLifetimeMembership, id=id)
+    
+    if request.method == "POST":
+        form = VerificationForm(request.POST)
+        if form.is_valid():
+            membership_no = form.cleaned_data.get('membership_no')
+            verify_object.membership_no = membership_no
+            verify_object.verification = True
+            verify_object.save()
+            return redirect("gl_verification_list")
+        else:
+            return redirect("gl_verification_page", id=verify_object.id)
+
+
+def institutional_membership_verification_page(request, id):
+    institution_object = get_object_or_404(InstitutionalMembership, id=id)
+    context = {"ins": institution_object}
+    return render(request, "mainapp/institutional.html", context)
+
+
+def verify_institution_membership(request, id):
+    verify_object = get_object_or_404(InstitutionalMembership, id=id)
+    verify_object.verification = True
+    verify_object.save()
+    return redirect("ins_verification_list")

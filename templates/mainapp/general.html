@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="{% static 'css/table.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
@@ -29,10 +30,10 @@
                         <h6 class="heading-title">Date Of Birth:</h6>
                     </div>
                     <div class="right-field">
-                        <p>hey you</p>
-                        <p>hey you</p>
-                        <p>hey you</p>
-                        <p>hey you</p>
+                        <p>{{gl.name_of_applicant}}</p>
+                        <p>{{gl.nationality}}</p>
+                        <p>{{gl.affiliation}}</p>
+                        <p>{{gl.dob}}</p>
                     </div>
                 </div>
                 <div class="righti">
@@ -43,10 +44,10 @@
                         <h6 class="heading-title">Permanent Address:</h6>
                     </div>
                     <div class="right-field">
-                        <p>hey you</p>
-                        <p>hey you</p>
-                        <p>hey you</p>
-                        <p>hey you</p>
+                        <p>{{gl.issued_from}}</p>
+                        <p>{{gl.citizenship_card_no}}</p>
+                        <p>{{gl.gender}}</p>
+                        <p>{{gl.permanent_address}}</p>
                     </div>
                 </div>
 
@@ -69,10 +70,10 @@
                             <h6 class="heading-title">Passed Year:</h6>
                         </div>
                         <div class="right-field">
-                            <p>hey you</p>
-                            <p>hey you</p>
-                            <p>hey you</p>
-                            <p>hey you</p>
+                            <p>{{gl.be_ubject}}</p>
+                            <p>{{gl.be_institution}}</p>
+                            <p>{{gl.be_country}}</p>
+                            <p>{{gl.be_passed_year}}</p>
                         </div>
                     </div>
                 </div>
@@ -89,10 +90,10 @@
                         </div>
                         <div class="right-field">
 
-                            <p>hey you</p>
-                            <p>hey you</p>
-                            <p>hey you</p>
-                            <p>hey you</p>
+                            <p>{{gl.me_ubject}}</p>
+                            <p>{{gl.me_institution}}</p>
+                            <p>{{gl.me_country}}</p>
+                            <p>{{gl.me_passed_year}}</p>
                         </div>
                     </div>
                 </div>
@@ -107,10 +108,10 @@
                             <h6 class="heading-title">Passed Year:</h6>
                         </div>
                         <div class="right-field">
-                            <p>hey you</p>
-                            <p>hey you</p>
-                            <p>hey you</p>
-                            <p>hey you</p>
+                            <p>{{gl.phd_ubject}}</p>
+                            <p>{{gl.phd_institution}}</p>
+                            <p>{{gl.phd_country}}</p>
+                            <p>{{gl.phd_passed_year}}</p>
                         </div>
                     </div>
                 </div>
@@ -129,32 +130,32 @@
                 <div class="doc">
                     <div class="left-field">
                         <h6 class="heading-title">PP photo</h6>
-                       
+
                     </div>
                     <div class="right-field">
-                     <span>you</span>
+                        <span>{{gl.pp_photo}}</span>
                     </div>
                 </div>
                 <div class="doc">
                     <div class="left-field">
                         <h6 class="heading-title">Citizenship</h6>
-                       
+
                     </div>
                     <div class="right-field">
-                     <span>you</span>
+                        <span>{{gl.citizenship}}</span>
                     </div>
                 </div>
                 <div class="doc">
                     <div class="left-field">
                         <h6 class="heading-title">Any highest degree or verified work</h6>
-                       
+
                     </div>
                     <div class="right-field">
-                     <span>you</span>
+                        <span>{{gl.masters_document}}</span>
                     </div>
                 </div>
-               
-                
+
+
             </div>
         </div>
 
@@ -166,17 +167,56 @@
                 <div class="doc exp">
                     <div class="left-field">
                         <h6 class="heading-title">Brief Description</h6>
-                       
+
                     </div>
                     <div class="right-field">
-                     <span>you</span>
+                        <span>{{gl.work_experience}}</span>
                     </div>
                 </div>
-               
-               
-                
+
+
+
             </div>
         </div>
+
+        <h6 class="verfication-text">
+            If the above information is correct proceed to verify
+        </h6>
+
+        <form method="post" action="{% url 'verify_gl_membership' id=gl.id %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Membership No.</label>
+                <input type="number" name="membership_no" class="form-control membership-div" id="membership"
+                    placeholder="Enter the membership number" required>
+
+            </div>
+            <div class="buttons">
+                <button type="submit" class="btn btn-primary">Verify</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Send for rejection</button>
+            </div>
+        </form>
+     
+        <div class="modal" tabindex="-1" id="exampleModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <textarea name="" id="" cols="30" rows="10"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
 
 
 

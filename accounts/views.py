@@ -68,6 +68,8 @@ def logout_user(request):
 
 
 def change_password(request):
+    user = request.user
+    
     if request.method == "POST":
         current_password = request.POST.get("current_password")
         new_password = request.POST.get("new_password")
@@ -77,7 +79,7 @@ def change_password(request):
             messages.error(request, "Please fill all the fields")
             return redirect("change_password")
 
-        if not request.user.check_password(current_password):
+        if not user.check_password(current_password):
             messages.error(request, "Incorrect Current Password")
             return redirect("change_password")
 
@@ -90,6 +92,12 @@ def change_password(request):
                 request, "New Password should not be same as Current Password!"
             )
             return redirect("change_password")
+        
+        user.set_password(new_password)
+        user.save()
+        messages.success(request, "Password Changed Successfully! Login with new password")
+        return redirect("login")
+    
     return render(request, "auth/change-password.html")
 
 

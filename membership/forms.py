@@ -19,3 +19,7 @@ class PaymentForm(forms.ModelForm):
     class Meta:
         model = Payment
         fields = ["payment_ss"]
+
+
+class VerificationForm(forms.Form):
+    membership_no = forms.CharField()
