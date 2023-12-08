@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
+from django.contrib.auth.views import PasswordResetView
 
 from .models import CustomUser
 from .forms import SignUpForm
@@ -101,5 +102,12 @@ def change_password(request):
     return render(request, "auth/change-password.html")
 
 
-def forget_password(request):
-    return render(request, "auth/forget-password.html")
+class CustomPasswordResetView(PasswordResetView):
+    """Customizing the django default passwordresetview to check if users email exist in database before sending mail"""
+    def form_valid(self, form):
+        email = form.cleaned_data['email']
+        # Check if the email exists in the database
+        if not CustomUser.objects.filter(email=email).exists():
+            messages.error(self.request, 'Email does not exist.')
+            return self.form_invalid(form)
+        return super().form_valid(form)
