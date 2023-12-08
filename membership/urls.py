@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views
 
@@ -22,4 +24,4 @@ urlpatterns = [
     path("verify-general-or-lifetime-membership/<int:id>/", views.verify_general_or_lifetime_membership, name="verify_gl_membership"),
     path("institutional-membership-verification-page/<int:id>/", views.institutional_membership_verification_page, name="ins_verification_page"),
     path("verify-institutional-membership/<int:id>/", views.verify_institution_membership, name="verify_ins_membership"),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

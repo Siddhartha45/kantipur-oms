@@ -2467,7 +2467,114 @@ h4.edu-head {
 }
 
 
+/* Table */
 
+/* table */
+
+
+table.dataTable tbody tr:nth-child(even) {
+  background-color: #FCD12A !important;
+}
+div#example_wrapper {
+  padding: 21px;
+}
+
+/* general */
+
+.general-table {
+  margin-bottom: 20px;
+  border-radius: 6px;
+  padding: 25px;
+  background: #fff;
+  margin-top: 20px;
+}
+
+.fi p {
+  margin-bottom: 13px;
+  margin-left: 13px;
+  font-size: 14px;
+}
+.lefti {
+  display: flex;
+}
+.righti {
+  display: flex;
+}
+.card-body.fi {
+  display: flex;
+  justify-content: space-around;
+}
+h5.degree {
+  text-decoration: underline;
+}
+h6.heading-title {
+  margin-bottom: 15px;
+}
+
+.card.card-struture {
+
+  margin-top: 20px;
+}
+h6.verfication-text {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 700;
+}
+label.form-label {
+  font-size: 15px;
+  font-weight: 600;
+}
+input#membership {
+  width: 40%;
+}
+
+/* institutional  */
+
+.docu {
+  margin-right: 20px;
+}
+
+.work-exp .card-body .fi{
+    justify-content: start !important;
+}
+
+.experience {
+  justify-content: start !important;
+  margin-left: 30px;
+}
+
+.institute-manage {
+  flex-direction: column !important;
+}
+
+.institute-manage .lefti {
+  justify-content: space-between !important;
+  padding-bottom: 10px;
+}
+
+
+.institute-manage .righti {
+  margin-top: 10px;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid var(--bs-card-color);
+}
+
+.docu img{
+  max-width: 170px;
+  overflow: hidden;
+}
+
+.doc img {
+  max-width: 170px;
+  overflow: hidden;
+}
+
+.citizen-img  img{
+  min-height: 190px;
+  max-height: 200px;
+  max-width: 300px;
+}
 
 /* Responsive */
 
@@ -2945,5 +3052,28 @@ h4.edu-head {
 
   #dashboard .mid-part .inner-box {
     padding: 0px;
+  }
+
+  .card-body.fi {
+    flex-direction: column;
+  }
+
+  .institute-manage .lefti {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .institute-manage .righti {
+    flex-direction: column;
+  }
+
+  .doc .right-field {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h6.heading-title {
+    margin-top: 15px;
   }
 }

@@ -1,0 +1,171 @@
+{% extends "base/header-footer.html" %}
+{% load static %}
+{% block container %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+
+    <section id="dashboard">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2">
+                    
+                    {% include 'base/sidebar.html' %}
+    
+                </div>
+              
+                <div class="col-md-10">
+                    <div class="dashboard-mid-part">
+                        <div class="table-data">
+                            <div class="mid-complain-heading">
+                            
+                                <div class="dash-header">
+                                    <a href="#" id="back-button">
+                                    <div class="pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            width="24" height="24" viewBox="0 0 24 24"
+                                            fill="none">
+                                            <path
+                                                d="M13.7369 17.5254C13.6332 17.5256 13.5305 17.5052 13.4347 17.4655C13.3388 17.4259 13.2518 17.3677 13.1786 17.2942L8.44174 12.5574C8.29379 12.4092 8.21069 12.2084 8.21069 11.9991C8.21069 11.7897 8.29379 11.5889 8.44174 11.4408L13.1786 6.70392C13.3266 6.55584 13.5275 6.47266 13.7369 6.47266C13.9463 6.47266 14.1471 6.55584 14.2952 6.70392C14.4433 6.85199 14.5265 7.05282 14.5265 7.26223C14.5265 7.47164 14.4433 7.67248 14.2952 7.82055L10.1167 11.9997L14.2952 16.1776C14.4056 16.288 14.4809 16.4287 14.5113 16.5819C14.5418 16.735 14.5262 16.8938 14.4664 17.0381C14.4066 17.1823 14.3054 17.3056 14.1756 17.3924C14.0457 17.4791 13.8931 17.5254 13.7369 17.5254Z"
+                                                fill="black" />
+                                        </svg>
+                                    </div></a>
+                                    <div class="heading">
+                                        <p>Approval Form</p>
+                                    </div>
+                                </div>
+    
+                                
+                            </div>
+    
+                            <div class="general-table">
+                                <div class="card card-struture">
+                                    <div class="card-header">
+                        
+                                        <button type="button" class="btn btn-warning">1. Institutional Information</button>
+                        
+                                    </div>
+                                    <div class="card-body fi experience">
+                                        <div class="lefti">
+                                            <div class="left-field">
+                                                <h6 class="heading-title">Company Name:</h6>
+                                                <h6 class="heading-title">Address:</h6>
+                                                <h6 class="heading-title">Registration No:</h6>
+                                               
+                                            </div>
+                                            <div class="right-field">
+                                                <p>{{ins.company_name}}</p>
+                                                <p>{{ins.company_address}}</p>
+                                                <p>{{ins.registration_no}}</p>
+                                               
+                                            </div>
+                                        </div>
+                        
+                        
+                                    </div>
+                        
+                                    
+                        
+                                </div>
+                        
+                                <div class="card card-struture">
+                                    <div class="card-header">
+                        
+                                        <button type="button" class="btn btn-warning">2. Institutional Documents</button>
+                        
+                                    </div>
+                                    <div class="card-body fi institute-manage">
+                                        <div class="lefti">
+                                      
+                                            <div class="docu">
+                                                <h6 class="heading-title">PAN:</h6>
+                                                <div><img src="{{ins.pan_document.url}}" alt=""></div>
+                                            </div>
+                                            <div class="docu">
+                                                <h6 class="heading-title">Registration:</h6>
+                                                <div><img src="{{ins.registration_document.url}}" alt=""></div>
+                                            </div>
+                                            <div class="docu">
+                                                <h6 class="heading-title">Other Documents:</h6>
+                                                <div><img src="{{ins.company_document.url}}" alt=""></div>
+                                            </div>
+                        
+                                        </div>
+                                        <div class="righti">
+                                            <div class="left-field">
+                                                <h6 class="heading-title">Working Field:</h6>
+                                                <p>{{ins.working_field}}</p>
+                                                
+                                               
+                                            </div>
+                                            <div class="right-field">
+                                                <h6 class="heading-title">Contact Person:</h6>
+                                                <p>{{ins.contact_person}}</p>
+                                                
+                                            </div>
+                                            <div class="right-field">
+                                                <h6 class="heading-title">Contact Number:</h6>
+                                                <p>{{ins.contact_number}}</p>
+                                                
+                                            </div>
+                                        </div>
+                        
+                        
+                                    </div>
+                        
+                                    
+                        
+                                </div>
+
+                                <h6 class="verfication-text">
+                                    If the above information is correct proceed to verify
+                                </h6>
+                        
+                                <form>
+                                    <div class="mb-3">                        
+                                    </div>
+                                    <div class="buttons">
+                                        <button type="submit" class="btn btn-primary">Verified</button>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Send for rejection</button>
+                                    </div>
+                        
+                                </form>
+                             
+                                <div class="modal" tabindex="-1" id="exampleModal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Modal title</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                
+                                                <textarea name="" id="" cols="30" rows="10"></textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        
+                    </div>
+    
+    
+                </div>
+    
+    
+    
+    
+            </div>
+        </div>
+    </section>
+    </body>
+</html>
+
+{% endblock %}

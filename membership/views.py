@@ -2,6 +2,7 @@ import requests
 
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 
 from .forms import (
     InstitutionalMembershipForm,
@@ -14,7 +15,14 @@ from . import choices
 
 
 def dashboard(request):
-    return render(request, "mainapp/dashboard.html")
+    user = request.user
+    try:
+        user_membership = user.general_and_lifetime_user
+        print(user_membership)
+    except ObjectDoesNotExist:
+        user_membership = None
+    context = {"user_membership": user_membership}
+    return render(request, "mainapp/dashboard.html", context)
 
 
 # @only_users_without_any_membership
@@ -141,7 +149,7 @@ def institutional_membership_verification_list(request):
 def general_and_lifetime_membership_verification_page(request, id):
     general_or_lifetime_object = get_object_or_404(GeneralAndLifetimeMembership, id=id)
     context = {"gl": general_or_lifetime_object}
-    return render(request, "mainapp/general.html", context)
+    return render(request, "mainapp/gl-verification-page.html", context)
 
 
 def verify_general_or_lifetime_membership(request, id):
@@ -156,13 +164,14 @@ def verify_general_or_lifetime_membership(request, id):
             verify_object.save()
             return redirect("gl_verification_list")
         else:
+            messages.error(request, "Enter membership number to verify the member")
             return redirect("gl_verification_page", id=verify_object.id)
 
 
 def institutional_membership_verification_page(request, id):
     institution_object = get_object_or_404(InstitutionalMembership, id=id)
     context = {"ins": institution_object}
-    return render(request, "mainapp/institutional.html", context)
+    return render(request, "mainapp/ins-verification-page.html", context)
 
 
 def verify_institution_membership(request, id):

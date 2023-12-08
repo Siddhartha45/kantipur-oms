@@ -20,10 +20,11 @@
                             <div class="dash-user">
                                 <h3>Hello! {{request.user.first_name}}</h3>
                             </div>
-    
                             <div class="dash-middle-content">
                                 <div class="mid-part">
                                     <div class="inner-box">
+                                        {% if user_membership.verification == True %}
+
                                         <div class="member-card">
                                             <div class="member-card-top">
                                                 <div class="card-logo">
@@ -41,22 +42,22 @@
 
                                                 <div class="member-dash">
                                                     <div class="sub-detail">
-                                                        <p>Name: Trilochan Adhikari</p>
+                                                        <p>Name: {{user_membership.name_of_applicant}}</p>
                                                     </div>
                                                     <div class="sub-detail">
-                                                        <p>Citizenship: 352656465565945
+                                                        <p>Citizenship: {{user_membership.citizenship_card_no}}
                                                         </p>
                                                     </div>
                                                     <div class="sub-detail">
-                                                        <p>DOB: 11/11/2001
+                                                        <p>DOB: {{user_membership.dob}}
                                                         </p>
                                                     </div>
                                                     <div class="sub-detail">
-                                                        <p>Membership Number: 
+                                                        <p>Membership Number: {{user_membership.membership_no}}
                                                         </p>
                                                     </div>
                                                     <div class="sub-detail">
-                                                        <p>Membership Type: 
+                                                        <p>Membership Type: {{user_membership.get_membership_type_display}}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -65,6 +66,52 @@
 
                                             
                                         </div>
+
+                                        {% else %}
+
+                                        <div class="member-card">
+                                            <div class="member-card-top">
+                                                <div class="card-logo">
+                                                    <img src="{% static 'images/logo.png' %}" alt="">
+                                                </div>
+                                                <div class="card-no">
+                                                    <h3>Membership Card</h3>
+                                                </div>
+                                            </div>
+
+                                            <div class="member-mid">
+                                                <div class="member-image">
+                                                    <img src="image/PP Trilochan Adhikari - BBIS 2019.jpg" alt="">
+                                                </div>
+
+                                                <div class="member-dash">
+                                                    <div class="sub-detail">
+                                                        <p>Name: Verification Pending</p>
+                                                    </div>
+                                                    <div class="sub-detail">
+                                                        <p>Citizenship: Verification Pending
+                                                        </p>
+                                                    </div>
+                                                    <div class="sub-detail">
+                                                        <p>DOB: Verification Pending
+                                                        </p>
+                                                    </div>
+                                                    <div class="sub-detail">
+                                                        <p>Membership Number: Verification Pending
+                                                        </p>
+                                                    </div>
+                                                    <div class="sub-detail">
+                                                        <p>Membership Type: Verification Pending
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            
+                                        </div>
+
+                                        {% endif %}
                                     </div>
                                 </div>
     
@@ -105,16 +152,9 @@
                                     </div>
                                 </div>
                             </div>
-    
                         </div>
-                        
                     </div>
-    
-    
                 </div>
-    
-    
-    
             </div>
         </div>
     </section>
