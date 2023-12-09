@@ -16,6 +16,7 @@ def only_users_without_any_membership(view_func):
         )
         if (
             user.is_authenticated
+            and not user.role == "A"
             and general_and_lifetime_membership_does_not_exist
             and institutional_membership_does_not_exist
         ):

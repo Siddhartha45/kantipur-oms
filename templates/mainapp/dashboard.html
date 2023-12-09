@@ -67,7 +67,7 @@
                                             
                                         </div>
 
-                                        {% else %}
+                                        {% elif user_membership.verification == False %}
 
                                         <div class="member-card">
                                             <div class="member-card-top">
@@ -111,6 +111,8 @@
                                             
                                         </div>
 
+                                        {% elif request.user.role == "A" %}
+                                        
                                         {% endif %}
                                     </div>
                                 </div>

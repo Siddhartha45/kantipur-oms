@@ -12,11 +12,16 @@
                     <a href="{% url 'dashboard' %}" class="left-dash-item">
                         <p>Dashboard</p>
                     </a>
-                
+                    
+                    
+                    {% if not request.user.role == "A" %}
                     <a href="{% url 'new_membership_page' %}" class="left-dash-item">
                         <p>New Membership</p>
                     </a>
+                    {% endif %}
 
+                    
+                    {% if not request.user.role == "U" %}
                     <a href="{% url 'gl_verification_list' %}" class="left-dash-item">
                         <p>GL Verification List</p>
                     </a>
@@ -24,6 +29,7 @@
                     <a href="{% url 'ins_verification_list' %}" class="left-dash-item">
                         <p>Ins Verification List</p>
                     </a>
+                    {% endif %}
 
                     <a href="{% url 'logout' %}" class="left-dash-item">
                         <p>Logout</p>
