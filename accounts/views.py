@@ -8,16 +8,17 @@ from django.contrib.auth.decorators import login_required
 from membership.decorators import user_login_check
 
 from .models import CustomUser
-from .forms import SignUpForm
+from .forms import SignUpForm, EditProfileForm
 
 
 def sign_up(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
+
         if form.is_valid():
             first_name = form.cleaned_data.get("first_name")
             last_name = form.cleaned_data.get("last_name")
-            email = form.cleaned_data.get("email")
+            email = form.cleaned_data.get("email").lower()
             phone = form.cleaned_data.get("phone")
             password = form.cleaned_data.get("password")
             confirm_password = form.cleaned_data.get("confirm_password")
@@ -33,6 +34,10 @@ def sign_up(request):
                 messages.error(request, "Password didn't match!")
                 return redirect("signup")
 
+            if len(password) < 5:
+                messages.error(request, "Password is short")
+                return redirect("signup")
+
             CustomUser.objects.create(
                 first_name=first_name,
                 last_name=last_name,
@@ -43,6 +48,8 @@ def sign_up(request):
             )
             messages.success(request, "User created. Login with your new account.")
             return redirect("login")
+        else:
+            messages.error(request, "Please fill the form with correct details")
     else:
         form = SignUpForm()
     return render(request, "auth/signup.html")
@@ -70,6 +77,39 @@ def login_page(request):
 def logout_user(request):
     logout(request)
     return redirect("login")
+
+
+def edit_profile(request):
+    user = request.user
+    print(user.id)
+
+    if request.method == "POST":
+        form = EditProfileForm(request.POST, instance=user)
+        email = request.POST.get("email")
+        phone = request.POST.get("phone")
+
+        if CustomUser.objects.exclude(id=user.id).filter(email=email).exists():
+            messages.info(request, f'User with this email "{email}" already exists')
+            return redirect("edit_profile")
+
+        if CustomUser.objects.exclude(id=user.id).filter(phone=phone).first():
+            messages.info(
+                request, f'User with this phone number "{phone}" already exists'
+            )
+            return redirect("edit_profile")
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Details Updated Successfully")
+            return redirect("dashboard")
+        else:
+            print(form.errors)
+            messages.error(request, "Please fill the form with correct data")
+    else:
+        form = EditProfileForm(instance=user)
+
+    context = {"user": user}
+    return render(request, "auth/edit-profile.html", context)
 
 
 @login_required
@@ -110,7 +150,7 @@ def change_password(request):
 
 class CustomPasswordResetView(PasswordResetView):
     """
-    Customizing the django default passwordresetview to check if users email exist in 
+    Customizing the django default passwordresetview to check if users email exist in
     database before sending mail
     """
 

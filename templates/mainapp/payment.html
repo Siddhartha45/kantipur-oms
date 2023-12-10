@@ -86,14 +86,24 @@
             type: "POST",
             data: payload,
             dataType: 'json',
-            success: function (response) { alert(response) },
-            error: function (error) { alert(error.responseJSON['message']) }
+            success: function (response) {
+                // Handle success here
+                alert("Payment verification successful");
+                if (response.redirect_url) {
+                    // Redirect the user to the specified URL
+                    window.location.href = response.redirect_url;
+                }
+            },
+            error: function (error) {
+                // Handle error here
+                alert("Payment verification failed");
+            }
         });
     }
 
     var config = {
         // replace the publicKey with yours
-        "publicKey": "live_public_key_d15ec20985d8484ba9f062c2b004ec9d",
+        "publicKey": "test_public_key_fc9fe6ad491a4c7ca3bcf623eb214b8e",
         "productIdentity": "{{request.user.id}}",
         "productName": "Membership Payment",
         "productUrl": "https://ss.com",

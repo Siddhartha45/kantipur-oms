@@ -71,11 +71,12 @@ class InstitutionalMembership(models.Model):
 
 
 class Payment(models.Model):
-    # created_at = models.DateTimeField(auto_now_add=True)
-    user = models.OneToOneField(
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, related_name="payment_user"
     )
     payment_ss = models.ImageField(upload_to="payment")
+    paid_amount_in_paisa = models.CharField(max_length=7, blank=True, null=True)
 
     def __str__(self):
         return self.user.full_name()

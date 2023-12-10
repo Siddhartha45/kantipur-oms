@@ -1,7 +1,7 @@
 import requests
 import json
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
@@ -101,11 +101,7 @@ def payment_page(request):
         form = PaymentForm(request.POST, request.FILES)
 
         if form.is_valid():
-            if not Payment.objects.filter(user=request.user).exists():
-                Payment.objects.create(user=request.user, **form.cleaned_data)
-            else:
-                messages.error(request, "Payment already done")
-                return redirect("payment")
+            Payment.objects.create(user=request.user, **form.cleaned_data)
             return redirect("payment_done_page")
         else:
             messages.error(request, "Submit Screenshot of your payment.")
@@ -122,9 +118,6 @@ def verify_payment(request):
     name = data['product_name']
     token = data['token']
     amount = data['amount']
-    print(user_who_paid, name)
-    
-    # Payment.objects.create(user=user_who_paid)
 
     url = "https://khalti.com/api/v2/payment/verify/"
     
@@ -134,11 +127,18 @@ def verify_payment(request):
     }
     
     headers = {
-    "Authorization": "Key live_secret_key_6a3abe8040034519918d88657d2239f6"
+    "Authorization": "Key test_secret_key_11ddcd10390443539e267be2691a3486"             #test_secret_key_11ddcd10390443539e267be2691a3486
     }
     
 
     response = requests.request("POST", url, headers=headers, data=payload)
+    print(response.text)
+    
+    if response.status_code == 200:
+        Payment.objects.create(user_id=user_who_paid, paid_amount_in_paisa=amount)
+    else:
+        error_message = response.json().get('detail', 'Payment verification failed')
+        return JsonResponse({"status": "error", "message": error_message}, status=400)
 
 
 def payment_done_page(request):
@@ -175,6 +175,7 @@ def verify_general_or_lifetime_membership(request, id):
             verify_object.membership_no = membership_no
             verify_object.verification = True
             verify_object.save()
+            messages.success(request, "Membership Verified")
             return redirect("gl_verification_list")
         else:
             messages.error(request, "Enter membership number to verify the member")
