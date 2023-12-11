@@ -67,6 +67,7 @@ class InstitutionalMembership(models.Model):
     contact_person = models.CharField(max_length=200)
     contact_number = models.CharField(max_length=10)
     remarks = models.TextField()
+    rejected = models.BooleanField(default=False)
 
     def __str__(self):
         return self.company_name
@@ -83,8 +84,7 @@ class Payment(models.Model):
 
     def __str__(self):
         return self.user.full_name()
-    
-    
+
     def amount_in_rs(self):
         amount_int = int(self.paid_amount_in_paisa)
         rs = amount_int/100

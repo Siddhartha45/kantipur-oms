@@ -14,7 +14,8 @@ from .forms import (
     PaymentForm,
     VerificationForm,
     InstitutionalMembershipEditForm,
-    GeneralAndLifetimeMembershipEditForm
+    GeneralAndLifetimeMembershipEditForm,
+    RejectInstitutionalMembershipForm
 )
 from .models import InstitutionalMembership, GeneralAndLifetimeMembership, Payment
 from .decorators import only_users_without_any_membership, admin_only
@@ -138,6 +139,7 @@ def verify_payment(request):
     
     if response.status_code == 200:
         Payment.objects.create(user_id=user_who_paid, paid_amount_in_paisa=amount)
+        return JsonResponse({"status": "success", "redirect_url": "/payment-done/"})
     else:
         error_message = response.json().get('detail', 'Payment verification failed')
         return JsonResponse({"status": "error", "message": error_message}, status=400)
@@ -235,3 +237,14 @@ def edit_gl_membership(request, id):
         form = GeneralAndLifetimeMembershipEditForm(instance=instance)
     context = {"gl": instance, "gender": gender, "countries": countries}
     return render(request, "mainapp/edit-gl-membership.html", context)
+
+
+# def reject_instutional_membership(request, id):
+#     instance = get_object_or_404(InstitutionalMembership, id=id)
+    
+#     if request.method == "POST":
+#         form = RejectInstitutionalMembershipForm(request.POST)
+#         if form.is_valid():
+#             instance.remarks = form.cleaned_data.get('remarks')
+#             instance.rejected = True
+#             instance.save()
