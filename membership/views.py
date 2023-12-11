@@ -13,6 +13,8 @@ from .forms import (
     GeneralAndLifetimeMembershipForm,
     PaymentForm,
     VerificationForm,
+    InstitutionalMembershipEditForm,
+    GeneralAndLifetimeMembershipEditForm
 )
 from .models import InstitutionalMembership, GeneralAndLifetimeMembership, Payment
 from .decorators import only_users_without_any_membership, admin_only
@@ -152,13 +154,6 @@ def general_and_lifetime_membership_verification_list(request):
     return render(request, "mainapp/gl_membership_list.html", context)
 
 
-@admin_only
-def institutional_membership_verification_list(request):
-    members_for_verification = InstitutionalMembership.objects.all()
-    context = {"members_for_verification": members_for_verification}
-    return render(request, "mainapp/ins_membership_list.html", context)
-
-
 def general_and_lifetime_membership_verification_page(request, id):
     general_or_lifetime_object = get_object_or_404(GeneralAndLifetimeMembership, id=id)
     context = {"gl": general_or_lifetime_object}
@@ -182,14 +177,61 @@ def verify_general_or_lifetime_membership(request, id):
             return redirect("gl_verification_page", id=verify_object.id)
 
 
+@admin_only
+def institutional_membership_verification_list(request):
+    members_for_verification = InstitutionalMembership.objects.all().order_by("-id")
+    context = {"members_for_verification": members_for_verification}
+    return render(request, "mainapp/ins_membership_list.html", context)
+
+
+@admin_only
 def institutional_membership_verification_page(request, id):
     institution_object = get_object_or_404(InstitutionalMembership, id=id)
     context = {"ins": institution_object}
     return render(request, "mainapp/ins-verification-page.html", context)
 
 
+@admin_only
 def verify_institution_membership(request, id):
     verify_object = get_object_or_404(InstitutionalMembership, id=id)
     verify_object.verification = True
     verify_object.save()
+    messages.success(request, "Membership Verified")
     return redirect("ins_verification_list")
+
+
+def edit_institutional_membership(request, id):
+    """Let users edit or update their institutional membership details if they are rejected by admin."""
+    instance = get_object_or_404(InstitutionalMembership, id=id)
+    
+    if request.user.id != instance.created_by.id:
+        return redirect("dashboard")
+    
+    if request.method == "POST":
+        form = InstitutionalMembershipEditForm(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Details Updated")
+            return redirect("dashboard")
+        else:
+            messages.error(request, "Please fill the form with correct data")
+    
+    context = {"ins": instance}
+    return render(request, "mainapp/edit-ins-membership.html", context)
+
+
+def edit_gl_membership(request, id):
+    gender = choices.GENDER_CHOICES
+    countries = choices.COUNTRY_CHOICES
+    instance = get_object_or_404(GeneralAndLifetimeMembership, id=id)
+    
+    if request.method == "POST":
+        form =  GeneralAndLifetimeMembershipEditForm(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Details Updated")
+            return redirect("dashboard")
+    else:
+        form = GeneralAndLifetimeMembershipEditForm(instance=instance)
+    context = {"gl": instance, "gender": gender, "countries": countries}
+    return render(request, "mainapp/edit-gl-membership.html", context)

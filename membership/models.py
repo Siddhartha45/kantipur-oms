@@ -44,6 +44,7 @@ class GeneralAndLifetimeMembership(models.Model):
     masters_document = models.ImageField(upload_to="general_and_lifetime_documents")
     # Work Details
     work_experience = models.TextField()
+    remarks = models.TextField()
 
     def __str__(self):
         return self.name_of_applicant
@@ -65,6 +66,7 @@ class InstitutionalMembership(models.Model):
     working_field = models.CharField(max_length=200)
     contact_person = models.CharField(max_length=200)
     contact_number = models.CharField(max_length=10)
+    remarks = models.TextField()
 
     def __str__(self):
         return self.company_name
@@ -72,11 +74,18 @@ class InstitutionalMembership(models.Model):
 
 class Payment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         CustomUser, on_delete=models.CASCADE, related_name="payment_user"
     )
     payment_ss = models.ImageField(upload_to="payment")
     paid_amount_in_paisa = models.CharField(max_length=7, blank=True, null=True)
+    paid = models.BooleanField(default=True)
 
     def __str__(self):
         return self.user.full_name()
+    
+    
+    def amount_in_rs(self):
+        amount_int = int(self.paid_amount_in_paisa)
+        rs = amount_int/100
+        return str(int(rs))

@@ -6,13 +6,13 @@ from .models import GeneralAndLifetimeMembership, InstitutionalMembership, Payme
 class InstitutionalMembershipForm(forms.ModelForm):
     class Meta:
         model = InstitutionalMembership
-        exclude = ["created_by"]
+        exclude = ["created_by", "remarks"]
 
 
 class GeneralAndLifetimeMembershipForm(forms.ModelForm):
     class Meta:
         model = GeneralAndLifetimeMembership
-        exclude = ["created_by", "membership_type"]
+        exclude = ["created_by", "membership_type", "remarks"]
 
 
 class PaymentForm(forms.ModelForm):
@@ -23,3 +23,15 @@ class PaymentForm(forms.ModelForm):
 
 class VerificationForm(forms.Form):
     membership_no = forms.CharField()
+
+
+class InstitutionalMembershipEditForm(forms.ModelForm):
+    class Meta:
+        model = InstitutionalMembership
+        exclude = ["created_by", "remarks"]
+
+
+class GeneralAndLifetimeMembershipEditForm(forms.ModelForm):
+    class Meta:
+        model = GeneralAndLifetimeMembership
+        exclude = ["created_by", "membership_type", "remarks"]

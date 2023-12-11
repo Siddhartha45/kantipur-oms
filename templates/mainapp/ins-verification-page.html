@@ -118,20 +118,19 @@
                         
                                 </div>
 
+                                
+                                {% if ins.verification == False %}
                                 <h6 class="verfication-text">
                                     If the above information is correct proceed to verify
                                 </h6>
-                        
-                                <form>
                                     <div class="mb-3">                        
                                     </div>
                                     <div class="buttons">
-                                        <button type="submit" class="btn btn-primary">Verified</button>
+                                        <a href="{% url 'verify_ins_membership' id=ins.id %}"><button class="btn btn-primary">Verify</button></a>
                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Send for rejection</button>
                                     </div>
-                        
-                                </form>
-                             
+                                {% endif %}
+                            
                                 <div class="modal" tabindex="-1" id="exampleModal">
                                     <div class="modal-dialog">
                                         <div class="modal-content">

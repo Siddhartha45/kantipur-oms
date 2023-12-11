@@ -48,4 +48,6 @@ urlpatterns = [
         views.verify_institution_membership,
         name="verify_ins_membership",
     ),
+    path("edit-institutional-membership/<int:id>/", views.edit_institutional_membership, name="edit_ins_membership"),
+    path("edit-gl-membership/<int:id>/", views.edit_gl_membership, name="edit_gl_membership"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

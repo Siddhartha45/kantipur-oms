@@ -81,7 +81,6 @@ def logout_user(request):
 
 def edit_profile(request):
     user = request.user
-    print(user.id)
 
     if request.method == "POST":
         form = EditProfileForm(request.POST, instance=user)
