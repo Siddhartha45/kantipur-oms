@@ -88,5 +88,5 @@ class Payment(models.Model):
 
     def amount_in_rs(self):
         amount_int = int(self.paid_amount_in_paisa)
-        rs = amount_int/100
+        rs = amount_int / 100
         return str(int(rs))

@@ -21,10 +21,6 @@ class PaymentForm(forms.ModelForm):
         fields = ["payment_ss"]
 
 
-class VerificationForm(forms.Form):
-    membership_no = forms.CharField()
-
-
 class InstitutionalMembershipEditForm(forms.ModelForm):
     class Meta:
         model = InstitutionalMembership
@@ -35,6 +31,10 @@ class GeneralAndLifetimeMembershipEditForm(forms.ModelForm):
     class Meta:
         model = GeneralAndLifetimeMembership
         exclude = ["created_by", "membership_type", "remarks"]
+
+
+class VerificationForm(forms.Form):
+    membership_no = forms.CharField()
 
 
 class RejectMembershipForm(forms.Form):

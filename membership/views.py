@@ -1,7 +1,6 @@
 import requests
-import json
 
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
@@ -15,7 +14,7 @@ from .forms import (
     VerificationForm,
     InstitutionalMembershipEditForm,
     GeneralAndLifetimeMembershipEditForm,
-    RejectMembershipForm
+    RejectMembershipForm,
 )
 from .models import InstitutionalMembership, GeneralAndLifetimeMembership, Payment
 from .decorators import only_users_without_any_membership, admin_only
@@ -115,32 +114,29 @@ def payment_page(request):
 
 @csrf_exempt
 def verify_payment(request):
+    """To verify the payment done by user using KHALTI."""
     data = request.POST
-    user_who_paid = data['product_identity']
-    name = data['product_name']
-    token = data['token']
-    amount = data['amount']
+    user_who_paid = data["product_identity"]
+    name = data["product_name"]
+    token = data["token"]
+    amount = data["amount"]
 
     url = "https://khalti.com/api/v2/payment/verify/"
-    
-    payload = {
-    "token": token,
-    "amount": amount
-    }
-    
+
+    payload = {"token": token, "amount": amount}
+
     headers = {
-    "Authorization": "Key test_secret_key_11ddcd10390443539e267be2691a3486"             #test_secret_key_11ddcd10390443539e267be2691a3486
+        "Authorization": "Key test_secret_key_11ddcd10390443539e267be2691a3486"  # test_secret_key_11ddcd10390443539e267be2691a3486
     }
-    
 
     response = requests.request("POST", url, headers=headers, data=payload)
     print(response.text)
-    
+
     if response.status_code == 200:
         Payment.objects.create(user_id=user_who_paid, paid_amount_in_paisa=amount)
         return JsonResponse({"status": "success", "redirect_url": "/payment-done/"})
     else:
-        error_message = response.json().get('detail', 'Payment verification failed')
+        error_message = response.json().get("detail", "Payment verification failed")
         return JsonResponse({"status": "error", "message": error_message}, status=400)
 
 
@@ -150,7 +146,9 @@ def payment_done_page(request):
 
 @admin_only
 def general_and_lifetime_membership_verification_list(request):
-    members_for_verification = GeneralAndLifetimeMembership.objects.all().order_by("-id")
+    members_for_verification = GeneralAndLifetimeMembership.objects.all().order_by(
+        "-id"
+    )
     context = {"members_for_verification": members_for_verification}
     return render(request, "mainapp/gl_membership_list.html", context)
 
@@ -202,43 +200,55 @@ def verify_institution_membership(request, id):
 
 
 def edit_institutional_membership(request, id):
-    """Let users edit or update their institutional membership details if they are rejected by admin."""
+    """
+    Let users edit or update their institutional membership details if they are rejected
+    by admin.
+    """
     instance = get_object_or_404(InstitutionalMembership, id=id)
     user = request.user
-    
+
     if user.id != instance.created_by.id:
         return redirect("dashboard")
-    
+
     if user.institutional_user.rejected == False:
         return redirect("index")
-    
+
     if request.method == "POST":
-        form = InstitutionalMembershipEditForm(request.POST, request.FILES, instance=instance)
+        form = InstitutionalMembershipEditForm(
+            request.POST, request.FILES, instance=instance
+        )
         if form.is_valid():
             form.save()
             messages.success(request, "Details Updated")
             return redirect("dashboard")
         else:
             messages.error(request, "Please fill the form with correct data")
-    
+
     context = {"ins": instance}
     return render(request, "mainapp/edit-ins-membership.html", context)
 
 
 def edit_gl_membership(request, id):
+    """
+    Let users edit or update their general or lifetime membership details if they are
+    rejected by admin.
+    """
+
     gender = choices.GENDER_CHOICES
     countries = choices.COUNTRY_CHOICES
     instance = get_object_or_404(GeneralAndLifetimeMembership, id=id)
     user = request.user
-    
+
     if user.id != instance.created_by.id:
         return redirect("dashboard")
-    
+
     if user.general_and_lifetime_user.rejected == False:
         return redirect("index")
-    
+
     if request.method == "POST":
-        form =  GeneralAndLifetimeMembershipEditForm(request.POST, request.FILES, instance=instance)
+        form = GeneralAndLifetimeMembershipEditForm(
+            request.POST, request.FILES, instance=instance
+        )
         if form.is_valid():
             form.save()
             messages.success(request, "Details Updated")
@@ -251,11 +261,11 @@ def edit_gl_membership(request, id):
 
 def reject_instutional_membership(request, id):
     instance = get_object_or_404(InstitutionalMembership, id=id)
-    
+
     if request.method == "POST":
         form = RejectMembershipForm(request.POST)
         if form.is_valid():
-            instance.remarks = form.cleaned_data.get('remarks')
+            instance.remarks = form.cleaned_data.get("remarks")
             instance.rejected = True
             instance.save()
             return redirect("ins_verification_list")
@@ -263,11 +273,11 @@ def reject_instutional_membership(request, id):
 
 def reject_gl_membership(request, id):
     instance = get_object_or_404(GeneralAndLifetimeMembership, id=id)
-    
+
     if request.method == "POST":
         form = RejectMembershipForm(request.POST)
         if form.is_valid():
-            instance.remarks = form.cleaned_data.get('remarks')
+            instance.remarks = form.cleaned_data.get("remarks")
             instance.rejected = True
             instance.save()
             return redirect("gl_verification_list")
