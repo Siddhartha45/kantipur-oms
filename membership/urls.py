@@ -50,4 +50,8 @@ urlpatterns = [
     ),
     path("edit-institutional-membership/<int:id>/", views.edit_institutional_membership, name="edit_ins_membership"),
     path("edit-gl-membership/<int:id>/", views.edit_gl_membership, name="edit_gl_membership"),
+    path("reject-institutional-membership/<int:id>/", views.reject_instutional_membership, name="reject_ins_membership"),
+    path("reject-general-and-lifetime-membership/<int:id>/", views.reject_gl_membership, name="reject_gl_membership"),
+    path("remarks/", views.remarks, name="remarks"),
+    path("no-remarks/", views.no_remarks, name="no_remarks"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

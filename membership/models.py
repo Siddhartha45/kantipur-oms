@@ -45,6 +45,7 @@ class GeneralAndLifetimeMembership(models.Model):
     # Work Details
     work_experience = models.TextField()
     remarks = models.TextField()
+    rejected = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name_of_applicant
@@ -66,7 +67,7 @@ class InstitutionalMembership(models.Model):
     working_field = models.CharField(max_length=200)
     contact_person = models.CharField(max_length=200)
     contact_number = models.CharField(max_length=10)
-    remarks = models.TextField()
+    remarks = models.TextField(blank=True, null=True)
     rejected = models.BooleanField(default=False)
 
     def __str__(self):

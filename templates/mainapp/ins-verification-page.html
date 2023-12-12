@@ -127,30 +127,33 @@
                                     </div>
                                     <div class="buttons">
                                         <a href="{% url 'verify_ins_membership' id=ins.id %}"><button class="btn btn-primary">Verify</button></a>
-                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Send for rejection</button>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Recheck</button>
                                     </div>
                                 {% endif %}
                             
+                            <form action="{% url 'reject_ins_membership' id=ins.id %}" method="post">
+                                {% csrf_token %}
                                 <div class="modal" tabindex="-1" id="exampleModal">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title">Modal title</h5>
+                                                <h5 class="modal-title">Remarks(Write what should be corrected.)</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 
-                                                <textarea name="" id="" cols="30" rows="10"></textarea>
+                                                <textarea name="remarks" id="" cols="30" rows="10" required></textarea>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                                <button type="submit" class="btn btn-primary">Send for Recheck</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </form>
                             </div>
-                           
+                        
                         </div>
                         
                     </div>

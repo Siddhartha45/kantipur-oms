@@ -37,5 +37,5 @@ class GeneralAndLifetimeMembershipEditForm(forms.ModelForm):
         exclude = ["created_by", "membership_type", "remarks"]
 
 
-class RejectInstitutionalMembershipForm(forms.Form):
+class RejectMembershipForm(forms.Form):
     remarks = forms.CharField()

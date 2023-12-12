@@ -15,7 +15,7 @@ from .forms import (
     VerificationForm,
     InstitutionalMembershipEditForm,
     GeneralAndLifetimeMembershipEditForm,
-    RejectInstitutionalMembershipForm
+    RejectMembershipForm
 )
 from .models import InstitutionalMembership, GeneralAndLifetimeMembership, Payment
 from .decorators import only_users_without_any_membership, admin_only
@@ -27,7 +27,6 @@ def dashboard(request):
     user = request.user
     try:
         user_membership = user.general_and_lifetime_user
-        print(user_membership)
     except ObjectDoesNotExist:
         user_membership = None
     context = {"user_membership": user_membership}
@@ -151,7 +150,7 @@ def payment_done_page(request):
 
 @admin_only
 def general_and_lifetime_membership_verification_list(request):
-    members_for_verification = GeneralAndLifetimeMembership.objects.all()
+    members_for_verification = GeneralAndLifetimeMembership.objects.all().order_by("-id")
     context = {"members_for_verification": members_for_verification}
     return render(request, "mainapp/gl_membership_list.html", context)
 
@@ -205,9 +204,13 @@ def verify_institution_membership(request, id):
 def edit_institutional_membership(request, id):
     """Let users edit or update their institutional membership details if they are rejected by admin."""
     instance = get_object_or_404(InstitutionalMembership, id=id)
+    user = request.user
     
-    if request.user.id != instance.created_by.id:
+    if user.id != instance.created_by.id:
         return redirect("dashboard")
+    
+    if user.institutional_user.rejected == False:
+        return redirect("index")
     
     if request.method == "POST":
         form = InstitutionalMembershipEditForm(request.POST, request.FILES, instance=instance)
@@ -226,6 +229,13 @@ def edit_gl_membership(request, id):
     gender = choices.GENDER_CHOICES
     countries = choices.COUNTRY_CHOICES
     instance = get_object_or_404(GeneralAndLifetimeMembership, id=id)
+    user = request.user
+    
+    if user.id != instance.created_by.id:
+        return redirect("dashboard")
+    
+    if user.general_and_lifetime_user.rejected == False:
+        return redirect("index")
     
     if request.method == "POST":
         form =  GeneralAndLifetimeMembershipEditForm(request.POST, request.FILES, instance=instance)
@@ -239,12 +249,39 @@ def edit_gl_membership(request, id):
     return render(request, "mainapp/edit-gl-membership.html", context)
 
 
-# def reject_instutional_membership(request, id):
-#     instance = get_object_or_404(InstitutionalMembership, id=id)
+def reject_instutional_membership(request, id):
+    instance = get_object_or_404(InstitutionalMembership, id=id)
     
-#     if request.method == "POST":
-#         form = RejectInstitutionalMembershipForm(request.POST)
-#         if form.is_valid():
-#             instance.remarks = form.cleaned_data.get('remarks')
-#             instance.rejected = True
-#             instance.save()
+    if request.method == "POST":
+        form = RejectMembershipForm(request.POST)
+        if form.is_valid():
+            instance.remarks = form.cleaned_data.get('remarks')
+            instance.rejected = True
+            instance.save()
+            return redirect("ins_verification_list")
+
+
+def reject_gl_membership(request, id):
+    instance = get_object_or_404(GeneralAndLifetimeMembership, id=id)
+    
+    if request.method == "POST":
+        form = RejectMembershipForm(request.POST)
+        if form.is_valid():
+            instance.remarks = form.cleaned_data.get('remarks')
+            instance.rejected = True
+            instance.save()
+            return redirect("gl_verification_list")
+
+
+def remarks(request):
+    user = request.user
+    try:
+        gl_or_ins = GeneralAndLifetimeMembership.objects.get(created_by_id=user.id)
+        return redirect("edit_gl_membership", id=gl_or_ins.id)
+    except:
+        gl_or_ins = InstitutionalMembership.objects.get(created_by_id=user.id)
+        return redirect("edit_ins_membership", id=gl_or_ins.id)
+
+
+def no_remarks(request):
+    return render(request, "mainapp/remarks.html")
