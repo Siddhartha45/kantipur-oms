@@ -14,17 +14,40 @@
                     {% include 'base/sidebar.html' %}
     
                 </div>
+
                 <div class="col-md-10">
                     <div class="dashboard-mid-part">
                         <div class="dashboard-content">
                             <div class="dash-user">
                                 <h3>Hello! {{request.user.first_name}}</h3>
                             </div>
+
+                            {% for message in messages %}
+                            {{message}}
+                            {% endfor %}
+
                             <div class="dash-middle-content">
                                 <div class="mid-part">
                                     <div class="inner-box">
-                                        {% if user_membership.verification == True %}
 
+                                        {% if request.user.is_verified == False %}
+                                        <h6 class="verfication-text">
+                                            Please enter the pin we sent to you in your email to verify yourself.
+                                        </h6>
+                                        <form method="post" action="{% url 'verify_user' %}">
+                                            {% csrf_token %}
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label">Pin</label>
+                                                <input type="text" name="pin" maxlength="4" class="form-control membership-div" id="membership"
+                                                    placeholder="Enter the PIN" required>
+                                            </div>
+                                            <div class="buttons">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </form>
+                                        {% endif %}
+
+                                        {% if gl_user_membership.verification == True %}
                                         <div class="member-card">
                                             <div class="member-card-top">
                                                 <div class="card-logo">
@@ -37,38 +60,33 @@
 
                                             <div class="member-mid">
                                                 <div class="member-image">
-                                                    <img src="image/PP Trilochan Adhikari - BBIS 2019.jpg" alt="">
+                                                    <img src="{{gl_user_membership.pp_photo.url}}" alt="">
                                                 </div>
 
                                                 <div class="member-dash">
                                                     <div class="sub-detail">
-                                                        <p>Name: {{user_membership.name_of_applicant}}</p>
+                                                        <p>Name: {{gl_user_membership.name_of_applicant}}</p>
                                                     </div>
                                                     <div class="sub-detail">
-                                                        <p>Citizenship: {{user_membership.citizenship_card_no}}
+                                                        <p>Citizenship: {{gl_user_membership.citizenship_card_no}}
                                                         </p>
                                                     </div>
                                                     <div class="sub-detail">
-                                                        <p>DOB: {{user_membership.dob}}
+                                                        <p>DOB: {{gl_user_membership.dob}}
                                                         </p>
                                                     </div>
                                                     <div class="sub-detail">
-                                                        <p>Membership Number: {{user_membership.membership_no}}
+                                                        <p>Membership Number: {{gl_user_membership.membership_no}}
                                                         </p>
                                                     </div>
                                                     <div class="sub-detail">
-                                                        <p>Membership Type: {{user_membership.get_membership_type_display}}
+                                                        <p>Membership Type: {{gl_user_membership.get_membership_type_display}}
                                                         </p>
                                                     </div>
                                                 </div>
-
                                             </div>
-
-                                            
                                         </div>
-
-                                        {% elif user_membership.verification == False %}
-
+                                        {% elif gl_user_membership.verification == False %}
                                         <div class="member-card">
                                             <div class="member-card-top">
                                                 <div class="card-logo">
@@ -105,14 +123,72 @@
                                                         </p>
                                                     </div>
                                                 </div>
-
+                                            </div>
+                                        </div>
+                                        {% elif ins_user_membership.verification == True %}
+                                        <div class="member-card">
+                                            <div class="member-card-top">
+                                                <div class="card-logo">
+                                                    <img src="{% static 'images/logo.png' %}" alt="">
+                                                </div>
+                                                <div class="card-no">
+                                                    <h3>Membership Card</h3>
+                                                </div>
                                             </div>
 
-                                            
-                                        </div>
+                                            <div class="member-mid">
+                                                <div class="member-image">
+                                                    <img src="image/PP Trilochan Adhikari - BBIS 2019.jpg" alt="">
+                                                </div>
 
+                                                <div class="member-dash">
+                                                    <div class="sub-detail">
+                                                        <p>Company Name: {{ins_user_membership.company_name}}</p>
+                                                    </div>
+                                                    <div class="sub-detail">
+                                                        <p>Registration No: {{ins_user_membership.registration_no}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="sub-detail">
+                                                        <p>Company Address: {{ins_user_membership.company_address}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% elif ins_user_membership.verification == False %}
+                                        <div class="member-card">
+                                            <div class="member-card-top">
+                                                <div class="card-logo">
+                                                    <img src="{% static 'images/logo.png' %}" alt="">
+                                                </div>
+                                                <div class="card-no">
+                                                    <h3>Membership Card</h3>
+                                                </div>
+                                            </div>
+
+                                            <div class="member-mid">
+                                                <div class="member-image">
+                                                    <img src="image/PP Trilochan Adhikari - BBIS 2019.jpg" alt="">
+                                                </div>
+
+                                                <div class="member-dash">
+                                                    <div class="sub-detail">
+                                                        <p>Company Name: Verification Pending</p>
+                                                    </div>
+                                                    <div class="sub-detail">
+                                                        <p>Registration No: Verification Pending
+                                                        </p>
+                                                    </div>
+                                                    <div class="sub-detail">
+                                                        <p>Company Address: Verification Pending
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         {% elif request.user.role == "A" %}
-                                        
+
                                         {% endif %}
                                     </div>
                                 </div>

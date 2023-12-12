@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
@@ -9,6 +9,7 @@ from membership.decorators import user_login_check
 
 from .models import CustomUser
 from .forms import SignUpForm, EditProfileForm
+from .utils import send_token_mail, generate_unique_four_digit_number
 
 
 def sign_up(request):
@@ -38,15 +39,18 @@ def sign_up(request):
                 messages.error(request, "Password is short")
                 return redirect("signup")
 
-            CustomUser.objects.create(
+            token_pin = generate_unique_four_digit_number()
+            new_user = CustomUser.objects.create(
                 first_name=first_name,
                 last_name=last_name,
                 email=email,
                 phone=phone,
                 password=make_password(password),
                 role="U",
+                token = str(token_pin),
             )
-            messages.success(request, "User created. Login with your new account.")
+            send_token_mail(email=new_user.email, token=new_user.token)
+            messages.success(request, "Pin has been sent to your email. Login and enter pin to verify.")
             return redirect("login")
         else:
             messages.error(request, "Please fill the form with correct details")
@@ -160,3 +164,17 @@ class CustomPasswordResetView(PasswordResetView):
             messages.error(self.request, "Email does not exist.")
             return self.form_invalid(form)
         return super().form_valid(form)
+
+
+def verify_user(request):
+    user = request.user
+    if request.method == "POST":
+        pin = request.POST.get("pin")
+        if user.token == pin:
+            user.is_verified = True
+            user.save()
+            messages.success(request, "You have been verified")
+            return redirect("dashboard")
+        else:
+            messages.error(request, "Invalid Pin")
+            return redirect("dashboard")

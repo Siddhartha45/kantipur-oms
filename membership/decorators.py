@@ -50,3 +50,15 @@ def user_login_check(view_func):
             return redirect("dashboard")
 
     return wrap
+
+
+def verified_user(view_func):
+    """Restricts unverified users."""
+
+    def wrap(request, *args, **kwargs):
+        if request.user.is_verified == True:
+            return view_func(request, *args, **kwargs)
+        else:
+            return redirect("dashboard")
+
+    return wrap

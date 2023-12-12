@@ -8,6 +8,8 @@ class CustomUser(AbstractUser):
     email = models.EmailField(max_length=150, unique=True)
     phone = models.CharField(max_length=10, unique=True)
     role = models.CharField(max_length=1, choices=ROLE)
+    token = models.CharField(max_length=200)
+    is_verified = models.BooleanField(default=False)
     
     username = None
 
@@ -19,3 +21,10 @@ class CustomUser(AbstractUser):
     
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+
+class GeneratedPinNumber(models.Model):
+    pin = models.IntegerField(unique=True)
+    
+    def __str__(self):
+        return self.pin

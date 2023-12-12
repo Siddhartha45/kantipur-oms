@@ -17,7 +17,7 @@ from .forms import (
     RejectMembershipForm,
 )
 from .models import InstitutionalMembership, GeneralAndLifetimeMembership, Payment
-from .decorators import only_users_without_any_membership, admin_only
+from .decorators import only_users_without_any_membership, admin_only, verified_user
 from . import choices
 
 
@@ -25,13 +25,19 @@ from . import choices
 def dashboard(request):
     user = request.user
     try:
-        user_membership = user.general_and_lifetime_user
-    except ObjectDoesNotExist:
-        user_membership = None
-    context = {"user_membership": user_membership}
+        gl_user_membership = user.general_and_lifetime_user
+    except AttributeError:
+        gl_user_membership = None
+
+    try:
+        ins_user_membership = user.institutional_user
+    except AttributeError:
+        ins_user_membership = None
+
+    context = {"gl_user_membership": gl_user_membership, "ins_user_membership": ins_user_membership}
     return render(request, "mainapp/dashboard.html", context)
 
-
+@verified_user
 @only_users_without_any_membership
 def new_membership_page(request):
     gender = choices.GENDER_CHOICES
