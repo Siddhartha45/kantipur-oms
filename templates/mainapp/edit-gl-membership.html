@@ -65,9 +65,14 @@
                                                     <select name="gender" id="gender" required>
                                                         {% if gl.gender %}
                                                             <option value="{{gl.gender}}" selected>{{gl.get_gender_display}}</option>
+                                                        {% else %}
+                                                            <option>Select Gender</option>
                                                         {% endif %}
                                                         {% for k, v in gender %}
-                                                            <option value="{{k}}">{{v}}</option>
+                                                            
+                                                            {% if k != gl.gender %}
+                                                                <option value="{{k}}">{{v}}</option>
+                                                            {% endif %}
                                                         {% endfor %}
                                                     </select>
                                                 </div>

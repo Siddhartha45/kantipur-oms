@@ -39,7 +39,6 @@ def sign_up(request):
                 messages.error(request, "Password is short")
                 return redirect("signup")
 
-            token_pin = generate_unique_four_digit_number()
             new_user = CustomUser.objects.create(
                 first_name=first_name,
                 last_name=last_name,
@@ -47,7 +46,7 @@ def sign_up(request):
                 phone=phone,
                 password=make_password(password),
                 role="U",
-                token = str(token_pin),
+                token = str(generate_unique_four_digit_number()),
             )
             send_token_mail(email=new_user.email, token=new_user.token)
             messages.success(request, "Pin has been sent to your email. Login and enter pin to verify.")

@@ -44,7 +44,7 @@ class GeneralAndLifetimeMembership(models.Model):
     masters_document = models.ImageField(upload_to="general_and_lifetime_documents")
     # Work Details
     work_experience = models.TextField()
-    remarks = models.TextField()
+    remarks = models.TextField(blank=True, null=True)
     rejected = models.BooleanField(default=False)
 
     def __str__(self):

@@ -37,6 +37,7 @@ def dashboard(request):
     context = {"gl_user_membership": gl_user_membership, "ins_user_membership": ins_user_membership}
     return render(request, "mainapp/dashboard.html", context)
 
+
 @verified_user
 @only_users_without_any_membership
 def new_membership_page(request):
@@ -249,7 +250,7 @@ def edit_gl_membership(request, id):
         return redirect("dashboard")
 
     if user.general_and_lifetime_user.rejected == False:
-        return redirect("index")
+        return redirect("no_remarks")
 
     if request.method == "POST":
         form = GeneralAndLifetimeMembershipEditForm(
