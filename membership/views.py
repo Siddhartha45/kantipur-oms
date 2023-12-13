@@ -2,7 +2,6 @@ import requests
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -36,7 +35,10 @@ def dashboard(request):
     except AttributeError:
         ins_user_membership = None
 
-    context = {"gl_user_membership": gl_user_membership, "ins_user_membership": ins_user_membership}
+    context = {
+        "gl_user_membership": gl_user_membership,
+        "ins_user_membership": ins_user_membership,
+    }
     return render(request, "mainapp/dashboard.html", context)
 
 

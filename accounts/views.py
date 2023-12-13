@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
@@ -46,10 +46,13 @@ def sign_up(request):
                 phone=phone,
                 password=make_password(password),
                 role="U",
-                token = str(generate_unique_four_digit_number()),
+                token=str(generate_unique_four_digit_number()),
             )
             send_token_mail(email=new_user.email, token=new_user.token)
-            messages.success(request, "Pin has been sent to your email. Login and enter pin to verify.")
+            messages.success(
+                request,
+                "Pin has been sent to your email. Login and enter pin to verify.",
+            )
             return redirect("login")
         else:
             messages.error(request, "Please fill the form with correct details")
@@ -165,6 +168,7 @@ class CustomPasswordResetView(PasswordResetView):
         return super().form_valid(form)
 
 
+@login_required
 def verify_user(request):
     user = request.user
     if request.method == "POST":
