@@ -34,9 +34,13 @@
                                     <p>Edit Membership Details</p>
                                 </div>
                             </div>
-
-                            
                         </div>
+
+                        {% for message in messages %}
+                            {{message}}
+                        {% endfor %}
+
+                        <h5>Remarks: {{gl.remarks}}</h5>
 
                         <div class="new-member">
                               <div class="tab-content" id="myTabContent">
@@ -65,11 +69,8 @@
                                                     <select name="gender" id="gender" required>
                                                         {% if gl.gender %}
                                                             <option value="{{gl.gender}}" selected>{{gl.get_gender_display}}</option>
-                                                        {% else %}
-                                                            <option>Select Gender</option>
                                                         {% endif %}
                                                         {% for k, v in gender %}
-                                                            
                                                             {% if k != gl.gender %}
                                                                 <option value="{{k}}">{{v}}</option>
                                                             {% endif %}
@@ -81,9 +82,13 @@
                                                 <p class="required">Nationality</p>
                                                 <div class="info-inner">
                                                     <select id="country" name="nationality" required>
-                                                        <option>select country</option>
+                                                        {% if gl.nationality %}
+                                                            <option value="{{gl.nationality}}" selected>{{gl.get_nationality_display}}</option>
+                                                        {% endif %}
                                                         {% for k, v in countries %}
-                                                            <option value="{{k}}">{{v}}</option>
+                                                            {% if k != gl.nationality %}
+                                                                <option value="{{k}}">{{v}}</option>
+                                                            {% endif %}
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -141,9 +146,13 @@
                                                 <p class="required">Country</p>
                                                 <div class="info-inner">
                                                     <select id="country" name="be_country" required>
-                                                        <option>select country</option>
+                                                        {% if gl.be_country %}
+                                                            <option value="{{gl.be_country}}" selected>{{gl.get_be_country_display}}</option>
+                                                        {% endif %}
                                                         {% for k, v in countries %}
-                                                            <option value="{{k}}">{{v}}</option>
+                                                            {% if k != gl.be_country %}
+                                                                <option value="{{k}}">{{v}}</option>
+                                                            {% endif %}
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -177,9 +186,13 @@
                                                 <p class="required">Country</p>
                                                 <div class="info-inner">
                                                     <select id="country" name="me_country" required>
-                                                        <option>select country</option>
+                                                        {% if gl.me_country %}
+                                                            <option value="{{gl.me_country}}" selected>{{gl.get_me_country_display}}</option>
+                                                        {% endif %}
                                                         {% for k, v in countries %}
-                                                            <option value="{{k}}">{{v}}</option>
+                                                            {% if k != gl.me_country %}
+                                                                <option value="{{k}}">{{v}}</option>
+                                                            {% endif %}
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -213,9 +226,13 @@
                                                 <p>Country</p>
                                                 <div class="info-inner">
                                                     <select id="country" name="phd_country">
-                                                        <option value="">select country</option>
+                                                        {% if gl.phd_country %}
+                                                            <option value="{{gl.phd_country}}" selected>{{gl.get_phd_country_display}}</option>
+                                                        {% endif %}
                                                         {% for k, v in countries %}
-                                                            <option value="{{k}}">{{v}}</option>
+                                                            {% if k != gl.phd_country %}
+                                                                <option value="{{k}}">{{v}}</option>
+                                                            {% endif %}
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -234,21 +251,24 @@
                                             <div class="member-info2">
                                                 <p class="required">PP Photo</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="pp_photo" id="photo" accept="image/*" required>
+                                                    <img src="{{ gl.pp_photo.url }}" alt="pp photo" width="50%">
+                                                    <input type="file" name="pp_photo" id="photo" accept="image/*">
                                                 </div>
                                             </div>
 
                                             <div class="member-info2">
                                                 <p class="required">Citizenship</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="citizenship" id="citizenphoto" accept="image/*" required>
+                                                    <img src="{{ gl.citizenship.url }}" alt="citizenship photo" width="50%">
+                                                    <input type="file" name="citizenship" id="citizenphoto" accept="image/*">
                                                 </div>
                                             </div>
 
                                             <div class="member-info2">
                                                 <p class="required">Any highest degree certificate or verified work experience letter</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="masters_document" id="masterdoc" accept="image/*" required>
+                                                    <img src="{{ gl.masters_document.url }}" alt="" width="50%">
+                                                    <input type="file" name="masters_document" id="masterdoc" accept="image/*">
                                                 </div>
                                             </div>
 

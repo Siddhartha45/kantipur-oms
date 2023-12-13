@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from pprint import pprint
+
 from .forms import (
     InstitutionalMembershipForm,
     GeneralAndLifetimeMembershipForm,
@@ -257,9 +259,13 @@ def edit_gl_membership(request, id):
             request.POST, request.FILES, instance=instance
         )
         if form.is_valid():
+            pprint(form.cleaned_data)
             form.save()
             messages.success(request, "Details Updated")
             return redirect("dashboard")
+        else:
+            pprint(form.errors)
+            messages.error(request, "Please fill the form with correct data")
     else:
         form = GeneralAndLifetimeMembershipEditForm(instance=instance)
     context = {"gl": instance, "gender": gender, "countries": countries}
