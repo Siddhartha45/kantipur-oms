@@ -25,10 +25,3 @@ class CustomUser(AbstractUser):
     
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
-
-
-class GeneratedPinNumber(models.Model):
-    pin = models.IntegerField(unique=True)
-    
-    def __str__(self):
-        return self.pin

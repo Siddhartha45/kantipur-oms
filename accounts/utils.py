@@ -3,8 +3,6 @@ import random
 from django.conf import settings
 from django.core.mail import send_mail
 
-from .models import GeneratedPinNumber
-
 
 def send_token_mail(email, token):
     subject = "Verify Your Account"
@@ -17,8 +15,5 @@ def send_token_mail(email, token):
 
 
 def generate_unique_four_digit_number():
-    while True:
         four_digit_number = random.randint(1000, 9999)
-        if not GeneratedPinNumber.objects.filter(pin=four_digit_number).exists():
-            GeneratedPinNumber.objects.create(pin=four_digit_number)
-            return four_digit_number
+        return four_digit_number
