@@ -48,7 +48,13 @@ def sign_up(request):
                 role="U",
                 token=str(generate_unique_four_digit_number()),
             )
-            send_token_mail(email=new_user.email, token=new_user.token)
+            
+            try:
+                send_token_mail(email=new_user.email, token=new_user.token)
+            except:
+                messages.success(request, f"Your pin is {new_user.token}")
+                return redirect("login")
+            
             messages.success(
                 request,
                 "Pin has been sent to your email. Login and enter pin to verify.",
