@@ -176,6 +176,10 @@ class CustomPasswordResetView(PasswordResetView):
 
 @login_required
 def verify_user(request):
+    """
+    User will enter the pin sent to them via email and if the pin is correct user is 
+    verified and can apply for membership.
+    """
     user = request.user
     if request.method == "POST":
         pin = request.POST.get("pin")
@@ -183,7 +187,7 @@ def verify_user(request):
             user.is_verified = True
             user.save()
             messages.success(request, "You have been verified")
-            return redirect("dashboard")
+            return redirect("new_membership_page")
         else:
-            messages.error(request, "Invalid Pin")
+            messages.error(request, "Invalid PIN. Check your mail for correct PIN.")
             return redirect("dashboard")
