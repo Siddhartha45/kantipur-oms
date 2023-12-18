@@ -65,7 +65,7 @@ def institutional_membership(request):
                 request,
                 "Your membership is under review. We will inform you when verified and after that you can do the payment",
             )
-            return redirect("payment")
+            return redirect("institutional_payment")
         else:
             print(form.errors)
             messages.error(request, "Please fill all the fields correctly")
@@ -85,7 +85,7 @@ def general_membership(request):
                 request,
                 "Your membership is under review. We will inform you when verified and after that you can do the payment",
             )
-            return redirect("payment")
+            return redirect("general_payment")
         else:
             messages.error(request, "Please fill all the fields correctly")
             return redirect("new_membership_page")
@@ -103,13 +103,13 @@ def lifetime_membership(request):
                 request,
                 "Your membership is under review. We will inform you when verified and after that you can do the payment",
             )
-            return redirect("payment")
+            return redirect("lifetime_payment")
         else:
             messages.error(request, "Please fill all the fields correctly")
             return redirect("new_membership_page")
 
 
-def payment_page(request):
+def general_payment_page(request):
     if request.method == "POST":
         form = PaymentForm(request.POST, request.FILES)
 
@@ -117,11 +117,38 @@ def payment_page(request):
             Payment.objects.create(user=request.user, **form.cleaned_data)
             return redirect("payment_done_page")
         else:
-            messages.error(request, "Submit Screenshot of your payment.")
-            print(form.errors)
+            messages.error(request, "Process Failed!!. Submit Screenshot of your payment.")
     else:
         form = PaymentForm()
-    return render(request, "mainapp/payment.html")
+    return render(request, "mainapp/general_payment.html")
+
+
+def lifetime_payment_page(request):
+    if request.method == "POST":
+        form = PaymentForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            Payment.objects.create(user=request.user, **form.cleaned_data)
+            return redirect("payment_done_page")
+        else:
+            messages.error(request, "Process Failed!!. Submit Screenshot of your payment.")
+    else:
+        form = PaymentForm()
+    return render(request, "mainapp/lifetime_payment.html")
+
+
+def institutional_payment_page(request):
+    if request.method == "POST":
+        form = PaymentForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            Payment.objects.create(user=request.user, **form.cleaned_data)
+            return redirect("payment_done_page")
+        else:
+            messages.error(request, "Process Failed!!. Submit Screenshot of your payment.")
+    else:
+        form = PaymentForm()
+    return render(request, "mainapp/institutional_payment.html")
 
 
 @csrf_exempt

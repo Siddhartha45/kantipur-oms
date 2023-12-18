@@ -49,11 +49,11 @@ def sign_up(request):
                 token=str(generate_unique_four_digit_number()),
             )
             
-            # try:
-            send_token_mail.delay(new_user.email, new_user.token)
-            # except:
-            #     messages.success(request, f"Your pin is {new_user.token}")
-            #     return redirect("login")
+            try:
+                send_token_mail(new_user.email, new_user.token)
+            except:
+                messages.success(request, f"Your pin is {new_user.token}")
+                return redirect("login")
             
             messages.success(
                 request,

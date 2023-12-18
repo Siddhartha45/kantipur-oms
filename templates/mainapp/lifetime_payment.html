@@ -46,12 +46,12 @@
 
                         <div class="payment-page">
                             <div class="payment-info">
-                                <h3>Please Deposit an amount of Rs. 5000 to continue membership registration. </h3>
+                                <h3>Please Deposit an amount of Rs. 10000 to continue Lifetime Membership registration. </h3>
                                 <h5>Scan the QR below to pay:</h5>
                                 <div class="payment-detail">
                                     <div class="pay-img">
                                         <img src="https://shop.thegoddesszone.com/wp-content/uploads/2023/11/Screenshot-2023-11-27-at-13.00.21-779x1024.png" alt="">
-                                        <form method="post" action="{% url 'payment' %}" enctype="multipart/form-data">
+                                        <form method="post" action="{% url 'lifetime_payment' %}" enctype="multipart/form-data">
                                             {% csrf_token %}
                                             <div class="member-details">
                                                 <div class="member-info2">
@@ -129,7 +129,7 @@
     var btn = document.getElementById("payment-button");
     btn.onclick = function () {
         // minimum transaction amount must be 10, i.e 1000 in paisa.
-        checkout.show({amount: 1000});
+        checkout.show({amount: 1000000});
     }
 </script>
 

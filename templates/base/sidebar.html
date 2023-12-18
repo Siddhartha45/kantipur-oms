@@ -7,7 +7,6 @@
                     <div class="logo">
                         <a href="">
                             <img src="{% static 'images/logo.png' %}" alt="">
-                            
                         </a>
                     </div>
 
@@ -29,8 +28,21 @@
                         {% endif %}
                     {% endif %}
 
-                    
-                    {% if not request.user.role == "U" %}
+                    {% if request.user.role == "U" and request.user.general_and_lifetime_user.membership_type == "G" %}
+                        <a href="{% url 'general_payment' %}" class="left-dash-item">
+                            <p>General Payment</p>
+                        </a>
+                    {% elif request.user.role == "U" and request.user.general_and_lifetime_user.membership_type == "L" %}
+                        <a href="{% url 'lifetime_payment' %}" class="left-dash-item">
+                            <p>Lifetime Payment</p>
+                        </a>
+                    {% elif request.user.role == "U" and request.user.institutional_user %}
+                        <a href="{% url 'institutional_payment' %}" class="left-dash-item">
+                            <p>Institutional Payment</p>
+                        </a>
+                    {% endif %}
+
+                    {% if request.user.role == "A" %}
                     <a href="{% url 'gl_verification_list' %}" class="left-dash-item">
                         <p>GL Verification List</p>
                     </a>
