@@ -9,7 +9,7 @@ from membership.decorators import user_login_check
 
 from .models import CustomUser
 from .forms import SignUpForm, EditProfileForm
-from .utils import send_token_mail, generate_unique_four_digit_number
+from .tasks import send_token_mail, generate_unique_four_digit_number
 
 
 def sign_up(request):
@@ -49,11 +49,11 @@ def sign_up(request):
                 token=str(generate_unique_four_digit_number()),
             )
             
-            try:
-                send_token_mail(email=new_user.email, token=new_user.token)
-            except:
-                messages.success(request, f"Your pin is {new_user.token}")
-                return redirect("login")
+            # try:
+            send_token_mail(new_user.email, new_user.token)
+            # except:
+            #     messages.success(request, f"Your pin is {new_user.token}")
+            #     return redirect("login")
             
             messages.success(
                 request,

@@ -136,10 +136,10 @@
                                                     <h6 class="heading-title">Passed Year:</h6>
                                                 </div>
                                                 <div class="right-field">
-                                                    <p>{{gl.phd_subject}}</p>
-                                                    <p>{{gl.phd_institution}}</p>
-                                                    <p>{{gl.get_phd_country_display}}</p>
-                                                    <p>{{gl.phd_passed_year}}</p>
+                                                    <p>{{gl.phd_subject|default:''}}</p>
+                                                    <p>{{gl.phd_institution|default:''}}</p>
+                                                    <p>{{gl.get_phd_country_display|default:''}}</p>
+                                                    <p>{{gl.phd_passed_year|default:''}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -222,9 +222,10 @@
                                         <button type="submit" class="btn btn-primary">Verify</button>
                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Recheck</button>
                                     </div>
-                                {% endif %}
-                        
                                 </form>
+                                
+                                <p>The latest membership no is "{{latest_membership_no}}"</p>
+                                {% endif %}
                             
                             <form action="{% url 'reject_gl_membership' id=gl.id %}" method="post">
                                 {% csrf_token %}

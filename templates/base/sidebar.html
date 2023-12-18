@@ -1,3 +1,4 @@
+{% load static %}
 <section id="left-dash">
     <div class="row">
         <div class="left-dash">
@@ -5,7 +6,8 @@
                 <div class="left-dash-upper">
                     <div class="logo">
                         <a href="">
-                            {{request.user.first_name|upper}}
+                            <img src="{% static 'images/logo.png' %}" alt="">
+                            
                         </a>
                     </div>
 

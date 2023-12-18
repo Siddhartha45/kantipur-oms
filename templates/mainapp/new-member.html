@@ -66,7 +66,7 @@
                                             <div class="member-info">
                                                 <p class="required">Name of Applicant</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="name_of_applicant" id="name" placeholder="Enter your name" required>
+                                                    <input type="text" name="name_of_applicant" id="name" placeholder="Enter your name" value="{{request.user.full_name}}" required>
                                                 </div>
                                             </div>
                                             <div class="member-info">
@@ -255,7 +255,7 @@
                                             </div>
 
                                             <div class="member-info2">
-                                                <p class="required">Any highest degree certificate or verified work experience letter</p>
+                                                <p class="required">Any highest degree certificate or (Document that certifies you are eligible for NGS Membership)</p>
                                                 <div class="inner-image">
                                                     <input type="file" name="masters_document" id="masterdoc" accept="image/*" required>
                                                 </div>
@@ -266,7 +266,7 @@
                                         <h3>4. Work Experience</h3>
                                         <div class="member-details">
                                             <div class="member-info">
-                                                <p class="required">Brief Description</p>
+                                                <p class="required">Field of Expertise</p>
                                                 <div class="member-info">
                                                     <textarea name="work_experience" id="brief-des" cols="10" rows="5"></textarea>
                                                 </div>
@@ -290,7 +290,7 @@
                                             <div class="member-info">
                                                 <p class="required">Name of Applicant</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="name_of_applicant" id="name" placeholder="Enter your name" required>
+                                                    <input type="text" name="name_of_applicant" id="name" placeholder="Enter your name" value="{{request.user.full_name}}" required>
                                                 </div>
                                             </div>
                                             <div class="member-info">
@@ -479,7 +479,7 @@
                                             </div>
 
                                             <div class="member-info2">
-                                                <p class="required">Masters Documents</p>
+                                                <p class="required">Any highest degree certificate or (Document that certifies you are eligible for NGS Membership)</p>
                                                 <div class="inner-image">
                                                     <input type="file" name="masters_document" id="masterdoc" accept="image/*" required>
                                                 </div>
@@ -490,7 +490,7 @@
                                         <h3>4. Work Experience</h3>
                                         <div class="member-details">
                                             <div class="member-info">
-                                                <p class="required">Brief Description</p>
+                                                <p class="required">Field of Expertise</p>
                                                 <div class="member-info">
                                                     <textarea name="work_experience" id="brief-des" cols="10" rows="5"></textarea>
                                                 </div>

@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ObjectDoesNotExist
 
 from pprint import pprint
 
@@ -166,7 +167,13 @@ def general_and_lifetime_membership_verification_list(request):
 
 def general_and_lifetime_membership_verification_page(request, id):
     general_or_lifetime_object = get_object_or_404(GeneralAndLifetimeMembership, id=id)
-    context = {"gl": general_or_lifetime_object}
+    
+    try:
+        latest_membership_no = GeneralAndLifetimeMembership.objects.filter(verification=True).latest("created_at").membership_no
+    except GeneralAndLifetimeMembership.DoesNotExist:
+        latest_membership_no = "There is no membership no."
+
+    context = {"gl": general_or_lifetime_object, "latest_membership_no": latest_membership_no}
     return render(request, "mainapp/gl-verification-page.html", context)
 
 
