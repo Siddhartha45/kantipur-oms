@@ -45,16 +45,16 @@ body {
 .logo {
   display: flex;
   width: auto;
-  padding: 0px 25px 10px 15px;
+  padding:10px;
   align-items: center;
   flex-shrink: 0;
   border-radius: 6px;
-  background: var(--Pra-Yellow);
+  /* background: var(--Pra-Yellow); */
   justify-content: center;
 }
 
 .logo img {
-  width: 100px;
+  width: 125px;
 }
 
 .logo:hover {
@@ -1395,14 +1395,23 @@ a.complain1 {
 
 /* Login Page */
 
-.login-left {
-
-  background: var(--Pra-Yellow);
-  text-align: end;
+#login-page {
+  height: 100vh;
 }
 
-.login-left svg {
-  margin-right: -60px;
+.login-left {
+  padding: 50px;
+  background: var(--Pra-Yellow);
+  /* text-align: end; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center; 
+}
+
+
+.login-left img{
+  border-radius: 10px;
 }
 
 .login-logo {
@@ -1411,7 +1420,7 @@ a.complain1 {
 
 .login-right {
   display: flex;
-  padding: 84px 140px;
+  padding: 100px 140px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -1622,7 +1631,7 @@ a.login-social {
 .copyright-login {
   display: flex;
   padding: 15px 0px;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
   align-self: stretch;
@@ -1637,6 +1646,28 @@ a.login-social {
   font-weight: 300;
   line-height: normal;
   margin-bottom: 0px;
+}
+
+.kantipur {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.copyright-login h3 {
+  color: var(--Pra-White);
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  margin-bottom: 0px;
+}
+
+.copyright {
+  width: 50%;
+  text-align: center;
 }
 
 /* Register Page */
@@ -1654,7 +1685,7 @@ a.login-social {
 }
 
 .register-content {
-  transform: translate(0%, 20%);
+  transform: translate(0%, 10%);
   margin-right: auto;
   margin-left: auto;
   display: flex;
@@ -2475,8 +2506,24 @@ h4.edu-head {
 table.dataTable tbody tr:nth-child(even) {
   background-color: #FCD12A !important;
 }
+
+table.dataTable{
+  padding: 10px 0px;
+}
+
 div#example_wrapper {
   padding: 21px;
+}
+
+table.dataTable  th{
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  text-align: center !important;
+}
+
+
+table.dataTable  td{
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 /* general */
@@ -2668,7 +2715,7 @@ input#membership {
 		gap: 5px !important;
     padding-top: 0px !important;
     display: flex !important;
-    flex-direction: column-reverse !important;
+    flex-direction: column!important;
 	}
 
   .login-media {
@@ -2701,6 +2748,7 @@ input#membership {
 	.left-dash-content {
 		border-radius: 0px !important;
     position: static !important;
+    height: 100%;
 	}
 
 	.dashboard-content {
@@ -3075,5 +3123,17 @@ input#membership {
 
   h6.heading-title {
     margin-top: 15px;
+  }
+
+  .left-dash-upper {
+    width: 100%;
+  }
+
+  .general-table {
+    overflow-x: scroll;
+  }
+
+  div#example_wrapper {
+    padding: 0px !important;
   }
 }
