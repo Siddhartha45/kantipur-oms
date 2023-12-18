@@ -50,7 +50,7 @@ def sign_up(request):
             )
             
             # try:
-            send_token_mail(new_user.email, new_user.token)
+            send_token_mail.delay(new_user.email, new_user.token)
             # except:
             #     messages.success(request, f"Your pin is {new_user.token}")
             #     return redirect("login")
