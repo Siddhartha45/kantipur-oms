@@ -49,9 +49,11 @@ body {
   align-items: center;
   flex-shrink: 0;
   border-radius: 6px;
-  /* background: var(--Pra-Yellow); */
+  background: #fff;
   justify-content: center;
 }
+
+
 
 .logo img {
   width: 125px;
