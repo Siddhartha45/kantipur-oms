@@ -1,14 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
-body{
-  font-family:poppins!important;
-}
+@import url('https://fonts.googleapis.com/css2?family=Kalnia:wght@100;200;300;400;500;600;700&display=swap');
+
 
 
 * {
   /* border: 1px solid red; */
   box-sizing: border-box;
+  font-family:poppins!important;
 }
 
 :root {
@@ -17,6 +17,9 @@ body{
   --TextColor: #58667e;
   --Pra-White: #ffffff;
   --Pra-Black: #000000;
+  --Member-card: #223f99;
+  --logo-primary: #9fa54a;
+  --logo-secondary: #871618;
 }
 
 body {
@@ -45,16 +48,21 @@ body {
 .logo {
   display: flex;
   width: auto;
-  height: 60px;
-  padding: 0px 25px 10px 15px;
+  padding:10px;
   align-items: center;
   flex-shrink: 0;
   border-radius: 6px;
-  background: var(--Pra-Yellow);
+  background: #fff;
+  justify-content: center;
+}
+
+
+
+.logo img {
+  width: 125px;
 }
 
 .logo:hover {
-  background: #231f20;
   transition: all 0.3s ease-in-out;
 }
 
@@ -178,20 +186,6 @@ body {
   gap: 10px;
 }
 
-.mid-part .inner-box {
-  display: flex;
-  height: 528px;
-  padding: 100px 120px 100px 100px;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 16px;
-  background: url(https://s3-alpha-sig.figma.com/img/7b85/7457/d75e7454722401cfb765b47fc98a8487?Expires=1693180800&Signature=ooMTFTbVa7DY-n~nz4y2AnIvV1GRivF6zfQ8nGAE6tqklp0XufR3e8tribnOzD0H6OtyA2HJl2~IboLvHhn29LxEoKKfzZwGHmECcXQH-h2O6DFOqMaDPPH51Xhnos3HBw6luI8~XiZ82NTBNaMFeKEfPCnjVFYsvdZHv9DBvShO-tBbRSKvwolL7C525zJMVNIShQxLBuAv5fp5ELFp-WGGncgyvj0UTTgGltkG3ncASlsWJktNp~fShGPC6x7AgEMuB2lfMwM4UsgXnfgRvDyO8KAeM~Beaz13RZ7hZgtUKxmj79pcbrQcGyxoy0BKkxjYnmKp9Lk5c34iF-3Cpg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4),
-    linear-gradient(192deg, #ffd200 0%, #fbb715 100%);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-blend-mode: color-burn, normal;
-  position: relative;
-}
 
 .mid-part .change-color {
   background-color: lightgray;
@@ -780,9 +774,10 @@ a.left-dash-item {
 
 .right-dash-buttons button:hover {
   background: #000;
+  color: #fff;
 }
 
-.right-dash-buttons button a {
+.right-dash-buttons a {
   color: var(--Pra-White);
   font-feature-settings: "calt" off, "liga" off;
   
@@ -794,14 +789,20 @@ a.left-dash-item {
 }
 
 #dashboard .mid-part {
+  width: 100%;
   padding: 0px;
   border-radius: 16px;
 }
 
 #dashboard .mid-part .inner-box {
+  display: flex;
+  justify-content: center;
   width: auto;
   height: auto;
-  padding: 50px;
+  padding: 40px;
+  background: url(https://s3-alpha-sig.figma.com/img/7b85/7457/d75e7454722401cfb765b47fc98a8487?Expires=1693180800&Signature=ooMTFTbVa7DY-n~nz4y2AnIvV1GRivF6zfQ8nGAE6tqklp0XufR3e8tribnOzD0H6OtyA2HJl2~IboLvHhn29LxEoKKfzZwGHmECcXQH-h2O6DFOqMaDPPH51Xhnos3HBw6luI8~XiZ82NTBNaMFeKEfPCnjVFYsvdZHv9DBvShO-tBbRSKvwolL7C525zJMVNIShQxLBuAv5fp5ELFp-WGGncgyvj0UTTgGltkG3ncASlsWJktNp~fShGPC6x7AgEMuB2lfMwM4UsgXnfgRvDyO8KAeM~Beaz13RZ7hZgtUKxmj79pcbrQcGyxoy0BKkxjYnmKp9Lk5c34iF-3Cpg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4),
+    linear-gradient(192deg, #ffd200 0%, #fbb715 100%);
+    border-radius: 10px;
 }
 
 #dashboard .mid-part-back {
@@ -1400,14 +1401,23 @@ a.complain1 {
 
 /* Login Page */
 
-.login-left {
-  
-  background: var(--Pra-Yellow);
-  text-align: end;
+#login-page {
+  height: 100vh;
 }
 
-.login-left svg {
-  margin-right: -60px;
+.login-left {
+  padding: 50px;
+  background: var(--Pra-Yellow);
+  /* text-align: end; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center; 
+}
+
+
+.login-left img{
+  border-radius: 10px;
 }
 
 .login-logo {
@@ -1416,7 +1426,7 @@ a.complain1 {
 
 .login-right {
   display: flex;
-  padding: 84px 140px;
+  padding: 100px 140px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -1627,7 +1637,7 @@ a.login-social {
 .copyright-login {
   display: flex;
   padding: 15px 0px;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
   align-self: stretch;
@@ -1644,6 +1654,28 @@ a.login-social {
   margin-bottom: 0px;
 }
 
+.kantipur {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.copyright-login h3 {
+  color: var(--Pra-White);
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  margin-bottom: 0px;
+}
+
+.copyright {
+  width: 50%;
+  text-align: center;
+}
+
 /* Register Page */
 
 #register-page {
@@ -1655,11 +1687,15 @@ a.login-social {
 }
 
 .position-manage {
-  min-height: 93.85vh;
+  min-height: 92.5vh;
+}
+
+.position-manage2 {
+  min-height: 91.5vh;
 }
 
 .register-content {
-  transform: translate(0%, 20%);
+  transform: translate(0%, 10%);
   margin-right: auto;
   margin-left: auto;
   display: flex;
@@ -1773,11 +1809,11 @@ a.login-social {
 }
 
 .forget-box {
-  transform: translate(0%, 17%);
+  transform: translate(0%, 10%);
   margin: auto;
   display: flex;
   width: 600px;
-  padding: 100px 75px;
+  padding: 60px 75px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -2093,7 +2129,7 @@ a.login-social {
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  height: 25px;
+  height: 70px;
   margin-bottom: 0px;
 }
 
@@ -2269,6 +2305,10 @@ h4.edu-head {
   color: var(--TextColor);
 } 
 
+.pay-img {
+  margin-right: 20px;
+}
+
 .pay-img img {
   height: 400px;
   margin: 20px 0px;
@@ -2276,12 +2316,7 @@ h4.edu-head {
 
 .payment-detail {
   display: flex;
-  align-items: center;
   justify-content: start;
-}
-
-.payment-page form {
-  margin-left: 50px;
 }
 
 .payment-page form button {
@@ -2298,6 +2333,35 @@ h4.edu-head {
 .payment-page form button:hover {
   color: var(--Pra-White);
   background: var(--Pra-Black);
+}
+
+/* Added Code */
+
+.pay-img {
+  display: flex;
+  flex-direction: column;
+}
+
+.pay-khalti {
+  border-left: 1px solid #e4e4e4;
+}
+
+.pay-khalti img{
+    width: 200px;
+    padding: 20px;
+    margin-left: 20px;
+    border: 1px solid var(--Pra-Yellow);
+    border-radius: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+.pay-khalti img:hover {
+  background: #fff2cb;
+}
+
+
+.pay-khalti h3 {
+  text-align: center;
 }
 
 /* Eye Code */
@@ -2358,6 +2422,570 @@ h4.edu-head {
 .news-pop button:hover {
       background: var(--Pra-Black);
 }
+
+/* Change Password */
+.change-password {
+  border-radius: 6px;
+  padding: 25px;
+  background: #fff;
+  margin-top: 20px;
+}
+
+
+/* Membership Card */
+
+.member-card {
+  justify-content: flex-start;
+  background: #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 2px solid var(--Member-card);
+  padding: 10px;
+}
+
+.card-first {
+  padding: 25px 0px;
+}
+
+.card-first h3 {
+  margin: 0px !important;
+  writing-mode: vertical-rl; 
+  transform: rotate(180deg);
+  font-size: 18px;
+  font-weight: 700;
+  padding-bottom: 17px;
+  padding-top: 17px;
+  padding-left: 5px;
+  color: var(--Member-card);
+  border-left: 4px solid var(--Member-card);
+}
+
+.card-second {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  margin-left: 10px;
+  gap: 20px;
+}
+
+.top-card {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+}
+
+.top-card img {
+  width: 80px;
+  height: 70px;
+}
+
+.top-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.top-card h3 {
+  font-size: 23px;
+  color: var(--logo-primary);
+  font-family: Kalnia !important;
+  font-weight: 600;
+}
+
+
+.top-card h2 {
+  font-size: 18px;
+  color: var(--logo-secondary);
+  font-family: Kalnia !important;
+  font-weight: 600;
+  margin-bottom: 0px;
+}
+
+.top-card p {
+  margin-bottom: 0px;
+  color: var(--Member-card);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.middle-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 20px;
+  align-items: center;
+}
+
+.middle-card img {
+  min-width: 85px;
+  max-width: 90px;
+  border-radius: 10px;
+  max-height: 105px;
+  min-height: 100px;
+}
+
+.card-user {
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.card-user h3 {
+  margin-bottom: 0px;
+  text-transform: uppercase;
+    letter-spacing: 0.2px;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--Member-card);
+}
+
+.card-user p {
+  margin-bottom: 0px;
+  color: var(--Member-card);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.end-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: end;
+  gap: 10px;
+  margin-top: -50px;
+}
+
+.end-first p {
+  margin-left: -10px;
+  margin-bottom: 0px;
+  font-weight: 600;
+  font-size: 8px;
+  color: var(--Member-card);
+}
+
+.end-second {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.end-second p {
+  margin-bottom: 0px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--Member-card);
+}
+
+/* Table */
+
+/* table */
+
+
+table.dataTable tbody tr:nth-child(even) {
+  background-color: #FCD12A !important;
+}
+
+table.dataTable{
+  padding: 10px 0px;
+}
+
+div#example_wrapper {
+  padding: 21px;
+}
+
+table.dataTable  th{
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  text-align: center !important;
+}
+
+
+table.dataTable  td{
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+/* general */
+
+.general-table {
+  margin-bottom: 20px;
+  border-radius: 6px;
+  padding: 25px;
+  background: #fff;
+  margin-top: 20px;
+}
+
+.fi p {
+  margin-bottom: 13px;
+  margin-left: 13px;
+  font-size: 14px;
+}
+.lefti {
+  display: flex;
+}
+.righti {
+  display: flex;
+}
+.card-body.fi {
+  display: flex;
+  justify-content: space-around;
+}
+h5.degree {
+  text-decoration: underline;
+}
+h6.heading-title {
+  margin-bottom: 15px;
+}
+
+.card.card-struture {
+
+  margin-top: 20px;
+}
+h6.verfication-text {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 700;
+}
+label.form-label {
+  font-size: 15px;
+  font-weight: 600;
+}
+input#membership {
+  width: 40%;
+}
+
+/* institutional  */
+
+.docu {
+  margin-right: 20px;
+}
+
+.work-exp .card-body .fi{
+    justify-content: start !important;
+}
+
+.experience {
+  justify-content: start !important;
+  margin-left: 30px;
+}
+
+.institute-manage {
+  flex-direction: column !important;
+}
+
+.institute-manage .lefti {
+  justify-content: space-between !important;
+  padding-bottom: 10px;
+}
+
+
+.institute-manage .righti {
+  margin-top: 10px;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid var(--bs-card-color);
+}
+
+.docu img{
+  max-width: 170px;
+  overflow: hidden;
+}
+
+.doc img {
+  max-width: 170px;
+  overflow: hidden;
+}
+
+.citizen-img  img{
+  min-height: 190px;
+  max-height: 200px;
+  max-width: 300px;
+}
+
+/* Index Section */
+/* Header */
+
+header {
+  border-bottom: 1px solid var(--Border1);
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 40px;
+  padding: 30px 30px 20px;
+  
+}
+
+.header-middle img {
+  max-height: 100px;
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+.header-first img{
+  max-height: 100px;
+  max-width: 100%;
+}
+
+
+/* main-hero */
+
+.card-img{
+  width: 100%;
+  /* filter: brightness(0.5); */
+  height: 500px;
+  object-fit: cover;
+  background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.73)),
+    url('../image/banner2.jpg');
+    
+}
+
+#main-hero .card {
+  border: none !important;
+  border-radius: 0px;
+  width: 100%;
+  background: rgba(255, 255, 244, 0.7);
+}
+
+.card-title {
+  font-size: 50px;
+  align-items: center;
+  text-align: center;
+}
+
+.card-title b {
+  font-family: Kalnia !important;
+}
+
+.card-img-overlay {
+  top: 270px !important; 
+}
+
+
+/* Home Button */
+
+.main-but {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 20px;
+    align-self: stretch;
+    flex-wrap: wrap;
+    padding: 30px;
+}
+
+.button-home a {
+  text-decoration: none;
+}
+
+.button-home button {
+  height: 100px;
+  width: 300px;
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background: var(--Pra-Yellow);
+    color: var(--Pra-Black);
+    border: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.button-home button:hover {
+  background: var(--Pra-Black);
+  color: var(--Pra-White);
+}
+
+
+/* Footer */
+.copyright-login1 {
+  display: flex;
+  padding: 15px 0px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  background: var(--Pra-Black);
+}
+
+.copyright-login1 p {
+  color: var(--Pra-White);
+  font-family: Poppins;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  margin-bottom: 0px;
+}
+
+.kantipur1 {
+  margin-right: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.copyright-login1 h3 {
+  color: var(--Pra-White);
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  margin-bottom: 0px;
+}
+
+.copyright1 {
+  width: 50%;
+  text-align: center;
+}
+
+
+/* Guidelines */
+
+
+#guidelines {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.guide {
+  padding: 30px;
+}
+
+.guide p{
+  font-size: 18px;
+  line-height: normal;
+  margin-bottom: 16px;
+  color: var(--TextColor);
+}
+
+.guide ol {
+  font-size: 18px;
+  line-height: normal;
+  margin-bottom: 16px;
+  color: var(--TextColor);
+}
+
+.guide table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.guide table th:first-child {
+  width: 300px;
+}
+
+
+
+.guide table th {
+     background-color: var(--Pra-Yellow);;
+    color: var(--Pra-Black);
+    vertical-align: middle;
+    word-break: normal;
+    font-weight: 600;
+    padding: 10px;
+    height: 50px;
+    text-align: center;
+}
+
+.guide table td {
+  color: var(--TextColor);
+  vertical-align: middle;
+  word-break: normal;
+  font-weight: 500;
+  height: 50px;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+.guide .odd:hover {
+  background-color: #f3f3f3;
+}
+
+.guide .even {
+  background: #f9f9f9;
+}
+
+.guide .even:hover {
+  background: #f3f3f3;
+}
+
+.guide .odd b {
+  color: var(--Pra-Black) !important;
+}
+
+.guide .even b {
+  color: var(--Pra-Black) !important;
+}
+
+.guide a {
+  color: var(--TextColor);
+}
+
+.guide a:hover {
+  color: var(--Pra-Yellow);
+}
+
+.main-heading {
+  padding: 0px 30px;
+}
+
+
+.main-heading h3 {
+  margin: 20px 0px;
+  color: #9ca54f;
+}
+
+/* Member View */
+/* table */
+
+#public-view table th {
+  border: 1px solid var(--Border1);
+  text-align: center;
+}
+
+#public-view table td {
+  border: 1px solid var(--Border1);
+  text-align: center;
+}
+
+#public-view table {
+    padding: 20px 0px;
+}
+
+table.dataTable tbody tr:nth-child(even) {
+  background-color: var(--Pra-Yellow) !important;
+}
+div#example_wrapper {
+  padding: 21px;
+}
+
+#public-view table img {
+  max-width: 70px;
+  max-height: 70px;
+  display: block;
+  margin: 0 auto;
+}
+
+#public-view table a {
+  color: var(--Pra-Black);
+}
+
+.end-second 
+
 
 
 /* Responsive */
@@ -2437,10 +3065,6 @@ h4.edu-head {
 		height: auto !important;
 	}
 
-	#dashboard .mid-part {
-		display: none !important;
-	}
-
 	.complain {
 		justify-content: space-between;
 		gap: 10px !important;
@@ -2456,7 +3080,7 @@ h4.edu-head {
 		gap: 5px !important;
     padding-top: 0px !important;
     display: flex !important;
-    flex-direction: column-reverse !important;
+    flex-direction: column!important;
 	}
 
   .login-media {
@@ -2464,7 +3088,8 @@ h4.edu-head {
   }
 
 	.right-dash {
-		padding: 25px 25px 25px 10px !important;
+    margin-top: 35px;
+		padding: 25px !important;
 	}
 
 	#left-dash .offcanvas {
@@ -2488,6 +3113,7 @@ h4.edu-head {
 	.left-dash-content {
 		border-radius: 0px !important;
     position: static !important;
+    height: 100%;
 	}
 
 	.dashboard-content {
@@ -2727,7 +3353,7 @@ h4.edu-head {
 	}
 	
   .dash-middle-content {
-    display: block !important;
+    flex-direction: column-reverse !important;
   }
 
   .main-mid-complain-content {
@@ -2818,4 +3444,124 @@ h4.edu-head {
   .news-pop {
     width: 100%;
   }
+
+  /* Added */
+  .pay-khalti {
+    border: none;
+    margin-top: 20px;
+  }
+
+  .payment-detail {
+    align-items: center;
+  }
+
+  #dashboard .mid-part {
+    margin-top: 20px;
+  }
+
+  .member-card {
+    width: 100%;
+  }
+
+  #dashboard .mid-part .inner-box {
+    padding: 0px;
+  }
+
+  .card-body.fi {
+    flex-direction: column;
+  }
+
+  .institute-manage .lefti {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .institute-manage .righti {
+    flex-direction: column;
+  }
+
+  .doc .right-field {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h6.heading-title {
+    margin-top: 15px;
+  }
+
+  .left-dash-upper {
+    width: 100%;
+  }
+
+  .general-table {
+    overflow-x: scroll;
+  }
+
+  div#example_wrapper {
+    padding: 0px !important;
+  }
+
+  .header {
+    flex-direction: column !important;
+    padding: 5px !important;
+  }
+
+  .card-title {
+    font-size: 35px !important;
+  }
+
+  .main-but {
+    justify-content: center !important;
+  }
+
+  #guidelines {
+    width: 95% !important;
+  }
+
+  .guide {
+    padding: 0px !important;
+  }
+
+  .guide table th:first-child {
+    width: auto !important;
+  }
+
+  div#example_wrapper {
+    overflow-x: scroll !important;
+  }
+
+  .card-user h3{
+    font-size: 16px;
+  }
+
+  .top-card h3 {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .card-second{
+    gap: 10px;
+  }
+
+  .middle-card img {
+    min-width: 75px;
+    max-width: 80px;
+    border-radius: 10px;
+    max-height: 95px;
+    min-height: 90px;
 }
+
+.end-second p {
+  font-size: 10px;
+}
+
+.top-card h2 {
+  font-size: 16px;
+}
+
+.end-card {
+  margin-top: -20px !important;
+}
+}
+
