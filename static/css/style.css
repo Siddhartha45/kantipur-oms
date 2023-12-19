@@ -17,6 +17,9 @@
   --TextColor: #58667e;
   --Pra-White: #ffffff;
   --Pra-Black: #000000;
+  --Member-card: #223f99;
+  --logo-primary: #9fa54a;
+  --logo-secondary: #871618;
 }
 
 body {
@@ -2432,78 +2435,119 @@ h4.edu-head {
 /* Membership Card */
 
 .member-card {
-  background: linear-gradient(20deg, #000, var(--Pra-Yellow));
-  width: 65%;
+  justify-content: flex-start;
+  background: #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 2px solid var(--Member-card);
+  padding: 10px;
+}
+
+
+
+.card-first h3 {
+  margin: 0px !important;
+  writing-mode: vertical-rl; 
+  transform: rotate(180deg);
+  font-size: 18px;
+  font-weight: 700;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  padding-left: 5px;
+  color: var(--Member-card);
+  border-left: 4px solid var(--Member-card);
+}
+
+.card-second {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  border: 1px solid var(--TextColor);
-  border-radius: 10px;
-  padding: 20px;
-}
-
-.member-card-top {
-  margin-bottom: 20px;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.card-logo img {
-  width: 70px;
-}
-
-.card-no {
-  width: 100%;
-  text-align: center;
-}
-
-.card-no h3 {
-  margin-bottom: 0px;
-  font-size: 22px;
-  text-transform: uppercase;
-}
-
-.member-mid {
-  display: flex;
-  flex-direction: row;
   justify-content: space-between;
   width: 100%;
-}
-
-.member-image {
-  height: max-content;
-  padding: 10px;
-  margin-right:20px;
-  background: #fff;
-  border-radius: 10px;
-}
-
-.member-image img {
-  width: 100px;
-  border-radius: 10px;
-}
-
-.member-dash {
-  width: 100%;
-}
-
-.sub-detail {
-  padding: 5px;
-  background: #fff;
-  border-radius: 10px;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.sub-detail p {
+  height: 100%;
   margin-left: 10px;
-  margin-bottom: 0px;
-  font-size: 14px;
+  gap: 20px;
 }
 
+.top-card {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+}
+
+.top-card img {
+  width: 80px;
+  height: 70px;
+}
+
+.top-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.top-card h3 {
+  font-size: 23px;
+  color: var(--logo-primary);
+  font-family: Kalnia !important;
+  font-weight: 600;
+}
+
+
+.top-card h2 {
+  font-size: 18px;
+  color: var(--logo-secondary);
+  font-family: Kalnia !important;
+  font-weight: 600;
+  margin-bottom: 0px;
+}
+
+.top-card p {
+  margin-bottom: 0px;
+  color: var(--Member-card);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.middle-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10px;
+  align-items: center;
+}
+
+.middle-card img {
+  min-width: 85px;
+  max-width: 90px;
+  border-radius: 10px;
+  max-height: 105px;
+  min-height: 100px;
+}
+
+.card-user {
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.card-user h3 {
+  margin-bottom: 0px;
+  text-transform: uppercase;
+    letter-spacing: 0.2px;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--Member-card);
+}
+
+.card-user p {
+  margin-bottom: 0px;
+  color: var(--Member-card);
+  font-size: 14px;
+  font-weight: 600;
+}
 
 /* Table */
 
