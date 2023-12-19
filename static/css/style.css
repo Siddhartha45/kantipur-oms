@@ -8,7 +8,7 @@
 * {
   /* border: 1px solid red; */
   box-sizing: border-box;
-  font-family: Poppins !important;
+  
 }
 
 :root {
@@ -24,6 +24,7 @@
 
 body {
   background: #eef2f6;
+  font-family: Poppins !important;
 }
 
 /* Nav Bar */
