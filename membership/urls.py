@@ -15,8 +15,10 @@ urlpatterns = [
     ),
     path("general-membership/", views.general_membership, name="general_membership"),
     path("lifetime-membership/", views.lifetime_membership, name="lifetime_membership"),
+    path("student-membership/", views.student_membership, name="student_membership"),
     path("general-payment/", views.general_payment_page, name="general_payment"),
     path("lifetime-payment/", views.lifetime_payment_page, name="lifetime_payment"),
+    path("student-payment/", views.student_payment_page, name="student_payment"),
     path(
         "institutional-payment/",
         views.institutional_payment_page,
@@ -63,6 +65,11 @@ urlpatterns = [
         "edit-gl-membership/<int:id>/",
         views.edit_gl_membership,
         name="edit_gl_membership",
+    ),
+    path(
+        "edit-student-membership/<int:id>/",
+        views.edit_student_membership,
+        name="edit_student_membership",
     ),
     path(
         "reject-institutional-membership/<int:id>/",

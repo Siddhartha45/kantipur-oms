@@ -12,7 +12,17 @@ class InstitutionalMembershipForm(forms.ModelForm):
 class GeneralAndLifetimeMembershipForm(forms.ModelForm):
     class Meta:
         model = GeneralAndLifetimeMembership
-        exclude = ["created_by", "membership_type", "remarks", "verified_date"]
+        exclude = [
+            "created_by",
+            "membership_type",
+            "remarks",
+            "verified_date",
+            "level",
+            "institution",
+            "country_of_institution",
+            "expected_pass_year",
+            "college_id_card",
+        ]
 
 
 class PaymentForm(forms.ModelForm):
@@ -34,6 +44,8 @@ class InstitutionalMembershipEditForm(forms.ModelForm):
             "working_field",
             "contact_person",
             "contact_number",
+            "website",
+            "logo",
         ]
 
 
@@ -74,3 +86,25 @@ class VerificationForm(forms.Form):
 
 class RejectMembershipForm(forms.Form):
     remarks = forms.CharField()
+
+
+class StudentMembershipForm(forms.ModelForm):
+    class Meta:
+        model = GeneralAndLifetimeMembership
+        fields = [
+            "name_of_applicant",
+            "dob",
+            "gender",
+            "nationality",
+            "issued_from",
+            "permanent_address",
+            "affiliation",
+            "citizenship_card_no",
+            "pp_photo",
+            "citizenship",
+            "college_id_card",
+            "level",
+            "institution",
+            "country_of_institution",
+            "expected_pass_year",
+        ]

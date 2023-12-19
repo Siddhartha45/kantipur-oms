@@ -49,6 +49,14 @@ class GeneralAndLifetimeMembership(models.Model):
     remarks = models.TextField(blank=True, null=True)
     rejected = models.BooleanField(default=False)
     verified_date = models.DateTimeField(blank=True, null=True)
+    #for students
+    level = models.CharField(max_length=1, choices=choices.STUDENT_LEVEL_CHOICES, blank=True, null=True)
+    institution = models.CharField(max_length=250, blank=True, null=True)
+    country_of_institution = models.CharField(
+        max_length=2, choices=choices.COUNTRY_CHOICES, blank=True, null=True
+    )
+    expected_pass_year = models.CharField(max_length=4, blank=True, null=True)
+    college_id_card = models.ImageField(upload_to="students")
 
     def __str__(self):
         return self.name_of_applicant
@@ -73,6 +81,8 @@ class InstitutionalMembership(models.Model):
     remarks = models.TextField(blank=True, null=True)
     rejected = models.BooleanField(default=False)
     verified_date = models.DateTimeField(blank=True, null=True)
+    website = models.CharField(max_length=250)
+    logo = models.ImageField(upload_to="institutional_documents")
 
     def __str__(self):
         return self.company_name

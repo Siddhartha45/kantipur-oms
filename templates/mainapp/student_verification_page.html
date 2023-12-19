@@ -94,57 +94,18 @@
                                     </div>
                                     <div class="card-body fi">
                                         <div class="legh">
-                                            <h5 class="degree"><span>BE</span> / <span>Equivalent</span></h5>
                                             <div class="lefti">
                                                 <div class="left-field">
-                                                    <h6 class="heading-title">Subject:</h6>
+                                                    <h6 class="heading-title">Level:</h6>
                                                     <h6 class="heading-title">Institution:</h6>
-                                                    <h6 class="heading-title">Country:</h6>
-                                                    <h6 class="heading-title">Passed Year:</h6>
+                                                    <h6 class="heading-title">Country of Institution:</h6>
+                                                    <h6 class="heading-title">Expected Passed Year:</h6>
                                                 </div>
                                                 <div class="right-field">
-                                                    <p>{{gl.be_subject}}</p>
-                                                    <p>{{gl.be_institution}}</p>
-                                                    <p>{{gl.get_be_country_display}}</p>
-                                                    <p>{{gl.be_passed_year}}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                        
-                                        <div class="legh">
-                                            <h5 class="degree"><span>ME</span> / <span>Equivalent</span></h5>
-                                            <div class="righti">
-                                                <div class="left-field">
-                        
-                                                    <h6 class="heading-title">Subject:</h6>
-                                                    <h6 class="heading-title">Institution:</h6>
-                                                    <h6 class="heading-title">Country:</h6>
-                                                    <h6 class="heading-title">Passed Year:</h6>
-                                                </div>
-                                                <div class="right-field">
-                        
-                                                    <p>{{gl.me_subject}}</p>
-                                                    <p>{{gl.me_institution}}</p>
-                                                    <p>{{gl.get_me_country_display}}</p>
-                                                    <p>{{gl.me_passed_year}}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                        
-                                        <div class="legh">
-                                            <h5 class="degree"><span>PHD</span> / <span>Equivalent</span></h5>
-                                            <div class="righti">
-                                                <div class="left-field">
-                                                    <h6 class="heading-title">Subject:</h6>
-                                                    <h6 class="heading-title">Institution:</h6>
-                                                    <h6 class="heading-title">Country:</h6>
-                                                    <h6 class="heading-title">Passed Year:</h6>
-                                                </div>
-                                                <div class="right-field">
-                                                    <p>{{gl.phd_subject|default:''}}</p>
-                                                    <p>{{gl.phd_institution|default:''}}</p>
-                                                    <p>{{gl.get_phd_country_display|default:''}}</p>
-                                                    <p>{{gl.phd_passed_year|default:''}}</p>
+                                                    <p>{{gl.level}}</p>
+                                                    <p>{{gl.institution}}</p>
+                                                    <p>{{gl.get_country_of_institution_display}}</p>
+                                                    <p>{{gl.expected_pass_year}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -175,7 +136,7 @@
                                                 <h6 class="heading-title">Citizenship:</h6>
                         
                                             </div>
-                                            <div class="right-field citizen-img">
+                                            <div class="right-field">
                                                 <span>
                                                     <a href="{{gl.citizenship.url}}" data-fancybox data-caption="Citizenship">
                                                         <img src="{{gl.citizenship.url}}" />
@@ -185,39 +146,17 @@
                                         </div>
                                         <div class="doc">
                                             <div class="left-field">
-                                                <h6 class="heading-title">Masters Documents:</h6>
+                                                <h6 class="heading-title">College ID Card:</h6>
                         
                                             </div>
                                             <div class="right-field">
                                                 <span>  
-                                                    <a href="{{gl.masters_document.url}}" data-fancybox data-caption="Document">
-                                                        <img src="{{gl.masters_document.url}}" />
+                                                    <a href="{{gl.college_id_card.url}}" data-fancybox data-caption="Document">
+                                                        <img src="{{gl.college_id_card.url}}" />
                                                     </a>
                                                 </span>
                                             </div>
                                         </div>
-                        
-                        
-                                    </div>
-                                </div>
-                        
-                                <div class="card card-struture">
-                                    <div class="card-header">
-                                        <button type="button" class="btn btn-warning">4. Work Experience </button>
-                                    </div>
-                                    <div class="card-body fi experience">
-                                        <div class="doc exp">
-                                            <div class="left-field">
-                                                <h6 class="heading-title">Brief Description</h6>
-                        
-                                            </div>
-                                            <div class="right-field">
-                                                <span>
-                                                    {{gl.work_experience}}
-                                                </span>
-                                            </div>
-                                        </div>
-                        
                         
                         
                                     </div>

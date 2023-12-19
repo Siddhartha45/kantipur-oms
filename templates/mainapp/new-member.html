@@ -507,7 +507,7 @@
                                 </div>
 
                                 <div class="tab-pane fade" id="student-tab-pane" role="tabpanel" aria-labelledby="sutdent-tab" tabindex="0">
-                                    <form action="{% url 'lifetime_membership' %}" method="post" class="member-personal" enctype="multipart/form-data">
+                                    <form action="{% url 'student_membership' %}" method="post" class="member-personal" enctype="multipart/form-data">
                                         {% csrf_token %}
                                         <h3>1. Personal Information</h3>
                                         <div class="member-details">
@@ -515,7 +515,7 @@
                                             <div class="member-info">
                                                 <p class="required">Name of Applicant</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="name_of_applicant" id="name" placeholder="Enter your name" value="{{request.user.full_name}}" required>
+                                                    <input type="text" name="name_of_applicant" id="name" placeholder="Enter your name" value="{{request.user.full_name}}" readonly required>
                                                 </div>
                                             </div>
                                             <div class="member-info">
@@ -579,15 +579,15 @@
 
                                         <h3>2. Education</h3>
 
-                                        {% comment %} <h4 class="required edu-head">Current Study</h4> {% endcomment %}
                                         <div class="member-details">
                                             <div class="member-info3">
                                                 <p class="required">Level</p>
                                                 <div class="info-inner">
-                                                    <select name="stulev" id="stulev" required>
+                                                    <select name="level" id="stulev" required>
                                                         <option value="">Select Current Level</option>
-                                                        <option value="Undergraduate">Undergraduate</option>
-                                                        <option value="Undergraduate">Postgraduate</option>
+                                                        {% for k, v in student_level %}
+                                                            <option value="{{k}}">{{v}}</option>
+                                                        {% endfor %}
                                                     </select>
                                                 </div>
                                             </div>
@@ -595,14 +595,14 @@
                                             <div class="member-info3">
                                                 <p class="required">Institution</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="be_institution" id="beinstitute" placeholder="Enter the Institution" required>
+                                                    <input type="text" name="institution" id="beinstitute" placeholder="Enter the Institution" required>
                                                 </div>
                                             </div>
 
                                             <div class="member-info3">
                                                 <p class="required">Country of Institution</p>
                                                 <div class="info-inner">
-                                                    <select id="country" name="be_country" required>
+                                                    <select id="country" name="country_of_institution" required>
                                                         <option>select country</option>
                                                         {% for k, v in countries %}
                                                             <option value="{{k}}">{{v}}</option>
@@ -614,7 +614,7 @@
                                             <div class="member-info3">
                                                 <p class="required">Expected Pass Year</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="be_passed_year" id="bepass" placeholder="Enter the Expected Passed Year" required>
+                                                    <input type="text" name="expected_pass_year" id="bepass" placeholder="Enter the Expected Passed Year" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -638,14 +638,10 @@
                                             <div class="member-info2">
                                                 <p class="required">College ID Card</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="masters_document" id="masterdoc" accept="image/*" required>
+                                                    <input type="file" name="college_id_card" id="masterdoc" accept="image/*" required>
                                                 </div>
                                             </div>
-
                                         </div>
-
-                                        
-
                                         <button type="Submit">Submit</button>
                                     </form>
                                 </div>
@@ -712,7 +708,7 @@
                                             <div class="member-info2">
                                                 <p class="required">Company Logo</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="companylogo" id="complog" accept="image/*" required>
+                                                    <input type="file" name="logo" id="complog" accept="image/*" required>
                                                 </div>
                                             </div>
                                         </div>

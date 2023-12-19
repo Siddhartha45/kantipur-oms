@@ -1,6 +1,8 @@
-MEMBERSHIP_TYPES = (("G", "General"), ("L", "Lifetime"))
+MEMBERSHIP_TYPES = (("G", "General"), ("L", "Lifetime"), ("S", "Student"))
 
 GENDER_CHOICES = (("M", "Male"), ("F", "Female"), ("O", "Others"))
+
+STUDENT_LEVEL_CHOICES = (("U", "Undergraduate"), ("P", "Postgraduate"))
 
 COUNTRY_CHOICES = (
     ("AF", "Afghanistan"),

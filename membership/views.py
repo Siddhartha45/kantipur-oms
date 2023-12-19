@@ -2,7 +2,7 @@ import requests
 from datetime import datetime
 from pprint import pprint
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -17,6 +17,7 @@ from .forms import (
     InstitutionalMembershipEditForm,
     GeneralAndLifetimeMembershipEditForm,
     RejectMembershipForm,
+    StudentMembershipForm,
 )
 from .models import InstitutionalMembership, GeneralAndLifetimeMembership, Payment
 from .decorators import only_users_without_any_membership, admin_only, verified_user
@@ -48,7 +49,8 @@ def dashboard(request):
 def new_membership_page(request):
     gender = choices.GENDER_CHOICES
     countries = choices.COUNTRY_CHOICES
-    context = {"gender": gender, "countries": countries}
+    student_level = choices.STUDENT_LEVEL_CHOICES
+    context = {"gender": gender, "countries": countries, "student_level": student_level}
     return render(request, "mainapp/new-member.html", context)
 
 
@@ -218,7 +220,11 @@ def general_and_lifetime_membership_verification_page(request, id):
         "gl": general_or_lifetime_object,
         "latest_membership_no": latest_membership_no,
     }
-    return render(request, "mainapp/gl-verification-page.html", context)
+    if general_or_lifetime_object.be_subject:
+        return render(request, "mainapp/gl-verification-page.html", context)
+    else:
+        return render(request, "mainapp/student_verification_page.html", context)
+        # return HttpResponse("kkk")
 
 
 def verify_general_or_lifetime_membership(request, id):
@@ -360,7 +366,10 @@ def remarks(request):
     user = request.user
     try:
         gl_or_ins = GeneralAndLifetimeMembership.objects.get(created_by_id=user.id)
-        return redirect("edit_gl_membership", id=gl_or_ins.id)
+        if gl_or_ins.be_subject:
+            return redirect("edit_gl_membership", id=gl_or_ins.id)
+        else:
+            return redirect("edit_student_membership", id=gl_or_ins.id)
     except:
         gl_or_ins = InstitutionalMembership.objects.get(created_by_id=user.id)
         return redirect("edit_ins_membership", id=gl_or_ins.id)
@@ -372,3 +381,74 @@ def no_remarks(request):
 
 def upgrade_to_lifetime(request):
     return render(request, "mainapp/upgrade_to_lifetime.html")
+
+
+def student_membership(request):
+    if request.method == "POST":
+        form = StudentMembershipForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            GeneralAndLifetimeMembership.objects.create(
+                created_by=request.user, membership_type="S", **form.cleaned_data
+            )
+            return redirect("student_payment")
+        else:
+            messages.error(
+                request, "Form not saved!!!. Please fill all the fields correctly."
+            )
+            return redirect("new_membership_page")
+
+
+def student_payment_page(request):
+    if request.method == "POST":
+        form = PaymentForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            Payment.objects.create(
+                user=request.user, created_at=datetime.now(), **form.cleaned_data
+            )
+            return redirect("payment_done_page")
+        else:
+            messages.error(
+                request, "Process Failed!!. Submit Screenshot of your payment."
+            )
+    else:
+        form = PaymentForm()
+    return render(request, "mainapp/student_payment.html")
+
+
+def edit_student_membership(request, id):
+    """
+    Let users edit or update their student membership details if they are rejected by 
+    admin.
+    """
+
+    gender = choices.GENDER_CHOICES
+    countries = choices.COUNTRY_CHOICES
+    student_level = choices.STUDENT_LEVEL_CHOICES
+    instance = get_object_or_404(GeneralAndLifetimeMembership, id=id)
+    user = request.user
+
+    if user.id != instance.created_by.id:
+        return redirect("dashboard")
+
+    if user.general_and_lifetime_user.rejected == False:
+        return redirect("no_remarks")
+
+    if request.method == "POST":
+        form = StudentMembershipForm(
+            request.POST, request.FILES, instance=instance
+        )
+        if form.is_valid():
+            form_instance = form.save(commit=False)
+            form_instance.rejected = False
+            form_instance.save()
+            messages.success(request, "Details Updated")
+            return redirect("dashboard")
+        else:
+            pprint(form.errors)
+            messages.error(request, "Please fill the form with correct data")
+    else:
+        form = StudentMembershipForm(instance=instance)
+    context = {"gl": instance, "gender": gender, "countries": countries, "student_level": student_level}
+    return render(request, "mainapp/edit_student_membership.html", context)
