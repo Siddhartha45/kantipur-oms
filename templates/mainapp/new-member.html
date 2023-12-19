@@ -52,6 +52,9 @@
                                   <button class="nav-link" id="lifetime-tab" data-bs-toggle="tab" data-bs-target="#lifetime-tab-pane" type="button" role="tab" aria-controls="lifetime-tab-pane" aria-selected="false">Lifetime</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="student-tab" data-bs-toggle="tab" data-bs-target="#student-tab-pane" type="button" role="tab" aria-controls="student-tab-pane" aria-selected="false">Student</button>
+                                  </li>
+                                <li class="nav-item" role="presentation">
                                   <button class="nav-link" id="institutional-tab" data-bs-toggle="tab" data-bs-target="#institutional-tab-pane" type="button" role="tab" aria-controls="institutional-tab-pane" aria-selected="false">Institutional</button>
                                 </li>
                               </ul>
@@ -503,7 +506,149 @@
                                     </form>
                                 </div>
 
+                                <div class="tab-pane fade" id="student-tab-pane" role="tabpanel" aria-labelledby="sutdent-tab" tabindex="0">
+                                    <form action="{% url 'lifetime_membership' %}" method="post" class="member-personal" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <h3>1. Personal Information</h3>
+                                        <div class="member-details">
+                                            
+                                            <div class="member-info">
+                                                <p class="required">Name of Applicant</p>
+                                                <div class="info-inner">
+                                                    <input type="text" name="name_of_applicant" id="name" placeholder="Enter your name" value="{{request.user.full_name}}" required>
+                                                </div>
+                                            </div>
+                                            <div class="member-info">
+                                                <p class="required">Date Of Birth</p>
+                                                <div class="info-inner">
+                                                    <input type="date" name="dob" id="dob" placeholder="ID" required>
+                                                </div>
+                                            </div>
+                                            <div class="member-info">
+                                                <p class="required">Gender</p>
+                                                <div class="info-inner">
+                                                    <select name="gender" id="gender" required>
+                                                        <option>Select Gender</option>
+                                                        {% for k, v in gender %}
+                                                            <option value="{{k}}">{{v}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="member-info">
+                                                <p class="required">Nationality</p>
+                                                <div class="info-inner">
+                                                    <select id="country" name="nationality" required>
+                                                        <option>select country</option>
+                                                        {% for k, v in countries %}
+                                                            <option value="{{k}}">{{v}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
 
+                                            <div class="member-info">
+                                                <p class="required">Issued From</p>
+                                                <div class="info-inner">
+                                                    <input type="text" name="issued_from" id="issued" placeholder="Issued From" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="member-info">
+                                                <p class="required">Permanent Address</p>
+                                                <div class="info-inner">
+                                                    <input type="text" name="permanent_address" id="address" placeholder="Enter Address" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="member-info">
+                                                <p class="required">Affiliation</p>
+                                                <div class="info-inner">
+                                                    <input type="text" name="affiliation" id="affiliation" placeholder="Enter Affiliation" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="member-info">
+                                                <p class="required">Citizenship Card No.</p>
+                                                <div class="info-inner">
+                                                    <input type="text" name="citizenship_card_no" id="citizen" placeholder="Enter the Citizenship Card No." required>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+
+                                        <h3>2. Education</h3>
+
+                                        {% comment %} <h4 class="required edu-head">Current Study</h4> {% endcomment %}
+                                        <div class="member-details">
+                                            <div class="member-info3">
+                                                <p class="required">Level</p>
+                                                <div class="info-inner">
+                                                    <select name="stulev" id="stulev" required>
+                                                        <option value="">Select Current Level</option>
+                                                        <option value="Undergraduate">Undergraduate</option>
+                                                        <option value="Undergraduate">Postgraduate</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="member-info3">
+                                                <p class="required">Institution</p>
+                                                <div class="info-inner">
+                                                    <input type="text" name="be_institution" id="beinstitute" placeholder="Enter the Institution" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="member-info3">
+                                                <p class="required">Country of Institution</p>
+                                                <div class="info-inner">
+                                                    <select id="country" name="be_country" required>
+                                                        <option>select country</option>
+                                                        {% for k, v in countries %}
+                                                            <option value="{{k}}">{{v}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="member-info3">
+                                                <p class="required">Expected Pass Year</p>
+                                                <div class="info-inner">
+                                                    <input type="text" name="be_passed_year" id="bepass" placeholder="Enter the Expected Passed Year" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <h3>3. Documents</h3>
+                                        <div class="member-details">
+                                            <div class="member-info2">
+                                                <p class="required">PP Photo</p>
+                                                <div class="inner-image">
+                                                    <input type="file" name="pp_photo" id="photo" accept="image/*" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="member-info2">
+                                                <p class="required">Citizenship</p>
+                                                <div class="inner-image">
+                                                    <input type="file" name="citizenship" id="citizenphoto" accept="image/*" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="member-info2">
+                                                <p class="required">College ID Card</p>
+                                                <div class="inner-image">
+                                                    <input type="file" name="masters_document" id="masterdoc" accept="image/*" required>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        
+
+                                        <button type="Submit">Submit</button>
+                                    </form>
+                                </div>
 
 
                                 <div class="tab-pane fade" id="institutional-tab-pane" role="tabpanel" aria-labelledby="institutional-tab" tabindex="0">
@@ -532,10 +677,17 @@
                                                     <input type="text" name="registration_no" id="regno" placeholder="Enter Your Register Number" required>
                                                 </div>
                                             </div>
+
+                                            <div class="member-info">
+                                                <p class="required">Website</p>
+                                                <div class="info-inner">
+                                                    <input type="text" name="website" id="website" placeholder="Enter Your Website URL" required>
+                                                </div>
+                                            </div>
                                             
                                         </div>
 
-                                        <h3>1. Institutional Documents </h3>
+                                        <h3>2. Institutional Documents </h3>
                                         <div class="member-details">
                                             <div class="member-info2">
                                                 <p class="required">PAN</p>
@@ -555,6 +707,12 @@
                                                 <p class="required">Letter of Application</p>
                                                 <div class="inner-image">
                                                     <input type="file" name="company_document" id="othimg" accept="image/*" required>
+                                                </div>
+                                            </div>
+                                            <div class="member-info2">
+                                                <p class="required">Company Logo</p>
+                                                <div class="inner-image">
+                                                    <input type="file" name="companylogo" id="complog" accept="image/*" required>
                                                 </div>
                                             </div>
                                         </div>

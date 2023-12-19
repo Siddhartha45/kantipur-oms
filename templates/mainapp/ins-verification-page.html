@@ -57,12 +57,13 @@
                                                 <h6 class="heading-title">Company Name:</h6>
                                                 <h6 class="heading-title">Address:</h6>
                                                 <h6 class="heading-title">Registration No:</h6>
-                                               
+                                                <h6 class="heading-title">Website:</h6>
                                             </div>
                                             <div class="right-field">
                                                 <p>{{ins.company_name}}</p>
                                                 <p>{{ins.company_address}}</p>
                                                 <p>{{ins.registration_no}}</p>
+                                                <p><a href="" target="_blank"></a></p>
                                                
                                             </div>
                                         </div>
@@ -100,10 +101,18 @@
                                                 </div>
                                             </div>
                                             <div class="docu">
+                                                <h6 class="heading-title">Application Letter</h6>
+                                                <div>
+                                                    <a href="{{ins.company_document.url}}" data-fancybox data-caption="Application Letter">
+                                                        <img src="{{ins.company_document.url}}" />
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="docu">
                                                 <h6 class="heading-title">Other Documents:</h6>
                                                 <div>
-                                                    <a href="{{ins.company_document.url}}" data-fancybox data-caption="Other Documents">
-                                                        <img src="{{ins.company_document.url}}" />
+                                                    <a href="" data-fancybox data-caption="Application Letter">
+                                                        <img src="" />
                                                     </a>
                                                 </div>
                                             </div>
