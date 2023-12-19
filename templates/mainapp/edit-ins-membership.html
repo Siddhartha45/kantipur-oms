@@ -34,12 +34,11 @@
                                     <p>Edit Membership Details</p>
                                 </div>
                             </div>
-
-                            
                         </div>
+                        
+                        <p>Remarks: {{ins.remarks}}</P>
 
                         <div>
-
                                 <div  id="institutional-tab-pane" role="tabpanel" aria-labelledby="institutional-tab" tabindex="0">
                                     <form action="" method="post" class="member-personal" enctype="multipart/form-data">
                                         {% csrf_token %}
@@ -87,6 +86,7 @@
                                                 </div>
                                             </div>
 
+                                            <div c
                                             <div class="member-info2">
                                                 <p class="required">Letter of Application</p>
                                                 <div class="inner-image">

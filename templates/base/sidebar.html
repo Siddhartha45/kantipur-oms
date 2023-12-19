@@ -32,6 +32,10 @@
                         <a href="{% url 'general_payment' %}" class="left-dash-item">
                             <p>General Payment</p>
                         </a>
+
+                        <a href="{% url 'upgrade_to_lifetime' %}" class="left-dash-item">
+                            <p>Upgrade to Lifetime</p>
+                        </a>
                     {% elif request.user.role == "U" and request.user.general_and_lifetime_user.membership_type == "L" %}
                         <a href="{% url 'lifetime_payment' %}" class="left-dash-item">
                             <p>Lifetime Payment</p>

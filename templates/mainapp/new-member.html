@@ -34,9 +34,11 @@
                                     <p>New Membership</p>
                                 </div>
                             </div>
-
-                            
                         </div>
+
+                        {% for message in messages %}
+                            {{message}}
+                        {% endfor %}
 
                         <div class="new-member">
                             <div class="member-heading">
@@ -66,7 +68,7 @@
                                             <div class="member-info">
                                                 <p class="required">Name of Applicant</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="name_of_applicant" id="name" placeholder="Enter your name" value="{{request.user.full_name}}" required>
+                                                    <input type="text" name="name_of_applicant" id="name" placeholder="Enter your name" value="{{request.user.full_name}}" readonly required>
                                                 </div>
                                             </div>
                                             <div class="member-info">
@@ -290,7 +292,7 @@
                                             <div class="member-info">
                                                 <p class="required">Name of Applicant</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="name_of_applicant" id="name" placeholder="Enter your name" value="{{request.user.full_name}}" required>
+                                                    <input type="text" name="name_of_applicant" id="name" placeholder="Enter your name" value="{{request.user.full_name}}" readonly required>
                                                 </div>
                                             </div>
                                             <div class="member-info">

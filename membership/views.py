@@ -1,4 +1,6 @@
 import requests
+from datetime import datetime
+from pprint import pprint
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -6,8 +8,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
-
-from pprint import pprint
 
 from .forms import (
     InstitutionalMembershipForm,
@@ -57,18 +57,14 @@ def institutional_membership(request):
         form = InstitutionalMembershipForm(request.POST, request.FILES)
 
         if form.is_valid():
-            print(form.cleaned_data)
             InstitutionalMembership.objects.create(
                 created_by=request.user, **form.cleaned_data
             )
-            messages.success(
-                request,
-                "Your membership is under review. We will inform you when verified and after that you can do the payment",
-            )
             return redirect("institutional_payment")
         else:
-            print(form.errors)
-            messages.error(request, "Please fill all the fields correctly")
+            messages.error(
+                request, "Form not saved!!!. Please fill all the fields correctly."
+            )
             return redirect("new_membership_page")
 
 
@@ -77,17 +73,14 @@ def general_membership(request):
         form = GeneralAndLifetimeMembershipForm(request.POST, request.FILES)
 
         if form.is_valid():
-            print(form.cleaned_data)
             GeneralAndLifetimeMembership.objects.create(
                 created_by=request.user, membership_type="G", **form.cleaned_data
             )
-            messages.success(
-                request,
-                "Your membership is under review. We will inform you when verified and after that you can do the payment",
-            )
             return redirect("general_payment")
         else:
-            messages.error(request, "Please fill all the fields correctly")
+            messages.error(
+                request, "Form not saved!!!. Please fill all the fields correctly."
+            )
             return redirect("new_membership_page")
 
 
@@ -99,13 +92,11 @@ def lifetime_membership(request):
             GeneralAndLifetimeMembership.objects.create(
                 created_by=request.user, membership_type="L", **form.cleaned_data
             )
-            messages.success(
-                request,
-                "Your membership is under review. We will inform you when verified and after that you can do the payment",
-            )
             return redirect("lifetime_payment")
         else:
-            messages.error(request, "Please fill all the fields correctly")
+            messages.error(
+                request, "Form not saved!!!. Please fill all the fields correctly."
+            )
             return redirect("new_membership_page")
 
 
@@ -114,10 +105,14 @@ def general_payment_page(request):
         form = PaymentForm(request.POST, request.FILES)
 
         if form.is_valid():
-            Payment.objects.create(user=request.user, **form.cleaned_data)
+            Payment.objects.create(
+                user=request.user, created_at=datetime.now(), **form.cleaned_data
+            )
             return redirect("payment_done_page")
         else:
-            messages.error(request, "Process Failed!!. Submit Screenshot of your payment.")
+            messages.error(
+                request, "Process Failed!!. Submit Screenshot of your payment."
+            )
     else:
         form = PaymentForm()
     return render(request, "mainapp/general_payment.html")
@@ -128,10 +123,14 @@ def lifetime_payment_page(request):
         form = PaymentForm(request.POST, request.FILES)
 
         if form.is_valid():
-            Payment.objects.create(user=request.user, **form.cleaned_data)
+            Payment.objects.create(
+                user=request.user, created_at=datetime.now(), **form.cleaned_data
+            )
             return redirect("payment_done_page")
         else:
-            messages.error(request, "Process Failed!!. Submit Screenshot of your payment.")
+            messages.error(
+                request, "Process Failed!!. Submit Screenshot of your payment."
+            )
     else:
         form = PaymentForm()
     return render(request, "mainapp/lifetime_payment.html")
@@ -142,10 +141,14 @@ def institutional_payment_page(request):
         form = PaymentForm(request.POST, request.FILES)
 
         if form.is_valid():
-            Payment.objects.create(user=request.user, **form.cleaned_data)
+            Payment.objects.create(
+                user=request.user, created_at=datetime.now(), **form.cleaned_data
+            )
             return redirect("payment_done_page")
         else:
-            messages.error(request, "Process Failed!!. Submit Screenshot of your payment.")
+            messages.error(
+                request, "Process Failed!!. Submit Screenshot of your payment."
+            )
     else:
         form = PaymentForm()
     return render(request, "mainapp/institutional_payment.html")
@@ -154,6 +157,7 @@ def institutional_payment_page(request):
 @csrf_exempt
 def verify_payment(request):
     """To verify the payment done by user using KHALTI."""
+
     data = request.POST
     user_who_paid = data["product_identity"]
     name = data["product_name"]
@@ -172,7 +176,11 @@ def verify_payment(request):
     print(response.text)
 
     if response.status_code == 200:
-        Payment.objects.create(user_id=user_who_paid, paid_amount_in_paisa=amount)
+        Payment.objects.create(
+            created_at=datetime.now(),
+            user_id=user_who_paid,
+            paid_amount_in_paisa=amount,
+        )
         return JsonResponse({"status": "success", "redirect_url": "/payment-done/"})
     else:
         error_message = response.json().get("detail", "Payment verification failed")
@@ -193,14 +201,23 @@ def general_and_lifetime_membership_verification_list(request):
 
 
 def general_and_lifetime_membership_verification_page(request, id):
-    general_or_lifetime_object = get_object_or_404(GeneralAndLifetimeMembership, id=id)
-    
-    try:
-        latest_membership_no = GeneralAndLifetimeMembership.objects.filter(verification=True).latest("created_at").membership_no
-    except GeneralAndLifetimeMembership.DoesNotExist:
-        latest_membership_no = "There is no membership no."
+    """Detail Page of General and Lifetime Membership to be viewed by admin."""
 
-    context = {"gl": general_or_lifetime_object, "latest_membership_no": latest_membership_no}
+    general_or_lifetime_object = get_object_or_404(GeneralAndLifetimeMembership, id=id)
+
+    try:
+        latest_membership_no = (
+            GeneralAndLifetimeMembership.objects.filter(verification=True)
+            .latest("created_at")
+            .membership_no
+        )
+    except GeneralAndLifetimeMembership.DoesNotExist:
+        latest_membership_no = "There is no membership number."
+
+    context = {
+        "gl": general_or_lifetime_object,
+        "latest_membership_no": latest_membership_no,
+    }
     return render(request, "mainapp/gl-verification-page.html", context)
 
 
@@ -213,6 +230,7 @@ def verify_general_or_lifetime_membership(request, id):
             membership_no = form.cleaned_data.get("membership_no")
             verify_object.membership_no = membership_no
             verify_object.verification = True
+            verify_object.verified_date = datetime.now()
             verify_object.save()
             messages.success(request, "Membership Verified")
             return redirect("gl_verification_list")
@@ -230,6 +248,8 @@ def institutional_membership_verification_list(request):
 
 @admin_only
 def institutional_membership_verification_page(request, id):
+    """Detail Page of Institutional Membership to be viewed by admin."""
+
     institution_object = get_object_or_404(InstitutionalMembership, id=id)
     context = {"ins": institution_object}
     return render(request, "mainapp/ins-verification-page.html", context)
@@ -239,6 +259,7 @@ def institutional_membership_verification_page(request, id):
 def verify_institution_membership(request, id):
     verify_object = get_object_or_404(InstitutionalMembership, id=id)
     verify_object.verification = True
+    verify_object.verified_date = datetime.now()
     verify_object.save()
     messages.success(request, "Membership Verified")
     return redirect("ins_verification_list")
@@ -263,7 +284,9 @@ def edit_institutional_membership(request, id):
             request.POST, request.FILES, instance=instance
         )
         if form.is_valid():
-            form.save()
+            form_instance = form.save(commit=False)
+            form_instance.rejected = False
+            form_instance.save()
             messages.success(request, "Details Updated")
             return redirect("dashboard")
         else:
@@ -295,8 +318,9 @@ def edit_gl_membership(request, id):
             request.POST, request.FILES, instance=instance
         )
         if form.is_valid():
-            pprint(form.cleaned_data)
-            form.save()
+            form_instance = form.save(commit=False)
+            form_instance.rejected = False
+            form_instance.save()
             messages.success(request, "Details Updated")
             return redirect("dashboard")
         else:
@@ -344,3 +368,7 @@ def remarks(request):
 
 def no_remarks(request):
     return render(request, "mainapp/remarks.html")
+
+
+def upgrade_to_lifetime(request):
+    return render(request, "mainapp/upgrade_to_lifetime.html")
