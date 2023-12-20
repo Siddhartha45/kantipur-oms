@@ -2,12 +2,11 @@ import requests
 from datetime import datetime
 from pprint import pprint
 
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.core.exceptions import ObjectDoesNotExist
 
 from .forms import (
     InstitutionalMembershipForm,
@@ -220,11 +219,10 @@ def general_and_lifetime_membership_verification_page(request, id):
         "gl": general_or_lifetime_object,
         "latest_membership_no": latest_membership_no,
     }
-    if general_or_lifetime_object.be_subject:
-        return render(request, "mainapp/gl-verification-page.html", context)
-    else:
+    if general_or_lifetime_object.membership_type == "S":
         return render(request, "mainapp/student_verification_page.html", context)
-        # return HttpResponse("kkk")
+    else:
+        return render(request, "mainapp/gl-verification-page.html", context)
 
 
 def verify_general_or_lifetime_membership(request, id):
@@ -234,14 +232,20 @@ def verify_general_or_lifetime_membership(request, id):
         form = VerificationForm(request.POST)
         if form.is_valid():
             membership_no = form.cleaned_data.get("membership_no")
+            membership_since = form.cleaned_data.get("membership_since")
+
             verify_object.membership_no = membership_no
+            verify_object.membership_since = membership_since
             verify_object.verification = True
             verify_object.verified_date = datetime.now()
             verify_object.save()
             messages.success(request, "Membership Verified")
             return redirect("gl_verification_list")
         else:
-            messages.error(request, "Enter membership number to verify the member")
+            messages.error(
+                request,
+                "Enter membership number and membership year to verify the member",
+            )
             return redirect("gl_verification_page", id=verify_object.id)
 
 
@@ -419,7 +423,7 @@ def student_payment_page(request):
 
 def edit_student_membership(request, id):
     """
-    Let users edit or update their student membership details if they are rejected by 
+    Let users edit or update their student membership details if they are rejected by
     admin.
     """
 
@@ -436,9 +440,7 @@ def edit_student_membership(request, id):
         return redirect("no_remarks")
 
     if request.method == "POST":
-        form = StudentMembershipForm(
-            request.POST, request.FILES, instance=instance
-        )
+        form = StudentMembershipForm(request.POST, request.FILES, instance=instance)
         if form.is_valid():
             form_instance = form.save(commit=False)
             form_instance.rejected = False
@@ -450,5 +452,10 @@ def edit_student_membership(request, id):
             messages.error(request, "Please fill the form with correct data")
     else:
         form = StudentMembershipForm(instance=instance)
-    context = {"gl": instance, "gender": gender, "countries": countries, "student_level": student_level}
+    context = {
+        "gl": instance,
+        "gender": gender,
+        "countries": countries,
+        "student_level": student_level,
+    }
     return render(request, "mainapp/edit_student_membership.html", context)

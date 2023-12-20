@@ -40,6 +40,10 @@
                         <a href="{% url 'lifetime_payment' %}" class="left-dash-item">
                             <p>Lifetime Payment</p>
                         </a>
+                    {% elif request.user.role == "U" and request.user.general_and_lifetime_user.membership_type == "S" %}
+                    <a href="{% url 'student_payment' %}" class="left-dash-item">
+                        <p>Student Payment</p>
+                    </a>
                     {% elif request.user.role == "U" and request.user.institutional_user %}
                         <a href="{% url 'institutional_payment' %}" class="left-dash-item">
                             <p>Institutional Payment</p>

@@ -82,10 +82,11 @@ class GeneralAndLifetimeMembershipEditForm(forms.ModelForm):
 
 class VerificationForm(forms.Form):
     membership_no = forms.CharField()
+    membership_since = forms.CharField(max_length=4)
 
 
 class RejectMembershipForm(forms.Form):
-    remarks = forms.CharField()
+    remarks = forms.CharField(required=True)
 
 
 class StudentMembershipForm(forms.ModelForm):

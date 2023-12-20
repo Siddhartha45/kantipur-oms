@@ -14,6 +14,7 @@ class GeneralAndLifetimeMembership(models.Model):
     verification = models.BooleanField(default=False)
     membership_type = models.CharField(max_length=1, choices=choices.MEMBERSHIP_TYPES)
     membership_no = models.CharField(max_length=5, blank=True, null=True)
+    membership_since = models.CharField(max_length=4, blank=True, null=True)
     # Personal Details
     name_of_applicant = models.CharField(max_length=200)
     dob = models.CharField(max_length=10)
@@ -49,8 +50,10 @@ class GeneralAndLifetimeMembership(models.Model):
     remarks = models.TextField(blank=True, null=True)
     rejected = models.BooleanField(default=False)
     verified_date = models.DateTimeField(blank=True, null=True)
-    #for students
-    level = models.CharField(max_length=1, choices=choices.STUDENT_LEVEL_CHOICES, blank=True, null=True)
+    # for students
+    level = models.CharField(
+        max_length=1, choices=choices.STUDENT_LEVEL_CHOICES, blank=True, null=True
+    )
     institution = models.CharField(max_length=250, blank=True, null=True)
     country_of_institution = models.CharField(
         max_length=2, choices=choices.COUNTRY_CHOICES, blank=True, null=True

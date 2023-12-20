@@ -58,7 +58,7 @@
                                                     <input type="text" name="company_address" id="companyaddress" value="{{ins.company_address}}" required>
                                                 </div>
                                             </div>
-                                           
+                                        
                                             <div class="member-info">
                                                 <p class="required">Registration No.</p>
                                                 <div class="info-inner">
@@ -66,6 +66,13 @@
                                                 </div>
                                             </div>
                                             
+                                            <div class="member-info">
+                                                <p class="required">Website</p>
+                                                <div class="info-inner">
+                                                    <input type="text" name="website" id="website" value="{{ins.website}}" required>
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                         <h3>2. Institutional Documents </h3>
@@ -86,12 +93,19 @@
                                                 </div>
                                             </div>
 
-                                            <div c
                                             <div class="member-info2">
                                                 <p class="required">Letter of Application</p>
                                                 <div class="inner-image">
                                                     <img src="{{ ins.company_document.url }}" alt="Letter Document" width="50%">
                                                     <input type="file" name="company_document" id="othimg" accept="image/*">
+                                                </div>
+                                            </div>
+
+                                            <div class="member-info2">
+                                                <p class="required">Company Logo</p>
+                                                <div class="inner-image">
+                                                    <img src="{{ ins.logo.url }}" alt="Company Logo" width="50%">
+                                                    <input type="file" name="logo" id="complog" accept="image/*" required>
                                                 </div>
                                             </div>
                                         </div>

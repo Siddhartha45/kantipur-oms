@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     #Custom apps
     'accounts',
     'membership',
+    'general',
 ]
 
 MIDDLEWARE = [

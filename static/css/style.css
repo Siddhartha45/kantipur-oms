@@ -2744,7 +2744,7 @@ header {
   object-fit: cover;
   background-image:
     linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.73)),
-    url('../image/banner2.jpg');
+    url('../images/banner2.jpg');
     
 }
 
