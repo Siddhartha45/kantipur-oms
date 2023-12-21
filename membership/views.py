@@ -2,7 +2,7 @@ import requests
 from datetime import datetime
 from pprint import pprint
 
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -103,7 +103,7 @@ def lifetime_membership(request):
 @login_required
 def payment_page(request):
     """Handles the payment for individual users."""
-    
+
     if request.method == "POST":
         form = PaymentForm(request.POST, request.FILES)
 
@@ -132,12 +132,12 @@ def payment_page(request):
 @login_required
 def institutional_payment_page(request):
     """Handles the payment for institutional users."""
-    
+
     try:
         request.user.institutional_user
     except:
         return redirect("dashboard")
-    
+
     if request.method == "POST":
         form = PaymentForm(request.POST, request.FILES)
 
@@ -376,7 +376,7 @@ def reject_gl_membership(request, id):
 @admin_only
 def remarks(request):
     """
-    If admin rejects and sends remarks then acc to membership_type of user it redirects 
+    If admin rejects and sends remarks then acc to membership_type of user it redirects
     to correct edit page.
     """
     user = request.user
