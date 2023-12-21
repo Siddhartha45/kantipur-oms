@@ -16,9 +16,7 @@ urlpatterns = [
     path("general-membership/", views.general_membership, name="general_membership"),
     path("lifetime-membership/", views.lifetime_membership, name="lifetime_membership"),
     path("student-membership/", views.student_membership, name="student_membership"),
-    path("general-payment/", views.general_payment_page, name="general_payment"),
-    path("lifetime-payment/", views.lifetime_payment_page, name="lifetime_payment"),
-    path("student-payment/", views.student_payment_page, name="student_payment"),
+    path("payment/", views.payment_page, name="payment"),
     path(
         "institutional-payment/",
         views.institutional_payment_page,
