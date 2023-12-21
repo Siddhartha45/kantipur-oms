@@ -2,7 +2,7 @@ import requests
 from datetime import datetime
 from pprint import pprint
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -19,7 +19,7 @@ from .forms import (
     StudentMembershipForm,
 )
 from .models import InstitutionalMembership, GeneralAndLifetimeMembership, Payment
-from .decorators import only_users_without_any_membership, admin_only, verified_user
+from .decorators import only_verified_users_without_any_membership, admin_only
 from . import choices
 
 
@@ -43,8 +43,7 @@ def dashboard(request):
     return render(request, "mainapp/dashboard.html", context)
 
 
-@verified_user
-@only_users_without_any_membership
+@only_verified_users_without_any_membership
 def new_membership_page(request):
     gender = choices.GENDER_CHOICES
     countries = choices.COUNTRY_CHOICES
@@ -101,7 +100,10 @@ def lifetime_membership(request):
             return redirect("new_membership_page")
 
 
-def general_payment_page(request):
+@login_required
+def payment_page(request):
+    """Handles the payment for individual users."""
+    
     if request.method == "POST":
         form = PaymentForm(request.POST, request.FILES)
 
@@ -116,28 +118,26 @@ def general_payment_page(request):
             )
     else:
         form = PaymentForm()
-    return render(request, "mainapp/general_payment.html")
+    try:
+        if request.user.general_and_lifetime_user.membership_type == "G":
+            return render(request, "mainapp/general_payment.html")
+        elif request.user.general_and_lifetime_user.membership_type == "L":
+            return render(request, "mainapp/lifetime_payment.html")
+        elif request.user.general_and_lifetime_user.membership_type == "S":
+            return render(request, "mainapp/student_payment.html")
+    except:
+        return redirect("dashboard")
 
 
-def lifetime_payment_page(request):
-    if request.method == "POST":
-        form = PaymentForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            Payment.objects.create(
-                user=request.user, created_at=datetime.now(), **form.cleaned_data
-            )
-            return redirect("payment_done_page")
-        else:
-            messages.error(
-                request, "Process Failed!!. Submit Screenshot of your payment."
-            )
-    else:
-        form = PaymentForm()
-    return render(request, "mainapp/lifetime_payment.html")
-
-
+@login_required
 def institutional_payment_page(request):
+    """Handles the payment for institutional users."""
+    
+    try:
+        request.user.institutional_user
+    except:
+        return redirect("dashboard")
+    
     if request.method == "POST":
         form = PaymentForm(request.POST, request.FILES)
 
@@ -188,6 +188,7 @@ def verify_payment(request):
         return JsonResponse({"status": "error", "message": error_message}, status=400)
 
 
+@login_required
 def payment_done_page(request):
     return render(request, "mainapp/membership-status.html")
 
@@ -201,6 +202,7 @@ def general_and_lifetime_membership_verification_list(request):
     return render(request, "mainapp/gl_membership_list.html", context)
 
 
+@admin_only
 def general_and_lifetime_membership_verification_page(request, id):
     """Detail Page of General and Lifetime Membership to be viewed by admin."""
 
@@ -225,6 +227,7 @@ def general_and_lifetime_membership_verification_page(request, id):
         return render(request, "mainapp/gl-verification-page.html", context)
 
 
+@admin_only
 def verify_general_or_lifetime_membership(request, id):
     verify_object = get_object_or_404(GeneralAndLifetimeMembership, id=id)
 
@@ -275,6 +278,7 @@ def verify_institution_membership(request, id):
     return redirect("ins_verification_list")
 
 
+@login_required
 def edit_institutional_membership(request, id):
     """
     Let users edit or update their institutional membership details if they are rejected
@@ -306,6 +310,7 @@ def edit_institutional_membership(request, id):
     return render(request, "mainapp/edit-ins-membership.html", context)
 
 
+@login_required
 def edit_gl_membership(request, id):
     """
     Let users edit or update their general or lifetime membership details if they are
@@ -342,6 +347,7 @@ def edit_gl_membership(request, id):
     return render(request, "mainapp/edit-gl-membership.html", context)
 
 
+@admin_only
 def reject_instutional_membership(request, id):
     instance = get_object_or_404(InstitutionalMembership, id=id)
 
@@ -354,6 +360,7 @@ def reject_instutional_membership(request, id):
             return redirect("ins_verification_list")
 
 
+@admin_only
 def reject_gl_membership(request, id):
     instance = get_object_or_404(GeneralAndLifetimeMembership, id=id)
 
@@ -366,7 +373,12 @@ def reject_gl_membership(request, id):
             return redirect("gl_verification_list")
 
 
+@admin_only
 def remarks(request):
+    """
+    If admin rejects and sends remarks then acc to membership_type of user it redirects 
+    to correct edit page.
+    """
     user = request.user
     try:
         gl_or_ins = GeneralAndLifetimeMembership.objects.get(created_by_id=user.id)
@@ -379,10 +391,12 @@ def remarks(request):
         return redirect("edit_ins_membership", id=gl_or_ins.id)
 
 
+@login_required
 def no_remarks(request):
     return render(request, "mainapp/remarks.html")
 
 
+@login_required
 def upgrade_to_lifetime(request):
     return render(request, "mainapp/upgrade_to_lifetime.html")
 
@@ -403,24 +417,7 @@ def student_membership(request):
             return redirect("new_membership_page")
 
 
-def student_payment_page(request):
-    if request.method == "POST":
-        form = PaymentForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            Payment.objects.create(
-                user=request.user, created_at=datetime.now(), **form.cleaned_data
-            )
-            return redirect("payment_done_page")
-        else:
-            messages.error(
-                request, "Process Failed!!. Submit Screenshot of your payment."
-            )
-    else:
-        form = PaymentForm()
-    return render(request, "mainapp/student_payment.html")
-
-
+@login_required
 def edit_student_membership(request, id):
     """
     Let users edit or update their student membership details if they are rejected by

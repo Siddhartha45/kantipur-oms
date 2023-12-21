@@ -91,6 +91,7 @@ def logout_user(request):
     return redirect("login")
 
 
+@login_required
 def edit_profile(request):
     user = request.user
 

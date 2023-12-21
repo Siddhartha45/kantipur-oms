@@ -3,8 +3,11 @@ from django.shortcuts import redirect
 from .models import GeneralAndLifetimeMembership, InstitutionalMembership
 
 
-def only_users_without_any_membership(view_func):
-    """Only allows users who don't have any type of membership."""
+def only_verified_users_without_any_membership(view_func):
+    """
+    If user has entered pin and verified themselves and they don't have any type of 
+    membership, then only those users can access views.
+    """
 
     def wrap(request, *args, **kwargs):
         user = request.user
@@ -17,6 +20,7 @@ def only_users_without_any_membership(view_func):
         if (
             user.is_authenticated
             and not user.role == "A"
+            and user.is_verified == True
             and general_and_lifetime_membership_does_not_exist
             and institutional_membership_does_not_exist
         ):
@@ -45,18 +49,6 @@ def user_login_check(view_func):
 
     def wrap(request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return view_func(request, *args, **kwargs)
-        else:
-            return redirect("dashboard")
-
-    return wrap
-
-
-def verified_user(view_func):
-    """Restricts unverified users."""
-
-    def wrap(request, *args, **kwargs):
-        if request.user.is_verified == True:
             return view_func(request, *args, **kwargs)
         else:
             return redirect("dashboard")
