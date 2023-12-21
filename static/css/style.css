@@ -797,6 +797,7 @@ a.left-dash-item {
 
 #dashboard .mid-part .inner-box {
   display: flex;
+ 
   justify-content: center;
   width: auto;
   height: auto;
@@ -804,6 +805,11 @@ a.left-dash-item {
   background: url(https://s3-alpha-sig.figma.com/img/7b85/7457/d75e7454722401cfb765b47fc98a8487?Expires=1693180800&Signature=ooMTFTbVa7DY-n~nz4y2AnIvV1GRivF6zfQ8nGAE6tqklp0XufR3e8tribnOzD0H6OtyA2HJl2~IboLvHhn29LxEoKKfzZwGHmECcXQH-h2O6DFOqMaDPPH51Xhnos3HBw6luI8~XiZ82NTBNaMFeKEfPCnjVFYsvdZHv9DBvShO-tBbRSKvwolL7C525zJMVNIShQxLBuAv5fp5ELFp-WGGncgyvj0UTTgGltkG3ncASlsWJktNp~fShGPC6x7AgEMuB2lfMwM4UsgXnfgRvDyO8KAeM~Beaz13RZ7hZgtUKxmj79pcbrQcGyxoy0BKkxjYnmKp9Lk5c34iF-3Cpg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4),
     linear-gradient(192deg, #ffd200 0%, #fbb715 100%);
     border-radius: 10px;
+}
+
+.manage-dash {
+  display: flex;
+  flex-direction: column;
 }
 
 #dashboard .mid-part-back {
@@ -2989,7 +2995,17 @@ div#example_wrapper {
   width: 70px;
 }
 
+.success-message {
+  color: green;
+}
 
+.failed-message {
+  color: red;
+}
+
+.info-message {
+  color: yellow;
+}
 
 /* Responsive */
 
@@ -3467,7 +3483,7 @@ div#example_wrapper {
   }
 
   #dashboard .mid-part .inner-box {
-    padding: 0px;
+    padding: 10px 20px;
   }
 
   .card-body.fi {
