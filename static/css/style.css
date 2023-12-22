@@ -3,7 +3,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Kalnia:wght@100;200;300;400;500;600;700&display=swap');
 
-/* md@5 */
 
 * {
   /* border: 1px solid red; */
@@ -1413,6 +1412,7 @@ a.complain1 {
 }
 
 .login-left {
+  height: 93%;
   padding: 50px;
   background: var(--Pra-Yellow);
   /* text-align: end; */
@@ -1642,6 +1642,7 @@ a.login-social {
 }
 
 .copyright-login {
+  height: 7%;
   display: flex;
   padding: 15px 0px;
   justify-content: space-between;
@@ -3141,6 +3142,7 @@ a.kit-hover:hover .logo-inner2 h2{
 	}
 
 	.right-part-log {
+    height: 93%;
 		background: url(../image/Vector.svg);
 		background-repeat: no-repeat;
 		background-position-x: right;

@@ -170,7 +170,7 @@ def verify_payment(request):
     payload = {"token": token, "amount": amount}
 
     headers = {
-        "Authorization": "Key test_secret_key_11ddcd10390443539e267be2691a3486"  # test_secret_key_11ddcd10390443539e267be2691a3486
+        "Authorization": "Key live_secret_key_6a3abe8040034519918d88657d2239f6"
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)

@@ -14,8 +14,8 @@ def send_token_mail(email, token):
     recipient_list = [
         email,
     ]
+    print(email, token)
     send_mail(subject, message, email_from, recipient_list)
-    
     return True
 
 
