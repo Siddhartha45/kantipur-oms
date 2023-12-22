@@ -41,7 +41,19 @@
                         </div>
 
                         {% for message in messages %}
+                        {% if message.tags == success %}
+                        <div class="success-message">
                         {{message}}
+                        </div>
+                        {% elif message.tags == error %}
+                        <div class="failed-message">
+                        {{message}}
+                        </div>
+                        {% elif message.tags == info %}
+                        <div class="info-message">
+                        {{message}}
+                        </div>
+                        {% endif %}
                         {% endfor %}
 
                         <div class="payment-page">
@@ -103,7 +115,7 @@
 
     var config = {
         // replace the publicKey with yours
-        "publicKey": "live_public_key_d15ec20985d8484ba9f062c2b004ec9d",
+        "publicKey": "test_public_key_fc9fe6ad491a4c7ca3bcf623eb214b8e",
         "productIdentity": "{{request.user.id}}",
         "productName": "Membership Payment",
         "productUrl": "https://ss.com",
@@ -129,7 +141,7 @@
     var btn = document.getElementById("payment-button");
     btn.onclick = function () {
         // minimum transaction amount must be 10, i.e 1000 in paisa.
-        checkout.show({amount: 2000});
+        checkout.show({amount: 1000});
     }
 </script>
 

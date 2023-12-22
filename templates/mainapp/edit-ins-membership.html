@@ -36,6 +36,22 @@
                             </div>
                         </div>
                         
+                        {% for message in messages %}
+                        {% if message.tags == success %}
+                        <div class="success-message">
+                        {{message}}
+                        </div>
+                        {% elif message.tags == error %}
+                        <div class="failed-message">
+                        {{message}}
+                        </div>
+                        {% elif message.tags == info %}
+                        <div class="info-message">
+                        {{message}}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+
                         <p>Remarks: {{ins.remarks}}</P>
 
                         <div>

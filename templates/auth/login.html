@@ -39,13 +39,18 @@
                     <div class="login-logo">
                       <img src="{% static 'images/logo.png' %}" style="width: 100px;" alt="">
                     </div>
+                    
                     {% for message in messages %}
                     {% if message.tags == success %}
                     <div class="success-message">
                       {{message}}
                     </div>
-                    {% else %}
+                    {% elif message.tags == error %}
                     <div class="failed-message">
+                      {{message}}
+                    </div>
+                    {% elif message.tags == info %}
+                    <div class="info-message">
                       {{message}}
                     </div>
                     {% endif %}

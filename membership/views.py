@@ -48,7 +48,8 @@ def new_membership_page(request):
     gender = choices.GENDER_CHOICES
     countries = choices.COUNTRY_CHOICES
     student_level = choices.STUDENT_LEVEL_CHOICES
-    context = {"gender": gender, "countries": countries, "student_level": student_level}
+    salutation = choices.SALUTATION_CHOICES
+    context = {"gender": gender, "countries": countries, "student_level": student_level, "salutation": salutation}
     return render(request, "mainapp/new-member.html", context)
 
 
@@ -170,7 +171,7 @@ def verify_payment(request):
     payload = {"token": token, "amount": amount}
 
     headers = {
-        "Authorization": "Key live_secret_key_6a3abe8040034519918d88657d2239f6"
+        "Authorization": "Key test_secret_key_11ddcd10390443539e267be2691a3486"
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)

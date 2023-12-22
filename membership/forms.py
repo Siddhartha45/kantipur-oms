@@ -53,6 +53,7 @@ class GeneralAndLifetimeMembershipEditForm(forms.ModelForm):
     class Meta:
         model = GeneralAndLifetimeMembership
         fields = [
+            "salutation",
             "name_of_applicant",
             "dob",
             "gender",
@@ -93,6 +94,7 @@ class StudentMembershipForm(forms.ModelForm):
     class Meta:
         model = GeneralAndLifetimeMembership
         fields = [
+            "salutation",
             "name_of_applicant",
             "dob",
             "gender",

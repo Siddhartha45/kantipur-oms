@@ -57,7 +57,7 @@ def sign_up(request):
             
             messages.success(
                 request,
-                "Pin has been sent to your email. Login and enter pin to verify.",
+                "Your account has been created.",
             )
             return redirect("login")
         else:

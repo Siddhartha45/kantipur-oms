@@ -16,6 +16,7 @@ class GeneralAndLifetimeMembership(models.Model):
     membership_no = models.CharField(max_length=5, blank=True, null=True)
     membership_since = models.CharField(max_length=4, blank=True, null=True)
     # Personal Details
+    salutation = models.CharField(max_length=2, choices=choices.SALUTATION_CHOICES, blank=True, null=True)
     name_of_applicant = models.CharField(max_length=200)
     dob = models.CharField(max_length=10)
     gender = models.CharField(max_length=1, choices=choices.GENDER_CHOICES)

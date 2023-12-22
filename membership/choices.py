@@ -4,6 +4,14 @@ GENDER_CHOICES = (("M", "Male"), ("F", "Female"), ("O", "Others"))
 
 STUDENT_LEVEL_CHOICES = (("U", "Undergraduate"), ("P", "Postgraduate"))
 
+SALUTATION_CHOICES = (
+    ("P", "Prof"),
+    ("D", "Dr"),
+    ("E", "Er"),
+    ("MR", "Mr"),
+    ("MS", "Ms"),
+)
+
 COUNTRY_CHOICES = (
     ("AF", "Afghanistan"),
     ("AL", "Albania"),
