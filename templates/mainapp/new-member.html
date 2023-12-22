@@ -76,8 +76,9 @@
                                 
 
 
-                                    <form action="{% url 'general_membership' %}" method="post" class="member-personal" enctype="multipart/form-data">
+                                    <form action="" method="post" class="member-personal" enctype="multipart/form-data">
                                         {% csrf_token %}
+                                        <input type="hidden" name="form_name" value="general_membership_form">
                                         <h3>1. Personal Information</h3>
                                         <div class="member-details">
                                             <div class="member-info">
@@ -100,8 +101,11 @@
                                             <div class="member-info">
                                                 <p class="required">Date Of Birth</p>
                                                 <div class="info-inner">
-                                                    <input type="date" name="dob" id="dob" placeholder="ID" required>
+                                                    <input type="date" name="dob" id="dob" placeholder="ID" value="{{ form.dob.value }}" required>
                                                 </div>
+                                                {% if form.dob.errors %}
+                                                    <p class="error">{{ form.dob.errors }}</p>
+                                                {% endif %}
                                             </div>
                                             <div class="member-info">
                                                 <p class="required">Gender</p>
@@ -129,29 +133,41 @@
                                             <div class="member-info">
                                                 <p class="required">Issued From</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="issued_from" id="issued" placeholder="Issued From" required>
+                                                    <input type="text" name="issued_from" id="issued" placeholder="Issued From" value="{{ form.issued_from.value }}" required>
                                                 </div>
+                                                {% if form.issued_from.errors %}
+                                                    <p class="error">{{ form.issued_from.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info">
                                                 <p class="required">Permanent Address</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="permanent_address" id="address" placeholder="Enter Address" required>
+                                                    <input type="text" name="permanent_address" id="address" placeholder="Enter Address" value="{{ form.permanent_address.value }}" required>
                                                 </div>
+                                                {% if form.permanent_address.errors %}
+                                                    <p class="error">{{ form.permanent_address.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info">
                                                 <p class="required">Affiliation</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="affiliation" id="affiliation" placeholder="Enter Affiliation" required>
+                                                    <input type="text" name="affiliation" id="affiliation" placeholder="Enter Affiliation" value="{{ form.affiliation.value }}" required>
                                                 </div>
+                                                {% if form.affiliation.errors %}
+                                                    <p class="error">{{ form.affiliation.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info">
                                                 <p class="required">Citizenship Card No.</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="citizenship_card_no" id="citizen" placeholder="Enter the Citizenship Card No." required>
+                                                    <input type="text" name="citizenship_card_no" id="citizen" placeholder="Enter the Citizenship Card No." value="{{ form.citizenship_card_no.value }}" required>
                                                 </div>
+                                                {% if form.citizenship_card_no.errors %}
+                                                    <p class="error">{{ form.citizenship_card_no.errors }}</p>
+                                                {% endif %}
                                             </div>
                                             
                                         </div>
@@ -163,15 +179,21 @@
                                             <div class="member-info3">
                                                 <p class="required">Subject</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="be_subject" id="besubject" placeholder="Enter the Subject" required>
+                                                    <input type="text" name="be_subject" id="besubject" placeholder="Enter the Subject" value="{{ form.be_subject.value }}" required>
                                                 </div>
+                                                {% if form.be_subject.errors %}
+                                                    <p class="error">{{ form.be_subject.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info3">
                                                 <p class="required">Institution</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="be_institution" id="beinstitute" placeholder="Enter the Institution" required>
+                                                    <input type="text" name="be_institution" id="beinstitute" placeholder="Enter the Institution" value="{{ form.be_institution.value }}" required>
                                                 </div>
+                                                {% if form.be_institution.errors %}
+                                                    <p class="error">{{ form.be_institution.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info3">
@@ -189,8 +211,11 @@
                                             <div class="member-info3">
                                                 <p class="required">Passed Year</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="be_passed_year" id="bepass" placeholder="Enter the Passed Year" required>
+                                                    <input type="text" name="be_passed_year" id="bepass" placeholder="Enter the Passed Year" value="{{ form.be_passed_year.value }}" required>
                                                 </div>
+                                                {% if form.be_passed_year.errors %}
+                                                    <p class="error">{{ form.be_passed_year.errors }}</p>
+                                                {% endif %}
                                             </div>
                                         </div>
 
@@ -199,15 +224,21 @@
                                             <div class="member-info3">
                                                 <p class="required">Subject</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="me_subject" id="mesubject" placeholder="Enter the Subject">
+                                                    <input type="text" name="me_subject" id="mesubject" placeholder="Enter the Subject" value="{{ form.me_subject.value }}">
                                                 </div>
+                                                {% if form.me_subject.errors %}
+                                                    <p class="error">{{ form.me_subject.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info3">
                                                 <p class="required">Institution</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="me_institution" id="meinstitute" placeholder="Enter the Institution">
+                                                    <input type="text" name="me_institution" id="meinstitute" placeholder="Enter the Institution" value="{{ form.me_institution.value }}">
                                                 </div>
+                                                {% if form.me_institution.errors %}
+                                                    <p class="error">{{ form.me_institution.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info3">
@@ -225,8 +256,11 @@
                                             <div class="member-info3">
                                                 <p class="required">Passed Year</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="me_passed_year" id="mepass" placeholder="Enter the Passed Year">
+                                                    <input type="text" name="me_passed_year" id="mepass" placeholder="Enter the Passed Year" value="{{ form.me_passed_year.value }}">
                                                 </div>
+                                                {% if form.me_passed_year.errors %}
+                                                    <p class="error">{{ form.me_passed_year.errors }}</p>
+                                                {% endif %}
                                             </div>
                                         </div>
 
@@ -235,15 +269,21 @@
                                             <div class="member-info3">
                                                 <p>Subject</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="phd_subject" id="phdsubject" placeholder="Enter the Subject">
+                                                    <input type="text" name="phd_subject" id="phdsubject" placeholder="Enter the Subject" value="{{ form.phd_subject.value }}">
                                                 </div>
+                                                {% if form.phd_subject.errors %}
+                                                    <p class="error">{{ form.phd_subject.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info3">
                                                 <p>Institution</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="phd_institution" id="phdinstitute" placeholder="Enter the Institution">
+                                                    <input type="text" name="phd_institution" id="phdinstitute" placeholder="Enter the Institution" value="{{ form.phd_institution.value }}">
                                                 </div>
+                                                {% if form.phd_institution.errors %}
+                                                    <p class="error">{{ form.phd_institution.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info3">
@@ -261,8 +301,11 @@
                                             <div class="member-info3">
                                                 <p>Passed Year</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="phd_passed_year" id="phdpass" placeholder="Enter the Passed Year">
+                                                    <input type="text" name="phd_passed_year" id="phdpass" placeholder="Enter the Passed Year" value="{{ form.phd_passed_year.value }}">
                                                 </div>
+                                                {% if form.phd_passed_year.errors %}
+                                                    <p class="error">{{ form.phd_passed_year.errors }}</p>
+                                                {% endif %}
                                             </div>
                                         </div>
 
@@ -271,22 +314,31 @@
                                             <div class="member-info2">
                                                 <p class="required">PP Photo</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="pp_photo" id="photo" accept="image/*" required>
+                                                    <input type="file" name="pp_photo" id="photo" accept="image/*" value="{{ form.pp_photo.value }}" required>
                                                 </div>
+                                                {% if form.pp_photo.errors %}
+                                                    <p class="error">{{ form.pp_photo.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info2">
                                                 <p class="required">Citizenship</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="citizenship" id="citizenphoto" accept="image/*" required>
+                                                    <input type="file" name="citizenship" id="citizenphoto" accept="image/*" value="{{ form.citizenship.value }}" required>
                                                 </div>
+                                                {% if form.citizenship.errors %}
+                                                    <p class="error">{{ form.citizenship.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info2">
                                                 <p class="required">Any highest degree certificate or (Document that certifies you are eligible for NGS Membership)</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="masters_document" id="masterdoc" accept="image/*" required>
+                                                    <input type="file" name="masters_document" id="masterdoc" accept="image/*" value="{{ form.masters_document.value }}" required>
                                                 </div>
+                                                {% if form.masters_document.errors %}
+                                                    <p class="error">{{ form.masters_document.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                         </div>
@@ -310,8 +362,9 @@
 
 
                                 <div class="tab-pane active" id="lifetime-tab-pane" role="tabpanel" aria-labelledby="lifetime-tab" tabindex="0">
-                                    <form action="{% url 'lifetime_membership' %}" method="post" class="member-personal" enctype="multipart/form-data">
+                                    <form action="" method="post" class="member-personal" enctype="multipart/form-data">
                                         {% csrf_token %}
+                                        <input type="hidden" name="form_name" value="lifetime_membership_form">
                                         <h3>1. Personal Information</h3>
                                         <div class="member-details">
                                             <div class="member-info">
@@ -335,8 +388,11 @@
                                             <div class="member-info">
                                                 <p class="required">Date Of Birth</p>
                                                 <div class="info-inner">
-                                                    <input type="date" name="dob" id="dob" placeholder="ID" required>
+                                                    <input type="date" name="dob" id="dob" placeholder="ID" value="{{ form.dob.value }}" required>
                                                 </div>
+                                                {% if form.dob.errors %}
+                                                    <p class="error">{{ form.dob.errors }}</p>
+                                                {% endif %}
                                             </div>
                                             <div class="member-info">
                                                 <p class="required">Gender</p>
@@ -364,29 +420,41 @@
                                             <div class="member-info">
                                                 <p class="required">Issued From</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="issued_from" id="issued" placeholder="Issued From" required>
+                                                    <input type="text" name="issued_from" id="issued" placeholder="Issued From" value="{{ form.issued_from.value }}" required>
                                                 </div>
+                                                {% if form.issued_from.errors %}
+                                                    <p class="error">{{ form.issued_from.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info">
                                                 <p class="required">Permanent Address</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="permanent_address" id="address" placeholder="Enter Address" required>
+                                                    <input type="text" name="permanent_address" id="address" placeholder="Enter Address" value="{{ form.permanent_address.value }}" required>
                                                 </div>
+                                                {% if form.permanent_address.errors %}
+                                                    <p class="error">{{ form.permanent_address.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info">
                                                 <p class="required">Affiliation</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="affiliation" id="affiliation" placeholder="Enter Affiliation" required>
+                                                    <input type="text" name="affiliation" id="affiliation" placeholder="Enter Affiliation" value="{{ form.affiliation.value }}" required>
                                                 </div>
+                                                {% if form.affiliation.errors %}
+                                                    <p class="error">{{ form.affiliation.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info">
                                                 <p class="required">Citizenship Card No.</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="citizenship_card_no" id="citizen" placeholder="Enter the Citizenship Card No." required>
+                                                    <input type="text" name="citizenship_card_no" id="citizen" placeholder="Enter the Citizenship Card No." value="{{ form.citizenship_card_no.value }}" required>
                                                 </div>
+                                                {% if form.citizenship_card_no.errors %}
+                                                    <p class="error">{{ form.citizenship_card_no.errors }}</p>
+                                                {% endif %}
                                             </div>
                                             
                                         </div>
@@ -398,15 +466,21 @@
                                             <div class="member-info3">
                                                 <p class="required">Subject</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="be_subject" id="besubject" placeholder="Enter the Subject" required>
+                                                    <input type="text" name="be_subject" id="besubject" placeholder="Enter the Subject" value="{{ form.be_subject.value }}" required>
                                                 </div>
+                                                {% if form.be_subject.errors %}
+                                                    <p class="error">{{ form.be_subject.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info3">
                                                 <p class="required">Institution</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="be_institution" id="beinstitute" placeholder="Enter the Institution" required>
+                                                    <input type="text" name="be_institution" id="beinstitute" placeholder="Enter the Institution" value="{{ form.be_institution.value }}" required>
                                                 </div>
+                                                {% if form.be_institution.errors %}
+                                                    <p class="error">{{ form.be_institution.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info3">
@@ -424,8 +498,11 @@
                                             <div class="member-info3">
                                                 <p class="required">Passed Year</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="be_passed_year" id="bepass" placeholder="Enter the Passed Year" required>
+                                                    <input type="text" name="be_passed_year" id="bepass" placeholder="Enter the Passed Year" value="{{ form.be_passed_year.value }}" required>
                                                 </div>
+                                                {% if form.be_passed_year.errors %}
+                                                    <p class="error">{{ form.be_passed_year.errors }}</p>
+                                                {% endif %}
                                             </div>
                                         </div>
 
@@ -434,15 +511,21 @@
                                             <div class="member-info3">
                                                 <p class="required">Subject</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="me_subject" id="mesubject" placeholder="Enter the Subject">
+                                                    <input type="text" name="me_subject" id="mesubject" placeholder="Enter the Subject" value="{{ form.me_subject.value }}">
                                                 </div>
+                                                {% if form.me_subject.errors %}
+                                                    <p class="error">{{ form.me_subject.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info3">
                                                 <p class="required">Institution</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="me_institution" id="meinstitute" placeholder="Enter the Institution">
+                                                    <input type="text" name="me_institution" id="meinstitute" placeholder="Enter the Institution" value="{{ form.me_institution.value }}">
                                                 </div>
+                                                {% if form.me_institution.errors %}
+                                                    <p class="error">{{ form.me_institution.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info3">
@@ -460,8 +543,11 @@
                                             <div class="member-info3">
                                                 <p class="required">Passed Year</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="me_passed_year" id="mepass" placeholder="Enter the Passed Year">
+                                                    <input type="text" name="me_passed_year" id="mepass" placeholder="Enter the Passed Year" value="{{ form.me_passed_year.value }}">
                                                 </div>
+                                                {% if form.me_passed_year.errors %}
+                                                    <p class="error">{{ form.me_passed_year.errors }}</p>
+                                                {% endif %}
                                             </div>
                                         </div>
 
@@ -470,15 +556,21 @@
                                             <div class="member-info3">
                                                 <p >Subject</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="phd_subject" id="phdsubject" placeholder="Enter the Subject">
+                                                    <input type="text" name="phd_subject" id="phdsubject" placeholder="Enter the Subject" value="{{ form.phd_subject.value }}">
                                                 </div>
+                                                {% if form.phd_subject.errors %}
+                                                    <p class="error">{{ form.phd_subject.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info3">
                                                 <p>Institution</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="phd_institution" id="phdinstitute" placeholder="Enter the Institution">
+                                                    <input type="text" name="phd_institution" id="phdinstitute" placeholder="Enter the Institution" value="{{ form.phd_institution.value }}">
                                                 </div>
+                                                {% if form.phd_institution.errors %}
+                                                    <p class="error">{{ form.phd_institution.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info3">
@@ -496,8 +588,11 @@
                                             <div class="member-info3">
                                                 <p>Passed Year</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="phd_passed_year" id="phdpass" placeholder="Enter the Passed Year">
+                                                    <input type="text" name="phd_passed_year" id="phdpass" placeholder="Enter the Passed Year" value="{{ form.phd_passed_year.value }}">
                                                 </div>
+                                                {% if form.phd_passed_year.errors %}
+                                                    <p class="error">{{ form.phd_passed_year.errors }}</p>
+                                                {% endif %}
                                             </div>
                                         </div>
 
@@ -506,24 +601,32 @@
                                             <div class="member-info2">
                                                 <p class="required">PP Photo</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="pp_photo" id="photo" accept="image/*" required>
+                                                    <input type="file" name="pp_photo" id="photo" accept="image/*" value="{{ form.pp_photo.value }}" required>
                                                 </div>
+                                                {% if form.pp_photo.errors %}
+                                                    <p class="error">{{ form.pp_photo.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info2">
                                                 <p class="required">Citizenship</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="citizenship" id="citizenphoto" accept="image/*" required>
+                                                    <input type="file" name="citizenship" id="citizenphoto" accept="image/*" value="{{ form.citizenship.value }}" required>
                                                 </div>
+                                                {% if form.citizenship.errors %}
+                                                    <p class="error">{{ form.citizenship.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info2">
                                                 <p class="required">Any highest degree certificate or (Document that certifies you are eligible for NGS Membership)</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="masters_document" id="masterdoc" accept="image/*" required>
+                                                    <input type="file" name="masters_document" id="masterdoc" accept="image/*" value="{{ form.masters_document.value }}" required>
                                                 </div>
+                                                {% if form.masters_document.errors %}
+                                                    <p class="error">{{ form.masters_document.errors }}</p>
+                                                {% endif %}
                                             </div>
-
                                         </div>
 
                                         <h3>4. Work Experience</h3>
@@ -544,8 +647,9 @@
 
 
                                 <div class="tab-pane fade" id="student-tab-pane" role="tabpanel" aria-labelledby="sutdent-tab" tabindex="0">
-                                    <form action="{% url 'student_membership' %}" method="post" class="member-personal" enctype="multipart/form-data">
+                                    <form action="" method="post" class="member-personal" enctype="multipart/form-data">
                                         {% csrf_token %}
+                                        <input type="hidden" name="form_name" value="student_membership_form">
                                         <h3>1. Personal Information</h3>
                                         <div class="member-details">
                                             <div class="member-info">
@@ -568,8 +672,11 @@
                                             <div class="member-info">
                                                 <p class="required">Date Of Birth</p>
                                                 <div class="info-inner">
-                                                    <input type="date" name="dob" id="dob" placeholder="ID" required>
+                                                    <input type="date" name="dob" id="dob" placeholder="ID" value="{{ form.dob.value }}" required>
                                                 </div>
+                                                {% if form.dob.errors %}
+                                                    <p class="error">{{ form.dob.errors }}</p>
+                                                {% endif %}
                                             </div>
                                             <div class="member-info">
                                                 <p class="required">Gender</p>
@@ -597,29 +704,41 @@
                                             <div class="member-info">
                                                 <p class="required">Issued From</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="issued_from" id="issued" placeholder="Issued From" required>
+                                                    <input type="text" name="issued_from" id="issued" placeholder="Issued From" value="{{ form.issued_from.value }}" required>
                                                 </div>
+                                                {% if form.issued_from.errors %}
+                                                    <p class="error">{{ form.issued_from.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info">
                                                 <p class="required">Permanent Address</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="permanent_address" id="address" placeholder="Enter Address" required>
+                                                    <input type="text" name="permanent_address" id="address" placeholder="Enter Address" value="{{ form.permanent_address.value }}" required>
                                                 </div>
+                                                {% if form.permanent_address.errors %}
+                                                    <p class="error">{{ form.permanent_address.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info">
                                                 <p class="required">Affiliation</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="affiliation" id="affiliation" placeholder="Enter Affiliation" required>
+                                                    <input type="text" name="affiliation" id="affiliation" placeholder="Enter Affiliation" value="{{ form.affiliation.value }}" required>
                                                 </div>
+                                                {% if form.affiliation.errors %}
+                                                    <p class="error">{{ form.affiliation.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info">
                                                 <p class="required">Citizenship Card No.</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="citizenship_card_no" id="citizen" placeholder="Enter the Citizenship Card No." required>
+                                                    <input type="text" name="citizenship_card_no" id="citizen" placeholder="Enter the Citizenship Card No." value="{{ form.citizenship_card_no.value }}" required>
                                                 </div>
+                                                {% if form.citizenship_card_no.errors %}
+                                                    <p class="error">{{ form.citizenship_card_no.errors }}</p>
+                                                {% endif %}
                                             </div>
                                             
                                         </div>
@@ -642,8 +761,11 @@
                                             <div class="member-info3">
                                                 <p class="required">Institution</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="institution" id="beinstitute" placeholder="Enter the Institution" required>
+                                                    <input type="text" name="institution" id="beinstitute" placeholder="Enter the Institution" value="{{ form.institution.value }}" required>
                                                 </div>
+                                                {% if form.institution.errors %}
+                                                    <p class="error">{{ form.institution.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info3">
@@ -661,8 +783,11 @@
                                             <div class="member-info3">
                                                 <p class="required">Expected Pass Year</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="expected_pass_year" id="bepass" placeholder="Enter the Expected Passed Year" required>
+                                                    <input type="text" name="expected_pass_year" id="bepass" placeholder="Enter the Expected Passed Year" value="{{ form.expected_pass_year.value }}" required>
                                                 </div>
+                                                {% if form.expected_pass_year.errors %}
+                                                    <p class="error">{{ form.expected_pass_year.errors }}</p>
+                                                {% endif %}
                                             </div>
                                         </div>
 
@@ -671,22 +796,31 @@
                                             <div class="member-info2">
                                                 <p class="required">PP Photo</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="pp_photo" id="photo" accept="image/*" required>
+                                                    <input type="file" name="pp_photo" id="photo" accept="image/*" value="{{ form.pp_photo.value }}" required>
                                                 </div>
+                                                {% if form.pp_photo.errors %}
+                                                    <p class="error">{{ form.pp_photo.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info2">
                                                 <p class="required">Citizenship</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="citizenship" id="citizenphoto" accept="image/*" required>
+                                                    <input type="file" name="citizenship" id="citizenphoto" accept="image/*" value="{{ form.citizenship.value }}" required>
                                                 </div>
+                                                {% if form.citizenship.errors %}
+                                                    <p class="error">{{ form.citizenship.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info2">
                                                 <p class="required">College ID Card</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="college_id_card" id="masterdoc" accept="image/*" required>
+                                                    <input type="file" name="college_id_card" id="masterdoc" accept="image/*" value="{{ form.college_id_card.value }}" required>
                                                 </div>
+                                                {% if form.college_id_card.errors %}
+                                                    <p class="error">{{ form.college_id_card.errors }}</p>
+                                                {% endif %}
                                             </div>
                                         </div>
                                         <button type="Submit">Submit</button>
@@ -695,37 +829,49 @@
 
 
                                 <div class="tab-pane fade" id="institutional-tab-pane" role="tabpanel" aria-labelledby="institutional-tab" tabindex="0">
-                                    <form action="{% url 'institutional_membership' %}" method="post" class="member-personal" enctype="multipart/form-data">
+                                    <form action="" method="post" class="member-personal" enctype="multipart/form-data">
                                         {% csrf_token %}
-                                        
+                                        <input type="hidden" name="form_name" value="institutional_membership_form">
                                         <h3>1. Institutional Information </h3>
                                         <div class="member-details">
                                             
                                             <div class="member-info">
                                                 <p class="required">Company Name</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="company_name" id="companynam" placeholder="Enter your company name" required>
+                                                    <input type="text" name="company_name" id="companynam" placeholder="Enter your company name" value="{{ form.company_name.value }}" required>
                                                 </div>
+                                                {% if form.company_name.errors %}
+                                                    <p class="error">{{ form.company_name.errors }}</p>
+                                                {% endif %}
                                             </div>
                                             <div class="member-info">
                                                 <p class="required">Address</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="company_address" id="companyaddress" placeholder="Enter your company address" required>
+                                                    <input type="text" name="company_address" id="companyaddress" placeholder="Enter your company address" value="{{ form.company_address.value }}" required>
                                                 </div>
+                                                {% if form.company_address.errors %}
+                                                    <p class="error">{{ form.company_address.errors }}</p>
+                                                {% endif %}
                                             </div>
-                                           
+                                        
                                             <div class="member-info">
                                                 <p class="required">Registration No.</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="registration_no" id="regno" placeholder="Enter Your Register Number" required>
+                                                    <input type="text" name="registration_no" id="regno" placeholder="Enter Your Register Number" value="{{ form.registration_no.value }}" required>
                                                 </div>
+                                                {% if form.registration_no.errors %}
+                                                    <p class="error">{{ form.registration_no.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info">
                                                 <p class="required">Website</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="website" id="website" placeholder="Enter Your Website URL" required>
+                                                    <input type="text" name="website" id="website" placeholder="Enter Your Website URL" value="{{ form.website.value }}" required>
                                                 </div>
+                                                {% if form.website.errors %}
+                                                    <p class="error">{{ form.website.errors }}</p>
+                                                {% endif %}
                                             </div>
                                             
                                         </div>
@@ -735,28 +881,40 @@
                                             <div class="member-info2">
                                                 <p class="required">PAN</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="pan_document" id="panimg" accept="image/*" required>
+                                                    <input type="file" name="pan_document" id="panimg" accept="image/*" value="{{ form.pan_document.value }}" required>
                                                 </div>
+                                                {% if form.pan_document.errors %}
+                                                    <p class="error">{{ form.pan_document.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info2">
                                                 <p class="required">Registration</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="registration_document" id="regimg" accept="image/*" required>
+                                                    <input type="file" name="registration_document" id="regimg" accept="image/*" value="{{ form.registration_document.value }}" required>
                                                 </div>
+                                                {% if form.registration_document.errors %}
+                                                    <p class="error">{{ form.registration_document.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info2">
                                                 <p class="required">Letter of Application</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="company_document" id="othimg" accept="image/*" required>
+                                                    <input type="file" name="company_document" id="othimg" accept="image/*" value="{{ form.company_document.value }}" required>
                                                 </div>
+                                                {% if form.company_document.errors %}
+                                                    <p class="error">{{ form.company_document.errors }}</p>
+                                                {% endif %}
                                             </div>
                                             <div class="member-info2">
                                                 <p class="required">Company Logo</p>
                                                 <div class="inner-image">
-                                                    <input type="file" name="logo" id="complog" accept="image/*" required>
+                                                    <input type="file" name="logo" id="complog" accept="image/*" value="{{ form.logo.value }}" required>
                                                 </div>
+                                                {% if form.logo.errors %}
+                                                    <p class="error">{{ form.logo.errors }}</p>
+                                                {% endif %}
                                             </div>
                                         </div>
 
@@ -771,15 +929,21 @@
                                             <div class="member-info">
                                                 <p class="required">Contact Person</p>
                                                 <div class="info-inner">
-                                                    <input type="email" name="contact_person" id="contact-email" placeholder="Enter contact person email" required>
+                                                    <input type="email" name="contact_person" id="contact-email" placeholder="Enter contact person email" value="{{ form.contact_person.value }}" required>
                                                 </div>
+                                                {% if form.contact_person.errors %}
+                                                    <p class="error">{{ form.contact_person.errors }}</p>
+                                                {% endif %}
                                             </div>
 
                                             <div class="member-info">
                                                 <p class="required">Contact Number</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="contact_number" id="contact-number" placeholder="Enter contact number" required>
+                                                    <input type="text" name="contact_number" id="contact-number" placeholder="Enter contact number" value="{{ form.contact_number.value }}" required>
                                                 </div>
+                                                {% if form.contact_number.errors %}
+                                                    <p class="error">{{ form.contact_number.errors }}</p>
+                                                {% endif %}
                                             </div>
                                         </div>
 

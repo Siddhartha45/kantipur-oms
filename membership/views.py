@@ -49,57 +49,115 @@ def new_membership_page(request):
     countries = choices.COUNTRY_CHOICES
     student_level = choices.STUDENT_LEVEL_CHOICES
     salutation = choices.SALUTATION_CHOICES
+    
+    if request.method == "POST":
+        form_name = request.POST.get("form_name")
+        
+        if form_name == "general_membership_form":
+            form = GeneralAndLifetimeMembershipForm(request.POST, request.FILES)
+            if form.is_valid():
+                GeneralAndLifetimeMembership.objects.create(
+                    created_by=request.user, membership_type="G", **form.cleaned_data
+                )
+                return redirect("payment")
+            else:
+                messages.error(
+                    request, "Form not saved!!!. Please fill all the fields correctly."
+                )
+                return render(request, 'mainapp/new-member.html', {'form': form})
+
+        elif form_name == "lifetime_membership_form":
+            form = GeneralAndLifetimeMembershipForm(request.POST, request.FILES)
+            if form.is_valid():
+                GeneralAndLifetimeMembership.objects.create(
+                    created_by=request.user, membership_type="L", **form.cleaned_data
+                )
+                return redirect("payment")
+            else:
+                messages.error(
+                    request, "Form not saved!!!. Please fill all the fields correctly."
+                )
+                return render(request, 'mainapp/new-member.html', {'form': form})
+            
+        elif form_name == "student_membership_form":
+            form = StudentMembershipForm(request.POST, request.FILES)
+            if form.is_valid():
+                GeneralAndLifetimeMembership.objects.create(
+                    created_by=request.user, membership_type="S", **form.cleaned_data
+                )
+                return redirect("payment")
+            else:
+                messages.error(
+                    request, "Form not saved!!!. Please fill all the fields correctly."
+                )
+                return render(request, 'mainapp/new-member.html', {'form': form})
+        
+        elif form_name == "institutional_membership_form":
+            form = InstitutionalMembershipForm(request.POST, request.FILES)
+            if form.is_valid():
+                InstitutionalMembership.objects.create(
+                    created_by=request.user, **form.cleaned_data
+                )
+                return redirect("institutional_payment")
+            else:
+                print(form.errors)
+                messages.error(
+                    request, "Form not saved!!!. Please fill all the fields correctly."
+                )
+                return render(request, 'mainapp/new-member.html', {'form': form})
+
     context = {"gender": gender, "countries": countries, "student_level": student_level, "salutation": salutation}
     return render(request, "mainapp/new-member.html", context)
 
 
-def institutional_membership(request):
-    if request.method == "POST":
-        form = InstitutionalMembershipForm(request.POST, request.FILES)
+# def institutional_membership(request):
+#     if request.method == "POST":
+#         form = InstitutionalMembershipForm(request.POST, request.FILES)
 
-        if form.is_valid():
-            InstitutionalMembership.objects.create(
-                created_by=request.user, **form.cleaned_data
-            )
-            return redirect("institutional_payment")
-        else:
-            messages.error(
-                request, "Form not saved!!!. Please fill all the fields correctly."
-            )
-            return redirect("new_membership_page")
-
-
-def general_membership(request):
-    if request.method == "POST":
-        form = GeneralAndLifetimeMembershipForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            GeneralAndLifetimeMembership.objects.create(
-                created_by=request.user, membership_type="G", **form.cleaned_data
-            )
-            return redirect("payment")
-        else:
-            print(form.errors)
-            messages.error(
-                request, "Form not saved!!!. Please fill all the fields correctly."
-            )
-            return redirect("new_membership_page")
+#         if form.is_valid():
+#             InstitutionalMembership.objects.create(
+#                 created_by=request.user, **form.cleaned_data
+#             )
+#             return redirect("institutional_payment")
+#         else:
+#             print(form.errors)
+#             messages.error(
+#                 request, "Form not saved!!!. Please fill all the fields correctly."
+#             )
+#             return redirect("new_membership_page")
+            # return render(request, 'mainapp/new-member.html', {'form': form})
 
 
-def lifetime_membership(request):
-    if request.method == "POST":
-        form = GeneralAndLifetimeMembershipForm(request.POST, request.FILES)
+# def general_membership(request):
+#     if request.method == "POST":
+#         form = GeneralAndLifetimeMembershipForm(request.POST, request.FILES)
 
-        if form.is_valid():
-            GeneralAndLifetimeMembership.objects.create(
-                created_by=request.user, membership_type="L", **form.cleaned_data
-            )
-            return redirect("payment")
-        else:
-            messages.error(
-                request, "Form not saved!!!. Please fill all the fields correctly."
-            )
-            return redirect("new_membership_page")
+#         if form.is_valid():
+#             GeneralAndLifetimeMembership.objects.create(
+#                 created_by=request.user, membership_type="G", **form.cleaned_data
+#             )
+#             return redirect("payment")
+#         else:
+#             messages.error(
+#                 request, "Form not saved!!!. Please fill all the fields correctly."
+#             )
+#             return redirect("new_membership_page")
+
+
+# def lifetime_membership(request):
+#     if request.method == "POST":
+#         form = GeneralAndLifetimeMembershipForm(request.POST, request.FILES)
+
+#         if form.is_valid():
+#             GeneralAndLifetimeMembership.objects.create(
+#                 created_by=request.user, membership_type="L", **form.cleaned_data
+#             )
+#             return redirect("payment")
+#         else:
+#             messages.error(
+#                 request, "Form not saved!!!. Please fill all the fields correctly."
+#             )
+#             return redirect("new_membership_page")
 
 
 @login_required
@@ -403,20 +461,20 @@ def upgrade_to_lifetime(request):
     return render(request, "mainapp/upgrade_to_lifetime.html")
 
 
-def student_membership(request):
-    if request.method == "POST":
-        form = StudentMembershipForm(request.POST, request.FILES)
+# def student_membership(request):
+#     if request.method == "POST":
+#         form = StudentMembershipForm(request.POST, request.FILES)
 
-        if form.is_valid():
-            GeneralAndLifetimeMembership.objects.create(
-                created_by=request.user, membership_type="S", **form.cleaned_data
-            )
-            return redirect("payment")
-        else:
-            messages.error(
-                request, "Form not saved!!!. Please fill all the fields correctly."
-            )
-            return redirect("new_membership_page")
+#         if form.is_valid():
+#             GeneralAndLifetimeMembership.objects.create(
+#                 created_by=request.user, membership_type="S", **form.cleaned_data
+#             )
+#             return redirect("payment")
+#         else:
+#             messages.error(
+#                 request, "Form not saved!!!. Please fill all the fields correctly."
+#             )
+#             return redirect("new_membership_page")
 
 
 @login_required
