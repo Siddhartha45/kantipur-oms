@@ -77,8 +77,9 @@ def general_membership(request):
             GeneralAndLifetimeMembership.objects.create(
                 created_by=request.user, membership_type="G", **form.cleaned_data
             )
-            return redirect("general_payment")
+            return redirect("payment")
         else:
+            print(form.errors)
             messages.error(
                 request, "Form not saved!!!. Please fill all the fields correctly."
             )
@@ -93,7 +94,7 @@ def lifetime_membership(request):
             GeneralAndLifetimeMembership.objects.create(
                 created_by=request.user, membership_type="L", **form.cleaned_data
             )
-            return redirect("lifetime_payment")
+            return redirect("payment")
         else:
             messages.error(
                 request, "Form not saved!!!. Please fill all the fields correctly."
@@ -410,7 +411,7 @@ def student_membership(request):
             GeneralAndLifetimeMembership.objects.create(
                 created_by=request.user, membership_type="S", **form.cleaned_data
             )
-            return redirect("student_payment")
+            return redirect("payment")
         else:
             messages.error(
                 request, "Form not saved!!!. Please fill all the fields correctly."

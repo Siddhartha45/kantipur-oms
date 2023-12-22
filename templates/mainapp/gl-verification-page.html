@@ -76,7 +76,13 @@
                                                 <h6 class="heading-title">Date Of Birth:</h6>
                                             </div>
                                             <div class="right-field">
-                                                <p>{{gl.name_of_applicant}}</p>
+                                                <p>
+                                                {% if gl.salutation %}
+                                                {{gl.get_salutation_display}}. {{gl.name_of_applicant}}
+                                                {% else %}
+                                                {{gl.name_of_applicant}}
+                                                {% endif %}
+                                                </p>
                                                 <p>{{gl.get_nationality_display}}</p>
                                                 <p>{{gl.affiliation}}</p>
                                                 <p>{{gl.dob}}</p>
