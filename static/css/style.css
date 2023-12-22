@@ -2352,6 +2352,9 @@ h4.edu-head {
 
 .pay-khalti {
   border-left: 1px solid #e4e4e4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .pay-khalti img{
@@ -2361,6 +2364,7 @@ h4.edu-head {
     border: 1px solid var(--Pra-Yellow);
     border-radius: 20px;
     transition: all 0.3s ease-in-out;
+    cursor: pointer;
 }
 
 .pay-khalti img:hover {
@@ -3088,6 +3092,20 @@ a.kit-hover:hover .logo-inner2 h2{
   color: var(--Pra-White);
 }
 
+.pay-in1 {
+  padding: 20px;
+  margin-left: 20px;
+  border: 1px solid var(--Pra-Yellow);
+  border-radius: 20px;
+  transition: all 0.3s ease-in-out;
+  margin-bottom: 20px;
+}
+
+
+.pay-in1 p{
+  margin-bottom: 0px;
+}
+
 /* Responsive */
 
 @media only screen and (max-width: 600px) {
@@ -3664,5 +3682,11 @@ a.kit-hover:hover .logo-inner2 h2{
 .end-card {
   margin-top: -20px !important;
 }
+
+.dataTables_wrapper {
+  overflow-x: scroll !important;
+  margin-bottom: 20px;
+}
+
 }
 

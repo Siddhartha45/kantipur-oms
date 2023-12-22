@@ -67,7 +67,7 @@
                                             {% csrf_token %}
                                             <div class="member-details">
                                                 <div class="member-info2">
-                                                    <p class="required">Upload Payment Screen Shot</p>
+                                                    <p class="required">Upload Payment Screen Shot/Voucher</p>
                                                     <div class="inner-image">
                                                         <input type="file" name="payment_ss" id="ss" accept="image/*" required>
                                                     </div>
@@ -77,8 +77,18 @@
                                         </form>
                                     </div>
                                     <div class="pay-khalti">
-                                            <h3>Pay Using Khalti: </h3>
+                                                <div class="pay-in1">
+                                                    <h3>Account Details: </h3>
+                                                        <p>Account Name: Nepal Geotechnical Society</p>
+                                                        <p>Bank Name: Nabil Bank</p>
+                                                        <p>Branch: Pulchowk, Lalitpur</p>
+                                                        <p>Account Number: 1901017501614</p>
+                                                        <p>Swift Number: NBRBNPKA</p>
+                                                </div>
+                                            <div class="pay-in">
+                                                <h3>Pay Using Khalti: </h3>
                                             <img id="payment-button" src="{% static 'images/khalti-logo.png' %}" alt="">
+                                            </div>
                                     </div>
                                 </div>
                             </div>

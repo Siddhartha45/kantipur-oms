@@ -2984,10 +2984,6 @@ div#example_wrapper {
   color: var(--Pra-Black);
 }
 
-.end-second 
-
-
-
 /* Responsive */
 
 @media only screen and (max-width: 600px) {
@@ -3550,18 +3546,25 @@ div#example_wrapper {
     border-radius: 10px;
     max-height: 95px;
     min-height: 90px;
-}
+  }
 
-.end-second p {
-  font-size: 10px;
-}
+  .end-second p {
+    font-size: 10px;
+  }
 
-.top-card h2 {
-  font-size: 16px;
-}
+  .top-card h2 {
+    font-size: 16px;
+  }
 
-.end-card {
-  margin-top: -20px !important;
-}
+  .end-card {
+    margin-top: -20px !important;
+  }
+
+  #memberList {
+    overflow-x: scroll !important;
+  }
+
+ 
+
 }
 
