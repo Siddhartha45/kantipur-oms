@@ -36,15 +36,15 @@
                 </div>
                 
                 {% for message in messages %}
-                {% if message.tags == success %}
+                {% if message.tags == "success" %}
                 <div class="success-message">
                     {{message}}
                 </div>
-                {% elif message.tags == error %}
+                {% elif message.tags == "error" %}
                 <div class="failed-message">
                     {{message}}
                 </div>
-                {% elif message.tags == info %}
+                {% elif message.tags == "info" %}
                 <div class="info-message">
                     {{message}}
                 </div>
@@ -64,25 +64,25 @@
                         <div class="register-email response">
                             <p>First Name</p>
                             <div class="user-register">
-                                <input type="text" placeholder="Enter your First Name" name="first_name">
+                                <input type="text" placeholder="Enter your First Name" name="first_name" value="{{ form.first_name.value }}">
                             </div>
                         </div>
                         <div class="register-email response">
                             <p>Last Name</p>
                             <div class="user-register">
-                                <input type="text" placeholder="Enter your Last Name" name="last_name">
+                                <input type="text" placeholder="Enter your Last Name" name="last_name" value="{{ form.last_name.value }}">
                             </div>
                         </div>
                         <div class="register-email">
                             <p>Email Address</p>
                             <div class="user-register">
-                                <input type="email" placeholder="Enter your Email Address" name="email">
+                                <input type="email" placeholder="Enter your Email Address" name="email" value="{{ form.email.value }}">
                             </div>
                         </div>
                         <div class="register-email">
                             <p>Phone Number</p>
-                            <div class="user-register">
-                                <input type="text" placeholder="Enter your Phone Number" name="phone">
+                            <div class="user-register" {% if form.phone.errors %}style="border: 1px solid red;"{% endif %}>
+                                <input type="text" placeholder="Enter your Phone Number" name="phone" value="{{ form.phone.value }}">
                             </div>
                         </div>
                         <div class="register-email">

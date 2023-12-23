@@ -29,15 +29,15 @@ def sign_up(request):
                 or CustomUser.objects.filter(phone=phone).exists()
             ):
                 messages.error(request, "User with this email or phone already exists")
-                return redirect("signup")
+                return render(request, "auth/signup.html", {'form': form})
 
             if password != confirm_password:
                 messages.error(request, "Password didn't match!")
-                return redirect("signup")
+                return render(request, "auth/signup.html", {'form': form})
 
             if len(password) < 5:
                 messages.error(request, "Password is short")
-                return redirect("signup")
+                return render(request, "auth/signup.html", {'form': form})
 
             new_user = CustomUser.objects.create(
                 first_name=first_name,
@@ -62,6 +62,7 @@ def sign_up(request):
             return redirect("login")
         else:
             messages.error(request, "Please fill the form with correct details")
+            return render(request, "auth/signup.html", {'form': form})
     else:
         form = SignUpForm()
     return render(request, "auth/signup.html")
