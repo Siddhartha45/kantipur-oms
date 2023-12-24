@@ -64,6 +64,7 @@ def new_membership_page(request):
                 messages.error(
                     request, "Form not saved!!!. Please fill all the fields correctly."
                 )
+                # context = {"gender": gender, "countries": countries, "student_level": student_level, "salutation": salutation, "form": form}
                 return render(request, 'mainapp/new-member.html', {'form': form})
 
         elif form_name == "lifetime_membership_form":
