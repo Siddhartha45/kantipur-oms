@@ -8,14 +8,6 @@ from . import views
 urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path("new-membership-page/", views.new_membership_page, name="new_membership_page"),
-    # path(
-    #     "institutional-membership/",
-    #     views.institutional_membership,
-    #     name="institutional_membership",
-    # ),
-    # path("general-membership/", views.general_membership, name="general_membership"),
-    # path("lifetime-membership/", views.lifetime_membership, name="lifetime_membership"),
-    # path("student-membership/", views.student_membership, name="student_membership"),
     path("payment/", views.payment_page, name="payment"),
     path(
         "institutional-payment/",
@@ -82,4 +74,5 @@ urlpatterns = [
     path("remarks/", views.remarks, name="remarks"),
     path("no-remarks/", views.no_remarks, name="no_remarks"),
     path("upgrade-to-lifetime/", views.upgrade_to_lifetime, name="upgrade_to_lifetime"),
+    path("initiate-khalti/", views.initiate_khalti, name="initiate_khalti"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

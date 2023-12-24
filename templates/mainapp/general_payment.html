@@ -40,21 +40,7 @@
                             </div>    
                         </div>
 
-                        {% for message in messages %}
-                        {% if message.tags == success %}
-                        <div class="success-message">
-                        {{message}}
-                        </div>
-                        {% elif message.tags == error %}
-                        <div class="failed-message">
-                        {{message}}
-                        </div>
-                        {% elif message.tags == info %}
-                        <div class="info-message">
-                        {{message}}
-                        </div>
-                        {% endif %}
-                        {% endfor %}
+                        
 
                         <div class="payment-page">
                             <div class="payment-info">
@@ -85,10 +71,16 @@
                                                         <p>Account Number: 1901017501614</p>
                                                         <p>Swift Number: NBRBNPKA</p>
                                                 </div>
+                                        <form action="{% url 'initiate_khalti' %}" method="POST">
+                                            {% csrf_token %}
                                             <div class="pay-in">
-                                                <h3>Pay Using Khalti: </h3>
-                                            <img id="payment-button" src="{% static 'images/khalti-logo.png' %}" alt="">
+                                            <img src="{% static 'images/khalti-logo.png' %}" alt="">
                                             </div>
+                                            <input type="hidden" name="purchase_order_id" value="{{uid}}">
+                                            <input type="hidden" name="amount" value="1000">
+                                            <input type="hidden" name="return_url" value="http://127.0.0.1:8000/verify-payment/">
+                                            <input type="submit" class="btn btn-primary" value="Pay With Khalti">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +117,7 @@
 
     var config = {
         // replace the publicKey with yours
-        "publicKey": "live_public_key_d15ec20985d8484ba9f062c2b004ec9d",
+        "publicKey": "test_public_key_fc9fe6ad491a4c7ca3bcf623eb214b8e",
         "productIdentity": "{{request.user.id}}",
         "productName": "Membership Payment",
         "productUrl": "https://ss.com",

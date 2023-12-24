@@ -40,21 +40,7 @@
                             </div>    
                         </div>
 
-                        {% for message in messages %}
-                        {% if message.tags == success %}
-                        <div class="success-message">
-                        {{message}}
-                        </div>
-                        {% elif message.tags == error %}
-                        <div class="failed-message">
-                        {{message}}
-                        </div>
-                        {% elif message.tags == info %}
-                        <div class="info-message">
-                        {{message}}
-                        </div>
-                        {% endif %}
-                        {% endfor %}
+                        
 
                         <div class="payment-page">
                             <div class="payment-info">
@@ -77,8 +63,18 @@
                                         </form>
                                     </div>
                                     <div class="pay-khalti">
-                                            <h3>Pay Using Khalti: </h3>
+                                                <div class="pay-in1">
+                                                    <h3>Account Details: </h3>
+                                                        <p>Account Name: Nepal Geotechnical Society</p>
+                                                        <p>Bank Name: Nabil Bank</p>
+                                                        <p>Branch: Pulchowk, Lalitpur</p>
+                                                        <p>Account Number: 1901017501614</p>
+                                                        <p>Swift Number: NBRBNPKA</p>
+                                                </div>
+                                            <div class="pay-in">
+                                                <h3>Pay Using Khalti: </h3>
                                             <img id="payment-button" src="{% static 'images/khalti-logo.png' %}" alt="">
+                                            </div>
                                     </div>
                                 </div>
                             </div>

@@ -52,17 +52,17 @@
                     </div>
 
                     {% for message in messages %}
-                    {% if message.tags == success %}
+                    {% if message.tags == "success" %}
                     <div class="success-message">
-                      {{message}}
+                        {{message}}
                     </div>
-                    {% elif message.tags == error %}
+                    {% elif message.tags == "error" %}
                     <div class="failed-message">
-                      {{message}}
+                        {{message}}
                     </div>
-                    {% elif message.tags == info %}
+                    {% elif message.tags == "info" %}
                     <div class="info-message">
-                      {{message}}
+                        {{message}}
                     </div>
                     {% endif %}
                     {% endfor %}
