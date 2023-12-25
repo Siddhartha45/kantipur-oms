@@ -144,6 +144,7 @@ def payment_page(request):
     """Handles the payment for individual users."""
 
     uid = uuid.uuid4()
+    return_url = "https://oms.kantipurinfotech.com.np/payment-verification/"
     if request.method == "POST":
         form = PaymentForm(request.POST, request.FILES)
 
@@ -159,12 +160,13 @@ def payment_page(request):
     else:
         form = PaymentForm()
 
+    context = {"return_url": return_url, "uid": uid}
     if request.user.general_and_lifetime_user.membership_type == "G":
-        return render(request, "mainapp/general_payment.html", {"uid": uid})
+        return render(request, "mainapp/general_payment.html", context)
     elif request.user.general_and_lifetime_user.membership_type == "L":
-        return render(request, "mainapp/lifetime_payment.html", {"uid": uid})
+        return render(request, "mainapp/lifetime_payment.html", context)
     elif request.user.general_and_lifetime_user.membership_type == "S":
-        return render(request, "mainapp/student_payment.html", {"uid": uid})
+        return render(request, "mainapp/student_payment.html", context)
     else:
         return HttpResponse("dashboard")
 

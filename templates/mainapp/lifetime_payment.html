@@ -58,7 +58,7 @@
 
                         <div class="payment-page">
                             <div class="payment-info">
-                                <h3>Please Deposit an amount of Rs. 10000 to continue Lifetime Membership registration. </h3>
+                                <h3>Please Deposit an amount of Rs. 10,000 to continue Lifetime Membership registration. </h3>
                                 <h5>Scan the QR below to pay:</h5>
                                 <div class="payment-detail">
                                     <div class="pay-img">
@@ -90,7 +90,7 @@
                                             <img src="{% static 'images/khalti-logo.png' %}" alt="">
                                             <input type="hidden" name="purchase_order_id" value="{{uid}}">
                                             <input type="hidden" name="amount" value="1000000">
-                                            <input type="hidden" name="return_url" value="http://127.0.0.1:8000/payment-verification/">
+                                            <input type="hidden" name="return_url" value="{{return_url}}">
                                             <input type="submit" class="btn btn-primary" value="Pay With Khalti">
                                         </form>
                                     </div>
