@@ -16,12 +16,12 @@ class CustomUser(AbstractUser):
     is_verified = models.BooleanField(default=False)
     
     username = None
-
+    
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["phone"]
     
     objects = CustomUserManager()
-
+    
     def __str__(self):
         return self.email
     
