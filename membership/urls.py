@@ -15,7 +15,6 @@ urlpatterns = [
         name="institutional_payment",
     ),
     path("payment-done/", views.payment_done_page, name="payment_done_page"),
-    path("verify-payment/", views.verify_payment, name="verify_payment"),
     path(
         "general-and-lifetime-verification-list/",
         views.general_and_lifetime_membership_verification_list,
@@ -75,4 +74,8 @@ urlpatterns = [
     path("no-remarks/", views.no_remarks, name="no_remarks"),
     path("upgrade-to-lifetime/", views.upgrade_to_lifetime, name="upgrade_to_lifetime"),
     path("initiate-khalti/", views.initiate_khalti, name="initiate_khalti"),
+    path(
+        "payment-verification/", views.payment_verification, name="payment_verification"
+    ),
+    path("payment-failed/", views.payment_failed_page, name="payment_failed"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

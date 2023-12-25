@@ -53,7 +53,7 @@
                                             {% csrf_token %}
                                             <div class="member-details">
                                                 <div class="member-info2">
-                                                    <p class="required">Upload Payment Screen Shot</p>
+                                                    <p class="required">Upload Payment Screen Shot/Voucher</p>
                                                     <div class="inner-image">
                                                         <input type="file" name="payment_ss" id="ss" accept="image/*" required>
                                                     </div>
@@ -71,10 +71,14 @@
                                                         <p>Account Number: 1901017501614</p>
                                                         <p>Swift Number: NBRBNPKA</p>
                                                 </div>
-                                            <div class="pay-in">
-                                                <h3>Pay Using Khalti: </h3>
-                                            <img id="payment-button" src="{% static 'images/khalti-logo.png' %}" alt="">
-                                            </div>
+                                        <form action="{% url 'initiate_khalti' %}" method="POST">
+                                            {% csrf_token %}
+                                            <img src="{% static 'images/khalti-logo.png' %}" alt="">
+                                            <input type="hidden" name="purchase_order_id" value="{{uid}}">
+                                            <input type="hidden" name="amount" value="100000">
+                                            <input type="hidden" name="return_url" value="http://127.0.0.1:8000/payment-verification/">
+                                            <input type="submit" class="btn btn-primary" value="Pay With Khalti">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -86,60 +90,6 @@
         </div>
     </div>
 </section>
-
-<script>
-    function verifyPayment(payload) {
-        $.ajax({
-            url: "{% url 'verify_payment' %}",
-            type: "POST",
-            data: payload,
-            dataType: 'json',
-            success: function (response) {
-                // Handle success here
-                alert("Payment verification successful");
-                if (response.redirect_url) {
-                    // Redirect the user to the specified URL
-                    window.location.href = response.redirect_url;
-                }
-            },
-            error: function (error) {
-                // Handle error here
-                alert("Payment verification failed");
-            }
-        });
-    }
-
-    var config = {
-        // replace the publicKey with yours
-        "publicKey": "live_public_key_d15ec20985d8484ba9f062c2b004ec9d",
-        "productIdentity": "{{request.user.id}}",
-        "productName": "Membership Payment",
-        "productUrl": "https://ss.com",
-        "paymentPreference": [
-            "KHALTI",
-            ],
-        "eventHandler": {
-            onSuccess (payload) {
-                // hit merchant api for initiating verfication
-                console.log(payload);
-                verifyPayment(payload)
-            },
-            onError (error) {
-                console.log(error);
-            },
-            onClose () {
-                console.log('widget is closing');
-            }
-        }
-    };
-
-    var checkout = new KhaltiCheckout(config);
-    var btn = document.getElementById("payment-button");
-    btn.onclick = function () {
-        // minimum transaction amount must be 10, i.e 1000 in paisa.
-        checkout.show({amount: 3000});
-    }
-</script>
 
 </body>
 </html>

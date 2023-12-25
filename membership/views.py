@@ -1,3 +1,4 @@
+import os
 import requests
 import json
 import uuid
@@ -51,10 +52,10 @@ def new_membership_page(request):
     countries = choices.COUNTRY_CHOICES
     student_level = choices.STUDENT_LEVEL_CHOICES
     salutation = choices.SALUTATION_CHOICES
-    
+
     if request.method == "POST":
         form_name = request.POST.get("form_name")
-        
+
         if form_name == "general_membership_form":
             form = GeneralAndLifetimeMembershipForm(request.POST, request.FILES)
             if form.is_valid():
@@ -66,8 +67,14 @@ def new_membership_page(request):
                 messages.error(
                     request, "Form not saved!!!. Please fill all the fields correctly."
                 )
-                general_context = {"gender": gender, "countries": countries, "student_level": student_level, "salutation": salutation, "form": form}
-                return render(request, 'mainapp/new-member.html', general_context)
+                general_context = {
+                    "gender": gender,
+                    "countries": countries,
+                    "student_level": student_level,
+                    "salutation": salutation,
+                    "form": form,
+                }
+                return render(request, "mainapp/new-member.html", general_context)
 
         elif form_name == "lifetime_membership_form":
             form = GeneralAndLifetimeMembershipForm(request.POST, request.FILES)
@@ -80,9 +87,15 @@ def new_membership_page(request):
                 messages.error(
                     request, "Form not saved!!!. Please fill all the fields correctly."
                 )
-                lifetime_context = {"gender": gender, "countries": countries, "student_level": student_level, "salutation": salutation, "form": form}
-                return render(request, 'mainapp/new-member.html', lifetime_context)
-        
+                lifetime_context = {
+                    "gender": gender,
+                    "countries": countries,
+                    "student_level": student_level,
+                    "salutation": salutation,
+                    "form": form,
+                }
+                return render(request, "mainapp/new-member.html", lifetime_context)
+
         elif form_name == "student_membership_form":
             form = StudentMembershipForm(request.POST, request.FILES)
             if form.is_valid():
@@ -94,9 +107,15 @@ def new_membership_page(request):
                 messages.error(
                     request, "Form not saved!!!. Please fill all the fields correctly."
                 )
-                student_context = {"gender": gender, "countries": countries, "student_level": student_level, "salutation": salutation, "form": form}
-                return render(request, 'mainapp/new-member.html', student_context)
-        
+                student_context = {
+                    "gender": gender,
+                    "countries": countries,
+                    "student_level": student_level,
+                    "salutation": salutation,
+                    "form": form,
+                }
+                return render(request, "mainapp/new-member.html", student_context)
+
         elif form_name == "institutional_membership_form":
             form = InstitutionalMembershipForm(request.POST, request.FILES)
             if form.is_valid():
@@ -109,9 +128,14 @@ def new_membership_page(request):
                 messages.error(
                     request, "Form not saved!!!. Please fill all the fields correctly."
                 )
-                return render(request, 'mainapp/new-member.html', {'form': form})
+                return render(request, "mainapp/new-member.html", {"form": form})
 
-    context = {"gender": gender, "countries": countries, "student_level": student_level, "salutation": salutation}
+    context = {
+        "gender": gender,
+        "countries": countries,
+        "student_level": student_level,
+        "salutation": salutation,
+    }
     return render(request, "mainapp/new-member.html", context)
 
 
@@ -134,15 +158,15 @@ def payment_page(request):
             )
     else:
         form = PaymentForm()
-    try:
-        if request.user.general_and_lifetime_user.membership_type == "G":
-            return render(request, "mainapp/general_payment.html", {"uid": uid})
-        elif request.user.general_and_lifetime_user.membership_type == "L":
-            return render(request, "mainapp/lifetime_payment.html", {"uid": uid})
-        elif request.user.general_and_lifetime_user.membership_type == "S":
-            return render(request, "mainapp/student_payment.html", {"uid": uid})
-    except:
-        return redirect("dashboard")
+
+    if request.user.general_and_lifetime_user.membership_type == "G":
+        return render(request, "mainapp/general_payment.html", {"uid": uid})
+    elif request.user.general_and_lifetime_user.membership_type == "L":
+        return render(request, "mainapp/lifetime_payment.html", {"uid": uid})
+    elif request.user.general_and_lifetime_user.membership_type == "S":
+        return render(request, "mainapp/student_payment.html", {"uid": uid})
+    else:
+        return HttpResponse("dashboard")
 
 
 @login_required
@@ -169,39 +193,6 @@ def institutional_payment_page(request):
     else:
         form = PaymentForm()
     return render(request, "mainapp/institutional_payment.html")
-
-
-@csrf_exempt
-def verify_payment(request):
-    """To verify the payment done by user using KHALTI."""
-
-    data = request.POST
-    user_who_paid = data["product_identity"]
-    name = data["product_name"]
-    token = data["token"]
-    amount = data["amount"]
-
-    url = "https://khalti.com/api/v2/payment/verify/"
-
-    payload = {"token": token, "amount": amount}
-
-    headers = {
-        "Authorization": "Key test_secret_key_11ddcd10390443539e267be2691a3486"
-    }
-
-    response = requests.request("POST", url, headers=headers, data=payload)
-    print(response.text)
-
-    if response.status_code == 200:
-        Payment.objects.create(
-            created_at=datetime.now(),
-            user_id=user_who_paid,
-            paid_amount_in_paisa=amount,
-        )
-        return JsonResponse({"status": "success", "redirect_url": "/payment-done/"})
-    else:
-        error_message = response.json().get("detail", "Payment verification failed")
-        return JsonResponse({"status": "error", "message": error_message}, status=400)
 
 
 @admin_only
@@ -453,63 +444,80 @@ def edit_student_membership(request, id):
     return render(request, "mainapp/edit_student_membership.html", context)
 
 
+@login_required
+def payment_done_page(request):
+    return render(request, "mainapp/payment-success.html")
+
+
+@login_required
+def payment_failed_page(request):
+    return render(request, "mainapp/payment-failed.html")
+
+
 def initiate_khalti(request):
+    """Initiates the payment by user and redirects them to the payment url."""
     user = request.user
     purchase_order_id = request.POST.get("purchase_order_id")
     amount = request.POST.get("amount")
     return_url = request.POST.get("return_url")
-    print(purchase_order_id)
-    print(amount)
-    print(return_url)
-    
+
     url = "https://khalti.com/api/v2/epayment/initiate/"
-
-    payload = json.dumps({
-        "return_url": return_url,
-        "website_url": "https://example.com/",
-        "amount": amount,
-        "purchase_order_id": purchase_order_id,
-        "purchase_order_name": "test",
-        "customer_info": {
-        "name": user.full_name(),
-        "email": user.email,
-        "phone": user.phone
+    payload = json.dumps(
+        {
+            "return_url": return_url,
+            "website_url": "https://example.com/",
+            "amount": amount,
+            "purchase_order_id": purchase_order_id,
+            "purchase_order_name": "test",
+            "customer_info": {
+                "name": user.full_name,
+                "email": user.email,
+                "phone": user.phone,
+            },
         }
-    })
+    )
     headers = {
-        'Authorization': 'key live_secret_key_6a3abe8040034519918d88657d2239f6',
-        'Content-Type': 'application/json',
+        "Authorization": os.getenv("khalti_live_secret_key"),
+        "Content-Type": "application/json",
     }
-
     response = requests.request("POST", url, headers=headers, data=payload)
+    new_res = json.loads(response.text)
+    pprint(new_res)
 
-    new_res = json.loads(response.text) #converting response which is in text to json.
-    print(new_res)
-    
-    return redirect(new_res["payment_url"])
+    if response.status_code == 200:
+        return redirect(new_res["payment_url"])
+    else:
+        messages.error(
+            request, "Payment failed. Check your phone number and other details."
+        )
+        return redirect("payment")
 
 
-@login_required
-def payment_done_page(request):
-    url = "https://khalti.com/api/v2/epayment/lookup/"
-    
+def payment_verification(request):
+    """Verifies the users payment."""
     pidx = request.GET.get("pidx")
     amount = request.GET.get("amount")
-    
+    txn_id = request.GET.get("txnId")
+
+    url = "https://khalti.com/api/v2/epayment/lookup/"
     headers = {
-        'Authorization': 'key live_secret_key_6a3abe8040034519918d88657d2239f6',
-        'Content-Type': 'application/json',
+        "Authorization": os.getenv("khalti_live_secret_key"),
+        "Content-Type": "application/json",
     }
-    
-    payload = json.dumps({
-        "pidx": pidx
-    })
-    
+    payload = json.dumps({"pidx": pidx})
     response = requests.request("POST", url, headers=headers, data=payload)
-    if response.status_code==200:
+    print(response.text)
+
+    if response.json()["status"] == "Completed":
         Payment.objects.create(
             created_at=datetime.now(),
             user_id=request.user.id,
             paid_amount_in_paisa=amount,
+            pidx=pidx,
+            txn_id=txn_id,
         )
-    return render(request, "mainapp/membership-status.html")
+        messages.success(request, "Payment Successful")
+        return redirect("payment_done_page")
+    else:
+        # message = request.GET.get("message")
+        return redirect("payment_failed")

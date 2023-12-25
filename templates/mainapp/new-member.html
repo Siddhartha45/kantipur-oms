@@ -188,7 +188,7 @@
 
                                             <div class="member-info3">
                                                 <p class="required">Passed Year</p>
-                                                <div class="info-inner">
+                                                <div class="info-inner" {% if form.be_passed_year.errors %}style="border: 1px solid red;"{% endif %}>
                                                     <input type="text" name="be_passed_year" id="bepass" placeholder="Enter the Passed Year" value="{{ form.be_passed_year.value }}" required>
                                                 </div>
                                             </div>
@@ -224,7 +224,7 @@
 
                                             <div class="member-info3">
                                                 <p class="required">Passed Year</p>
-                                                <div class="info-inner">
+                                                <div class="info-inner" {% if form.me_passed_year.errors %}style="border: 1px solid red;"{% endif %}>
                                                     <input type="text" name="me_passed_year" id="mepass" placeholder="Enter the Passed Year" value="{{ form.me_passed_year.value }}">
                                                 </div>
                                             </div>
@@ -260,7 +260,7 @@
 
                                             <div class="member-info3">
                                                 <p>Passed Year</p>
-                                                <div class="info-inner">
+                                                <div class="info-inner" {% if form.phd_passed_year.errors %}style="border: 1px solid red;"{% endif %}>
                                                     <input type="text" name="phd_passed_year" id="phdpass" placeholder="Enter the Passed Year" value="{{ form.phd_passed_year.value }}">
                                                 </div>
                                             </div>
@@ -669,7 +669,7 @@
 
                                             <div class="member-info3">
                                                 <p class="required">Expected Pass Year</p>
-                                                <div class="info-inner">
+                                                <div class="info-inner" {% if form.expected_pass_year.errors %}style="border: 1px solid red;"{% endif %}>
                                                     <input type="text" name="expected_pass_year" id="bepass" placeholder="Enter the Expected Passed Year" value="{{ form.expected_pass_year.value }}" required>
                                                 </div>
                                             </div>
