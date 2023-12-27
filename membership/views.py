@@ -10,6 +10,13 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+
+from paypal.standard.forms import PayPalPaymentsForm
+
+from config.helpers import currency_rates
 
 from .forms import (
     InstitutionalMembershipForm,
@@ -142,9 +149,14 @@ def new_membership_page(request):
 @login_required
 def payment_page(request):
     """Handles the payment for individual users."""
+    try:
+        if request.user.payment_user:
+            return redirect("dashboard")
+    except:
+        pass
 
     uid = uuid.uuid4()
-    return_url = "https://oms.kantipurinfotech.com.np/payment-verification/"
+    khalti_return_url = "https://oms.kantipurinfotech.com.np/payment-verification/"
     if request.method == "POST":
         form = PaymentForm(request.POST, request.FILES)
 
@@ -160,12 +172,64 @@ def payment_page(request):
     else:
         form = PaymentForm()
 
-    context = {"return_url": return_url, "uid": uid}
+    # paypal urls
+    notify_url = ("http://127.0.0.1:8000/paypal-ipn/",)
+    return_url = ("http://127.0.0.1:8000/payment-done/",)
+    cancel_url = "http://127.0.0.1:8000/payment-failed/"
+
     if request.user.general_and_lifetime_user.membership_type == "G":
+        paypal_general_checkout = {
+            "business": settings.PAYPAL_RECEIVER_EMAIL,
+            "amount": currency_rates(2000),
+            "item_name": "general membership",
+            "invoice": uid,
+            "currency_code": "USD",
+            "notify_url": notify_url,
+            "return_url": "http://127.0.0.1:8000/paypal-success-page/",
+            "cancel_url": cancel_url,
+        }
+        paypal_payment = PayPalPaymentsForm(initial=paypal_general_checkout)
+        context = {
+            "return_url": khalti_return_url,
+            "uid": uid,
+            "paypal": paypal_payment,
+        }
         return render(request, "mainapp/general_payment.html", context)
     elif request.user.general_and_lifetime_user.membership_type == "L":
+        paypal_lifetime_checkout = {
+            "business": settings.PAYPAL_RECEIVER_EMAIL,
+            "amount": currency_rates(10000),
+            "item_name": "lifetime membership",
+            "invoice": uid,
+            "currency_code": "USD",
+            "notify_url": notify_url,
+            "return_url": "http://127.0.0.1:8000/paypal-success-page/",
+            "cancel_url": cancel_url,
+        }
+        paypal_payment = PayPalPaymentsForm(initial=paypal_lifetime_checkout)
+        context = {
+            "return_url": khalti_return_url,
+            "uid": uid,
+            "paypal": paypal_payment,
+        }
         return render(request, "mainapp/lifetime_payment.html", context)
     elif request.user.general_and_lifetime_user.membership_type == "S":
+        paypal_student_checkout = {
+            "business": settings.PAYPAL_RECEIVER_EMAIL,
+            "amount": currency_rates(1000),
+            "item_name": "student membership",
+            "invoice": uid,
+            "currency_code": "USD",
+            "notify_url": notify_url,
+            "return_url": "http://127.0.0.1:8000/paypal-success-page/",
+            "cancel_url": cancel_url,
+        }
+        paypal_payment = PayPalPaymentsForm(initial=paypal_student_checkout)
+        context = {
+            "return_url": khalti_return_url,
+            "uid": uid,
+            "paypal": paypal_payment,
+        }
         return render(request, "mainapp/student_payment.html", context)
     else:
         return HttpResponse("dashboard")
@@ -496,7 +560,7 @@ def initiate_khalti(request):
 
 
 def payment_verification(request):
-    """Verifies the users payment."""
+    """Verifies the users payment done in khalti."""
     pidx = request.GET.get("pidx")
     amount = request.GET.get("amount")
     txn_id = request.GET.get("txnId")
@@ -523,3 +587,15 @@ def payment_verification(request):
     else:
         # message = request.GET.get("message")
         return redirect("payment_failed")
+
+
+def paypal_success_page(request):
+    """Users are redirected here if payment is successful in paypal."""
+    payer_id = request.GET.get("PayerID")
+    Payment.objects.create(
+        created_at=datetime.now(),
+        user_id=request.user.id,
+        paypal_payer_id=payer_id,
+    )
+    messages.success(request, "Payment Successful")
+    return redirect("payment_done_page")

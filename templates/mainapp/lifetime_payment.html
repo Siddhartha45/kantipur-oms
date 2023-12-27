@@ -85,14 +85,19 @@
                                                         <p>Account Number: 1901017501614</p>
                                                         <p>Swift Number: NBRBNPKA</p>
                                                 </div>
+                                                <h3>Pay With Khalti<h3>
                                         <form action="{% url 'initiate_khalti' %}" method="POST">
                                             {% csrf_token %}
-                                            <img src="{% static 'images/khalti-logo.png' %}" alt="">
-                                            <input type="hidden" name="purchase_order_id" value="{{uid}}">
-                                            <input type="hidden" name="amount" value="1000000">
-                                            <input type="hidden" name="return_url" value="{{return_url}}">
-                                            <input type="submit" class="btn btn-primary" value="Pay With Khalti">
+                                            <label for="khalti-submit">
+                                                <img src="{% static 'images/khalti-logo.png' %}" alt="">
+                                                <input type="hidden" name="purchase_order_id" value="{{uid}}">
+                                                <input type="hidden" name="amount" value="1000000">
+                                                <input type="hidden" name="return_url" value="{{return_url}}">
+                                            </label>
+                                            <input type="submit" id="khalti-submit" style="display: none;">
                                         </form>
+                                        <h3>Pay With Paypal<h3>
+                                            {{paypal.render}}
                                     </div>
                                 </div>
                             </div>

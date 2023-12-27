@@ -6,10 +6,11 @@ from django.contrib.auth.views import PasswordResetView
 from django.contrib.auth.decorators import login_required
 
 from membership.decorators import user_login_check
+from config.helpers import generate_unique_four_digit_number
 
 from .models import CustomUser
 from .forms import SignUpForm, EditProfileForm
-from .tasks import send_token_mail, generate_unique_four_digit_number
+from .tasks import send_token_mail
 
 
 def sign_up(request):
@@ -29,15 +30,15 @@ def sign_up(request):
                 or CustomUser.objects.filter(phone=phone).exists()
             ):
                 messages.error(request, "User with this email or phone already exists")
-                return render(request, "auth/signup.html", {'form': form})
+                return render(request, "auth/signup.html", {"form": form})
 
             if password != confirm_password:
                 messages.error(request, "Password didn't match!")
-                return render(request, "auth/signup.html", {'form': form})
+                return render(request, "auth/signup.html", {"form": form})
 
             if len(password) < 5:
                 messages.error(request, "Password is short")
-                return render(request, "auth/signup.html", {'form': form})
+                return render(request, "auth/signup.html", {"form": form})
 
             new_user = CustomUser.objects.create(
                 first_name=first_name,
@@ -48,13 +49,13 @@ def sign_up(request):
                 role="U",
                 token=str(generate_unique_four_digit_number()),
             )
-            
+
             try:
                 send_token_mail(new_user.email, new_user.token)
             except:
                 messages.success(request, f"Your pin is {new_user.token}")
                 return redirect("login")
-            
+
             messages.success(
                 request,
                 "Your account has been created.",
@@ -62,7 +63,7 @@ def sign_up(request):
             return redirect("login")
         else:
             messages.error(request, "Please fill the form with correct details")
-            return render(request, "auth/signup.html", {'form': form})
+            return render(request, "auth/signup.html", {"form": form})
     else:
         form = SignUpForm()
     return render(request, "auth/signup.html")
@@ -116,7 +117,6 @@ def edit_profile(request):
             messages.success(request, "Details Updated Successfully")
             return redirect("dashboard")
         else:
-            print(form.errors)
             messages.error(request, "Please fill the form with correct data")
     else:
         form = EditProfileForm(instance=user)
@@ -179,7 +179,7 @@ class CustomPasswordResetView(PasswordResetView):
 @login_required
 def verify_user(request):
     """
-    User will enter the pin sent to them via email and if the pin is correct user is 
+    User will enter the pin sent to them via email and if the pin is correct user is
     verified and can apply for membership.
     """
     user = request.user

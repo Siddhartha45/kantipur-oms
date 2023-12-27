@@ -2,6 +2,8 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
+from config.helpers import currency_rates
+
 from . import views
 
 
@@ -78,4 +80,5 @@ urlpatterns = [
         "payment-verification/", views.payment_verification, name="payment_verification"
     ),
     path("payment-failed/", views.payment_failed_page, name="payment_failed"),
+    path("paypal-success-page/", views.paypal_success_page, name="paypal_success_page"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -104,12 +104,17 @@ class Payment(models.Model):
     paid_amount_in_paisa = models.CharField(max_length=15, blank=True, null=True)
     pidx = models.CharField(max_length=250, blank=True, null=True)
     txn_id = models.CharField(max_length=250, blank=True, null=True)
+    paypal_payer_id = models.CharField(max_length=250, blank=True, null=True)
 
     def __str__(self):
         return self.user.full_name
 
     @property
     def amount_in_rs(self):
-        amount_int = int(self.paid_amount_in_paisa)
-        rs = amount_int / 100
-        return str(int(rs))
+        """Converts amount which is in paisa to rs in npr."""
+        if self.paid_amount_in_paisa is not None and self.paid_amount_in_paisa != "":
+            amount_int = int(self.paid_amount_in_paisa)
+            rs = amount_int / 100
+            return str(int(rs))
+        else:
+            return "Paid by Paypal"

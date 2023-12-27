@@ -22,4 +22,5 @@ urlpatterns = [
     path("", include("accounts.urls")),
     path("", include("membership.urls")),
     path("", include("general.urls")),
+    path("", include("paypal.standard.ipn.urls")),
 ]
