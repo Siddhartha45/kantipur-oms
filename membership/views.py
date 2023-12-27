@@ -149,6 +149,7 @@ def new_membership_page(request):
 @login_required
 def payment_page(request):
     """Handles the payment for individual users."""
+    host = request.get_host()
     try:
         if request.user.payment_user:
             return redirect("dashboard")
@@ -171,11 +172,11 @@ def payment_page(request):
             )
     else:
         form = PaymentForm()
-
+        
     # paypal urls
-    notify_url = ("http://127.0.0.1:8000/paypal-ipn/",)
-    return_url = ("http://127.0.0.1:8000/payment-done/",)
-    cancel_url = "http://127.0.0.1:8000/payment-failed/"
+    notify_url = f"http://{host}/paypal-ipn/"
+    return_url = f"http://{host}/paypal-success-page/"
+    cancel_url = f"http://{host}/payment-failed/"
 
     if request.user.general_and_lifetime_user.membership_type == "G":
         paypal_general_checkout = {
@@ -185,7 +186,7 @@ def payment_page(request):
             "invoice": uid,
             "currency_code": "USD",
             "notify_url": notify_url,
-            "return_url": "http://127.0.0.1:8000/paypal-success-page/",
+            "return_url": return_url,
             "cancel_url": cancel_url,
         }
         paypal_payment = PayPalPaymentsForm(initial=paypal_general_checkout)
@@ -203,7 +204,7 @@ def payment_page(request):
             "invoice": uid,
             "currency_code": "USD",
             "notify_url": notify_url,
-            "return_url": "http://127.0.0.1:8000/paypal-success-page/",
+            "return_url": return_url,
             "cancel_url": cancel_url,
         }
         paypal_payment = PayPalPaymentsForm(initial=paypal_lifetime_checkout)
@@ -221,7 +222,7 @@ def payment_page(request):
             "invoice": uid,
             "currency_code": "USD",
             "notify_url": notify_url,
-            "return_url": "http://127.0.0.1:8000/paypal-success-page/",
+            "return_url": return_url,
             "cancel_url": cancel_url,
         }
         paypal_payment = PayPalPaymentsForm(initial=paypal_student_checkout)

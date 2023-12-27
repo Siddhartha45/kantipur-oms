@@ -172,7 +172,7 @@ EMAIL_HOST_USER = os.getenv('email_host_user')
 EMAIL_HOST_PASSWORD = os.getenv('email_host_password')
 
 
-# Celery settings
+# celery settings
 CELERY_BROKER_URL = 'redis://64.227.182.105:6379'
 CELERY_ACCEPT_CONTENT = {'application/json'}
 CELERY_RESULT_SERIALIZER = 'json'
@@ -181,6 +181,7 @@ CELERY_TIMEZONE = 'Asia/Kathmandu'
 CELERY_RESULT_BACKEND = 'django-db'
 
 
-PAYPAL_RECEIVER_EMAIL = 'sidbs@gmail.com'
+#paypal settings
+PAYPAL_RECEIVER_EMAIL = os.getenv('paypal_receiver_email')
 PAYPAL_TEST = True
 PAYPAL_BUY_BUTTON_IMAGE = "/static/images/paypal-logo.png"
