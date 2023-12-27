@@ -173,12 +173,12 @@ EMAIL_HOST_PASSWORD = os.getenv('email_host_password')
 
 
 # celery settings
-CELERY_BROKER_URL = 'redis://64.227.182.105:6379'
-CELERY_ACCEPT_CONTENT = {'application/json'}
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Asia/Kathmandu'
-CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_BROKER_URL = 'redis://64.227.182.105:6379'
+# CELERY_ACCEPT_CONTENT = {'application/json'}
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_TIMEZONE = 'Asia/Kathmandu'
+# CELERY_RESULT_BACKEND = 'django-db'
 
 
 #paypal settings

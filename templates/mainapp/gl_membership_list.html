@@ -97,7 +97,7 @@
                                               Paid
                                           </button>
       
-                                          {% if members.created_by.payment_user.payment_ss == "" %}
+                                          {% if members.created_by.payment_user.paid_amount_in_paisa %}
                                           <div class="modal fade" id="staticBackdrop{{members.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                               <div class="modal-dialog modal-dialog-centered">
                                                   <div class="modal-content">
@@ -120,7 +120,7 @@
                                                 </div>
                                               </div>
                                           </div>
-                                          {% else %}
+                                          {% elif members.created_by.payment_user.payment_ss != "" %}
                                           <div class="modal fade" id="staticBackdrop{{members.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
@@ -143,7 +143,29 @@
                                               </div>
                                             </div>
                                           </div>
-                                        {% endif %}
+                                          {% elif members.created_by.payment_user.paypal_payer_id %}
+                                          <div class="modal fade" id="staticBackdrop{{members.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Payment Details</h1>
+                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                  <div class="khalti" style="display: flex; align-items: center; flex-direction: column;">
+                                                    <h4>Paid via Paypal</h4>
+                                                    <img src="{% static 'images/paypal-logo.png' %}" style="width:20%;" alt="" srcset="">
+                                                    <span><strong>Payment Date:</strong>{{members.created_by.payment_user.created_at}}</span>
+                                                  </div>
+                                                
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          {% endif %}
                                       {% endif %}
       
                                       {% if not members.created_by.payment_user %}
