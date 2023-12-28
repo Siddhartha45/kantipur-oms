@@ -39,6 +39,10 @@
 
                         {% for message in messages %}
                         {% if message.tags == "success" %}
+                            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                <strong>Name</strong> varified.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
                         <div class="success-message">
                         {{message}}
                         </div>
@@ -116,25 +120,6 @@
                                                 </div>
                                             </div>
                                             <div class="member-info">
-                                                <p class="required">Nationality</p>
-                                                <div class="info-inner">
-                                                    <select id="country" name="nationality" required>
-                                                        <option>select country</option>
-                                                        {% for k, v in countries %}
-                                                            <option value="{{k}}" {% if form.nationality.value == k %}selected{% endif %}>{{v}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="member-info">
-                                                <p class="required">Issued From</p>
-                                                <div class="info-inner">
-                                                    <input type="text" name="issued_from" id="issued" placeholder="Issued From" value="{{ form.issued_from.value }}" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="member-info">
                                                 <p class="required">Permanent Address</p>
                                                 <div class="info-inner">
                                                     <input type="text" name="permanent_address" id="address" placeholder="Enter Address" value="{{ form.permanent_address.value }}" required>
@@ -147,6 +132,19 @@
                                                     <input type="text" name="affiliation" id="affiliation" placeholder="Enter Affiliation" value="{{ form.affiliation.value }}" required>
                                                 </div>
                                             </div>
+                                            
+                                            <div class="member-info">
+                                                <p class="required">Nationality</p>
+                                                <div class="info-inner">
+                                                    <select id="country" name="nationality" required>
+                                                        <option>select country</option>
+                                                        {% for k, v in countries %}
+                                                            <option value="{{k}}" {% if form.nationality.value == k %}selected{% endif %}>{{v}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                           
 
                                             <div class="member-info">
                                                 <p class="required">Citizenship Card No.</p>
@@ -154,7 +152,18 @@
                                                     <input type="text" name="citizenship_card_no" id="citizen" placeholder="Enter the Citizenship Card No." value="{{ form.citizenship_card_no.value }}" required>
                                                 </div>
                                             </div>
+
+                                            <div class="member-info">
+                                                <p class="required">Issued From</p>
+                                                <div class="info-inner">
+                                                    <select id="district" name="issued from" required>
+                                                        <option>select disctrict</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
+
+                                        
 
                                         <h3>2. Education</h3>
 
@@ -194,24 +203,24 @@
                                             </div>
                                         </div>
 
-                                        <h4 class="required edu-head">ii. ME/ Equivalent</h4>
+                                        <h4 class="edu-head">ii. ME/ Equivalent</h4>
                                         <div class="member-details">
                                             <div class="member-info3">
-                                                <p class="required">Subject</p>
+                                                <p>Subject</p>
                                                 <div class="info-inner">
                                                     <input type="text" name="me_subject" id="mesubject" placeholder="Enter the Subject" value="{{ form.me_subject.value }}">
                                                 </div>
                                             </div>
 
                                             <div class="member-info3">
-                                                <p class="required">Institution</p>
+                                                <p>Institution</p>
                                                 <div class="info-inner">
                                                     <input type="text" name="me_institution" id="meinstitute" placeholder="Enter the Institution" value="{{ form.me_institution.value }}">
                                                 </div>
                                             </div>
 
                                             <div class="member-info3">
-                                                <p class="required">Country</p>
+                                                <p>Country</p>
                                                 <div class="info-inner">
                                                     <select id="country" name="me_country">
                                                         <option>select country</option>
@@ -223,7 +232,7 @@
                                             </div>
 
                                             <div class="member-info3">
-                                                <p class="required">Passed Year</p>
+                                                <p>Passed Year</p>
                                                 <div class="info-inner" {% if form.me_passed_year.errors %}style="border: 1px solid red;"{% endif %}>
                                                     <input type="text" name="me_passed_year" id="mepass" placeholder="Enter the Passed Year" value="{{ form.me_passed_year.value }}">
                                                 </div>
@@ -356,24 +365,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="member-info">
-                                                <p class="required">Nationality</p>
-                                                <div class="info-inner">
-                                                    <select id="country" name="nationality" required>
-                                                        <option>select country</option>
-                                                        {% for k, v in countries %}
-                                                            <option value="{{k}}" {% if form.nationality.value == k %}selected{% endif %}>{{v}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="member-info">
-                                                <p class="required">Issued From</p>
-                                                <div class="info-inner">
-                                                    <input type="text" name="issued_from" id="issued" placeholder="Issued From" value="{{ form.issued_from.value }}" required>
-                                                </div>
-                                            </div>
 
                                             <div class="member-info">
                                                 <p class="required">Permanent Address</p>
@@ -390,34 +381,56 @@
                                             </div>
 
                                             <div class="member-info">
+                                                <p class="required">Nationality</p>
+                                                <div class="info-inner">
+                                                    <select id="country" name="nationality" required>
+                                                        <option>select country</option>
+                                                        {% for k, v in countries %}
+                                                            <option value="{{k}}" {% if form.nationality.value == k %}selected{% endif %}>{{v}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="member-info">
                                                 <p class="required">Citizenship Card No.</p>
                                                 <div class="info-inner">
                                                     <input type="text" name="citizenship_card_no" id="citizen" placeholder="Enter the Citizenship Card No." value="{{ form.citizenship_card_no.value }}" required>
                                                 </div>
                                             </div>
+
+                                            <div class="member-info">
+                                                <p class="required">Issued From</p>
+                                                <div class="info-inner">
+                                                    <select id="district" name="issued from" required>
+                                                        <option>select disctrict</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
                                             
                                         </div>
 
                                         <h3>2. Education</h3>
 
-                                        <h4 class="required edu-head">i. BE/ Equivalent</h4>
+                                        <h4 class="edu-head">i. BE/ Equivalent</h4>
                                         <div class="member-details">
                                             <div class="member-info3">
-                                                <p class="required">Subject</p>
+                                                <p>Subject</p>
                                                 <div class="info-inner">
                                                     <input type="text" name="be_subject" id="besubject" placeholder="Enter the Subject" value="{{ form.be_subject.value }}" required>
                                                 </div>
                                             </div>
 
                                             <div class="member-info3">
-                                                <p class="required">Institution</p>
+                                                <p>Institution</p>
                                                 <div class="info-inner">
                                                     <input type="text" name="be_institution" id="beinstitute" placeholder="Enter the Institution" value="{{ form.be_institution.value }}" required>
                                                 </div>
                                             </div>
 
                                             <div class="member-info3">
-                                                <p class="required">Country</p>
+                                                <p>Country</p>
                                                 <div class="info-inner">
                                                     <select id="country" name="be_country" required>
                                                         <option>select country</option>
@@ -429,7 +442,7 @@
                                             </div>
 
                                             <div class="member-info3">
-                                                <p class="required">Passed Year</p>
+                                                <p>Passed Year</p>
                                                 <div class="info-inner" {% if form.be_passed_year.errors %}style="border: 1px solid red;"{% endif %}>
                                                     <input type="text" name="be_passed_year" id="bepass" placeholder="Enter the Passed Year" value="{{ form.be_passed_year.value }}" required>
                                                 </div>

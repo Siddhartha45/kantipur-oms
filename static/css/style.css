@@ -2175,7 +2175,7 @@ a.login-social {
 }
 
 .info-inner input {
-  color: var(--TextColor);
+  
     font-family: Poppins;
     font-size: 12px;
     font-style: normal;
@@ -2185,6 +2185,14 @@ a.login-social {
     align-self: stretch;
     width: 100%;
     border: none;
+    color: var(--Pra-Black);
+    font-weight: 600;
+}
+
+
+input::placeholder {
+  color: var(--TextColor);
+  font-weight: 400;
 }
 
 .info-inner select {
