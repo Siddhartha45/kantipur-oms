@@ -12,6 +12,7 @@ from .models import CustomUser
 from .forms import SignUpForm, EditProfileForm
 from .tasks import send_token_mail
 
+from django.conf import settings
 
 def sign_up(request):
     if request.method == "POST":

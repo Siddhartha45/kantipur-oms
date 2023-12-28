@@ -59,6 +59,7 @@ def new_membership_page(request):
     countries = choices.COUNTRY_CHOICES
     student_level = choices.STUDENT_LEVEL_CHOICES
     salutation = choices.SALUTATION_CHOICES
+    districts = choices.DISTRICT_CHOICES
 
     if request.method == "POST":
         form_name = request.POST.get("form_name")
@@ -79,6 +80,7 @@ def new_membership_page(request):
                     "countries": countries,
                     "student_level": student_level,
                     "salutation": salutation,
+                    "districts": districts,
                     "form": form,
                 }
                 return render(request, "mainapp/new-member.html", general_context)
@@ -100,6 +102,7 @@ def new_membership_page(request):
                     "countries": countries,
                     "student_level": student_level,
                     "salutation": salutation,
+                    "districts": districts,
                     "form": form,
                 }
                 return render(request, "mainapp/new-member.html", lifetime_context)
@@ -120,6 +123,7 @@ def new_membership_page(request):
                     "countries": countries,
                     "student_level": student_level,
                     "salutation": salutation,
+                    "districts": districts,
                     "form": form,
                 }
                 return render(request, "mainapp/new-member.html", student_context)
@@ -143,6 +147,7 @@ def new_membership_page(request):
         "countries": countries,
         "student_level": student_level,
         "salutation": salutation,
+        "districts": districts,
     }
     return render(request, "mainapp/new-member.html", context)
 
