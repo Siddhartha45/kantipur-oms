@@ -62,6 +62,21 @@
                                         {% csrf_token %}
                                         <h3>1. Personal Information</h3>
                                         <div class="member-details">
+                                            <div class="member-info">
+                                                <p class="required">Salutation</p>
+                                                <div class="info-inner">
+                                                    <select name="salutation" id="salutation">
+                                                        {% if gl.salutation %}
+                                                            <option value="{{gl.salutation}}" selected>{{gl.get_salutation_display}}</option>
+                                                        {% endif %}
+                                                        {% for k, v in salutation %}
+                                                            {% if k != gl.salutation %}
+                                                                <option value="{{k}}">{{v}}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
                                             
                                             <div class="member-info">
                                                 <p class="required">Name of Applicant</p>
@@ -91,6 +106,18 @@
                                                 </div>
                                             </div>
                                             <div class="member-info">
+                                                <p class="required">Permanent Address</p>
+                                                <div class="info-inner">
+                                                    <input type="text" name="permanent_address" id="address" value="{{gl.permanent_address}}" required>
+                                                </div>
+                                            </div>
+                                            <div class="member-info">
+                                                <p class="required">Affiliation</p>
+                                                <div class="info-inner">
+                                                    <input type="text" name="affiliation" id="affiliation" value="{{gl.affiliation}}" required>
+                                                </div>
+                                            </div>
+                                            <div class="member-info">
                                                 <p class="required">Nationality</p>
                                                 <div class="info-inner">
                                                     <select id="country" name="nationality" required>
@@ -105,35 +132,27 @@
                                                     </select>
                                                 </div>
                                             </div>
-
-                                            <div class="member-info">
-                                                <p class="required">Issued From</p>
-                                                <div class="info-inner">
-                                                    <input type="text" name="issued_from" id="issued" value="{{gl.issued_from}}" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="member-info">
-                                                <p class="required">Permanent Address</p>
-                                                <div class="info-inner">
-                                                    <input type="text" name="permanent_address" id="address" value="{{gl.permanent_address}}" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="member-info">
-                                                <p class="required">Affiliation</p>
-                                                <div class="info-inner">
-                                                    <input type="text" name="affiliation" id="affiliation" value="{{gl.affiliation}}" required>
-                                                </div>
-                                            </div>
-
                                             <div class="member-info">
                                                 <p class="required">Citizenship Card No.</p>
                                                 <div class="info-inner">
                                                     <input type="text" name="citizenship_card_no" id="citizen" value="{{gl.citizenship_card_no}}" required>
                                                 </div>
                                             </div>
-                                            
+                                            <div class="member-info">
+                                                <p class="required">Issued From</p>
+                                                <div class="info-inner">
+                                                    <select name="issued_from" id="issued_from" required>
+                                                        {% if gl.districts %}
+                                                            <option value="{{gl.districts}}" selected>{{gl.get_districts_display}}</option>
+                                                        {% endif %}
+                                                        {% for k, v in districts %}
+                                                            {% if k != gl.districts %}
+                                                                <option value="{{k}}">{{v}}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <h3>2. Education</h3>
