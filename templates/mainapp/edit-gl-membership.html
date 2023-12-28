@@ -197,28 +197,30 @@
                                             </div>
                                         </div>
 
-                                        <h4 class="required edu-head">ii. ME/ Equivalent</h4>
+                                        <h4 class="edu-head">ii. ME/ Equivalent</h4>
                                         <div class="member-details">
                                             <div class="member-info3">
-                                                <p class="required">Subject</p>
+                                                <p>Subject</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="me_subject" id="mesubject" value="{{gl.me_subject}}" required>
+                                                    <input type="text" name="me_subject" id="mesubject" value="{{gl.me_subject|default:""}}">
                                                 </div>
                                             </div>
 
                                             <div class="member-info3">
-                                                <p class="required">Institution</p>
+                                                <p>Institution</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="me_institution" id="meinstitute" value="{{gl.me_institution}}" required>
+                                                    <input type="text" name="me_institution" id="meinstitute" value="{{gl.me_institution|default:""}}">
                                                 </div>
                                             </div>
 
                                             <div class="member-info3">
-                                                <p class="required">Country</p>
+                                                <p>Country</p>
                                                 <div class="info-inner">
-                                                    <select id="country" name="me_country" required>
+                                                    <select id="country" name="me_country">
                                                         {% if gl.me_country %}
                                                             <option value="{{gl.me_country}}" selected>{{gl.get_me_country_display}}</option>
+                                                        {% else %}
+                                                            <option value="" selected>Select Country</option>
                                                         {% endif %}
                                                         {% for k, v in countries %}
                                                             {% if k != gl.me_country %}
@@ -230,9 +232,9 @@
                                             </div>
 
                                             <div class="member-info3">
-                                                <p class="required">Passed Year</p>
+                                                <p>Passed Year</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="me_passed_year" id="mepass" value="{{gl.me_passed_year}}" required>
+                                                    <input type="text" name="me_passed_year" id="mepass" value="{{gl.me_passed_year|default:""}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -242,14 +244,14 @@
                                             <div class="member-info3">
                                                 <p>Subject</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="phd_subject" id="phdsubject" value="{{gl.phd_subject}}">
+                                                    <input type="text" name="phd_subject" id="phdsubject" value="{{gl.phd_subject|default:""}}">
                                                 </div>
                                             </div>
 
                                             <div class="member-info3">
                                                 <p>Institution</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="phd_institution" id="phdinstitute" value="{{gl.phd_institution}}">
+                                                    <input type="text" name="phd_institution" id="phdinstitute" value="{{gl.phd_institution|default:""}}">
                                                 </div>
                                             </div>
 
@@ -259,6 +261,8 @@
                                                     <select id="country" name="phd_country">
                                                         {% if gl.phd_country %}
                                                             <option value="{{gl.phd_country}}" selected>{{gl.get_phd_country_display}}</option>
+                                                        {% else %}
+                                                            <option value="" selected>Select Country</option>
                                                         {% endif %}
                                                         {% for k, v in countries %}
                                                             {% if k != gl.phd_country %}
@@ -272,7 +276,7 @@
                                             <div class="member-info3">
                                                 <p>Passed Year</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="phd_passed_year" id="phdpass" value="{{gl.phd_passed_year}}">
+                                                    <input type="text" name="phd_passed_year" id="phdpass" value="{{gl.phd_passed_year|default:""}}">
                                                 </div>
                                             </div>
                                         </div>
