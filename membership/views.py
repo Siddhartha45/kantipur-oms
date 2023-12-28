@@ -1,12 +1,22 @@
+import os
 import requests
+import json
+import uuid
 from datetime import datetime
 from pprint import pprint
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+
+from paypal.standard.forms import PayPalPaymentsForm
+
+from config.helpers import currency_rates
 
 from .forms import (
     InstitutionalMembershipForm,
@@ -49,10 +59,10 @@ def new_membership_page(request):
     countries = choices.COUNTRY_CHOICES
     student_level = choices.STUDENT_LEVEL_CHOICES
     salutation = choices.SALUTATION_CHOICES
-    
+
     if request.method == "POST":
         form_name = request.POST.get("form_name")
-        
+
         if form_name == "general_membership_form":
             form = GeneralAndLifetimeMembershipForm(request.POST, request.FILES)
             if form.is_valid():
@@ -64,8 +74,14 @@ def new_membership_page(request):
                 messages.error(
                     request, "Form not saved!!!. Please fill all the fields correctly."
                 )
-                # context = {"gender": gender, "countries": countries, "student_level": student_level, "salutation": salutation, "form": form}
-                return render(request, 'mainapp/new-member.html', {'form': form})
+                general_context = {
+                    "gender": gender,
+                    "countries": countries,
+                    "student_level": student_level,
+                    "salutation": salutation,
+                    "form": form,
+                }
+                return render(request, "mainapp/new-member.html", general_context)
 
         elif form_name == "lifetime_membership_form":
             form = GeneralAndLifetimeMembershipForm(request.POST, request.FILES)
@@ -78,8 +94,15 @@ def new_membership_page(request):
                 messages.error(
                     request, "Form not saved!!!. Please fill all the fields correctly."
                 )
-                return render(request, 'mainapp/new-member.html', {'form': form})
-            
+                lifetime_context = {
+                    "gender": gender,
+                    "countries": countries,
+                    "student_level": student_level,
+                    "salutation": salutation,
+                    "form": form,
+                }
+                return render(request, "mainapp/new-member.html", lifetime_context)
+
         elif form_name == "student_membership_form":
             form = StudentMembershipForm(request.POST, request.FILES)
             if form.is_valid():
@@ -91,8 +114,15 @@ def new_membership_page(request):
                 messages.error(
                     request, "Form not saved!!!. Please fill all the fields correctly."
                 )
-                return render(request, 'mainapp/new-member.html', {'form': form})
-        
+                student_context = {
+                    "gender": gender,
+                    "countries": countries,
+                    "student_level": student_level,
+                    "salutation": salutation,
+                    "form": form,
+                }
+                return render(request, "mainapp/new-member.html", student_context)
+
         elif form_name == "institutional_membership_form":
             form = InstitutionalMembershipForm(request.POST, request.FILES)
             if form.is_valid():
@@ -105,66 +135,29 @@ def new_membership_page(request):
                 messages.error(
                     request, "Form not saved!!!. Please fill all the fields correctly."
                 )
-                return render(request, 'mainapp/new-member.html', {'form': form})
+                return render(request, "mainapp/new-member.html", {"form": form})
 
-    context = {"gender": gender, "countries": countries, "student_level": student_level, "salutation": salutation}
+    context = {
+        "gender": gender,
+        "countries": countries,
+        "student_level": student_level,
+        "salutation": salutation,
+    }
     return render(request, "mainapp/new-member.html", context)
-
-
-# def institutional_membership(request):
-#     if request.method == "POST":
-#         form = InstitutionalMembershipForm(request.POST, request.FILES)
-
-#         if form.is_valid():
-#             InstitutionalMembership.objects.create(
-#                 created_by=request.user, **form.cleaned_data
-#             )
-#             return redirect("institutional_payment")
-#         else:
-#             print(form.errors)
-#             messages.error(
-#                 request, "Form not saved!!!. Please fill all the fields correctly."
-#             )
-#             return redirect("new_membership_page")
-            # return render(request, 'mainapp/new-member.html', {'form': form})
-
-
-# def general_membership(request):
-#     if request.method == "POST":
-#         form = GeneralAndLifetimeMembershipForm(request.POST, request.FILES)
-
-#         if form.is_valid():
-#             GeneralAndLifetimeMembership.objects.create(
-#                 created_by=request.user, membership_type="G", **form.cleaned_data
-#             )
-#             return redirect("payment")
-#         else:
-#             messages.error(
-#                 request, "Form not saved!!!. Please fill all the fields correctly."
-#             )
-#             return redirect("new_membership_page")
-
-
-# def lifetime_membership(request):
-#     if request.method == "POST":
-#         form = GeneralAndLifetimeMembershipForm(request.POST, request.FILES)
-
-#         if form.is_valid():
-#             GeneralAndLifetimeMembership.objects.create(
-#                 created_by=request.user, membership_type="L", **form.cleaned_data
-#             )
-#             return redirect("payment")
-#         else:
-#             messages.error(
-#                 request, "Form not saved!!!. Please fill all the fields correctly."
-#             )
-#             return redirect("new_membership_page")
 
 
 @login_required
 def payment_page(request):
     """Handles the payment for individual users."""
+    host = request.get_host()
+    try:
+        if request.user.payment_user:
+            return redirect("dashboard")
+    except:
+        pass
 
+    uid = uuid.uuid4()
+    khalti_return_url = "https://oms.kantipurinfotech.com.np/payment-verification/"
     if request.method == "POST":
         form = PaymentForm(request.POST, request.FILES)
 
@@ -179,15 +172,68 @@ def payment_page(request):
             )
     else:
         form = PaymentForm()
-    try:
-        if request.user.general_and_lifetime_user.membership_type == "G":
-            return render(request, "mainapp/general_payment.html")
-        elif request.user.general_and_lifetime_user.membership_type == "L":
-            return render(request, "mainapp/lifetime_payment.html")
-        elif request.user.general_and_lifetime_user.membership_type == "S":
-            return render(request, "mainapp/student_payment.html")
-    except:
-        return redirect("dashboard")
+        
+    # paypal urls
+    notify_url = f"http://{host}/paypal-ipn/"
+    return_url = f"http://{host}/paypal-success-page/"
+    cancel_url = f"http://{host}/payment-failed/"
+
+    if request.user.general_and_lifetime_user.membership_type == "G":
+        paypal_general_checkout = {
+            "business": settings.PAYPAL_RECEIVER_EMAIL,
+            "amount": currency_rates(2000),
+            "item_name": "general membership",
+            "invoice": uid,
+            "currency_code": "USD",
+            "notify_url": notify_url,
+            "return_url": return_url,
+            "cancel_url": cancel_url,
+        }
+        paypal_payment = PayPalPaymentsForm(initial=paypal_general_checkout)
+        context = {
+            "return_url": khalti_return_url,
+            "uid": uid,
+            "paypal": paypal_payment,
+        }
+        return render(request, "mainapp/general_payment.html", context)
+    elif request.user.general_and_lifetime_user.membership_type == "L":
+        paypal_lifetime_checkout = {
+            "business": settings.PAYPAL_RECEIVER_EMAIL,
+            "amount": currency_rates(10000),
+            "item_name": "lifetime membership",
+            "invoice": uid,
+            "currency_code": "USD",
+            "notify_url": notify_url,
+            "return_url": return_url,
+            "cancel_url": cancel_url,
+        }
+        paypal_payment = PayPalPaymentsForm(initial=paypal_lifetime_checkout)
+        context = {
+            "return_url": khalti_return_url,
+            "uid": uid,
+            "paypal": paypal_payment,
+        }
+        return render(request, "mainapp/lifetime_payment.html", context)
+    elif request.user.general_and_lifetime_user.membership_type == "S":
+        paypal_student_checkout = {
+            "business": settings.PAYPAL_RECEIVER_EMAIL,
+            "amount": currency_rates(1000),
+            "item_name": "student membership",
+            "invoice": uid,
+            "currency_code": "USD",
+            "notify_url": notify_url,
+            "return_url": return_url,
+            "cancel_url": cancel_url,
+        }
+        paypal_payment = PayPalPaymentsForm(initial=paypal_student_checkout)
+        context = {
+            "return_url": khalti_return_url,
+            "uid": uid,
+            "paypal": paypal_payment,
+        }
+        return render(request, "mainapp/student_payment.html", context)
+    else:
+        return HttpResponse("dashboard")
 
 
 @login_required
@@ -214,44 +260,6 @@ def institutional_payment_page(request):
     else:
         form = PaymentForm()
     return render(request, "mainapp/institutional_payment.html")
-
-
-@csrf_exempt
-def verify_payment(request):
-    """To verify the payment done by user using KHALTI."""
-
-    data = request.POST
-    user_who_paid = data["product_identity"]
-    name = data["product_name"]
-    token = data["token"]
-    amount = data["amount"]
-
-    url = "https://khalti.com/api/v2/payment/verify/"
-
-    payload = {"token": token, "amount": amount}
-
-    headers = {
-        "Authorization": "Key test_secret_key_11ddcd10390443539e267be2691a3486"
-    }
-
-    response = requests.request("POST", url, headers=headers, data=payload)
-    print(response.text)
-
-    if response.status_code == 200:
-        Payment.objects.create(
-            created_at=datetime.now(),
-            user_id=user_who_paid,
-            paid_amount_in_paisa=amount,
-        )
-        return JsonResponse({"status": "success", "redirect_url": "/payment-done/"})
-    else:
-        error_message = response.json().get("detail", "Payment verification failed")
-        return JsonResponse({"status": "error", "message": error_message}, status=400)
-
-
-@login_required
-def payment_done_page(request):
-    return render(request, "mainapp/membership-status.html")
 
 
 @admin_only
@@ -462,22 +470,6 @@ def upgrade_to_lifetime(request):
     return render(request, "mainapp/upgrade_to_lifetime.html")
 
 
-# def student_membership(request):
-#     if request.method == "POST":
-#         form = StudentMembershipForm(request.POST, request.FILES)
-
-#         if form.is_valid():
-#             GeneralAndLifetimeMembership.objects.create(
-#                 created_by=request.user, membership_type="S", **form.cleaned_data
-#             )
-#             return redirect("payment")
-#         else:
-#             messages.error(
-#                 request, "Form not saved!!!. Please fill all the fields correctly."
-#             )
-#             return redirect("new_membership_page")
-
-
 @login_required
 def edit_student_membership(request, id):
     """
@@ -517,3 +509,94 @@ def edit_student_membership(request, id):
         "student_level": student_level,
     }
     return render(request, "mainapp/edit_student_membership.html", context)
+
+
+@login_required
+def payment_done_page(request):
+    return render(request, "mainapp/payment-success.html")
+
+
+@login_required
+def payment_failed_page(request):
+    return render(request, "mainapp/payment-failed.html")
+
+
+def initiate_khalti(request):
+    """Initiates the payment by user and redirects them to the payment url."""
+    user = request.user
+    purchase_order_id = request.POST.get("purchase_order_id")
+    amount = request.POST.get("amount")
+    return_url = request.POST.get("return_url")
+
+    url = "https://khalti.com/api/v2/epayment/initiate/"
+    payload = json.dumps(
+        {
+            "return_url": return_url,
+            "website_url": "https://example.com/",
+            "amount": amount,
+            "purchase_order_id": purchase_order_id,
+            "purchase_order_name": "test",
+            "customer_info": {
+                "name": user.full_name,
+                "email": user.email,
+                "phone": user.phone,
+            },
+        }
+    )
+    headers = {
+        "Authorization": os.getenv("khalti_live_secret_key"),
+        "Content-Type": "application/json",
+    }
+    response = requests.request("POST", url, headers=headers, data=payload)
+    new_res = json.loads(response.text)
+    pprint(new_res)
+
+    if response.status_code == 200:
+        return redirect(new_res["payment_url"])
+    else:
+        messages.error(
+            request, "Payment failed. Check your phone number and other details."
+        )
+        return redirect("payment")
+
+
+def payment_verification(request):
+    """Verifies the users payment done in khalti."""
+    pidx = request.GET.get("pidx")
+    amount = request.GET.get("amount")
+    txn_id = request.GET.get("txnId")
+
+    url = "https://khalti.com/api/v2/epayment/lookup/"
+    headers = {
+        "Authorization": os.getenv("khalti_live_secret_key"),
+        "Content-Type": "application/json",
+    }
+    payload = json.dumps({"pidx": pidx})
+    response = requests.request("POST", url, headers=headers, data=payload)
+    print(response.text)
+
+    if response.json()["status"] == "Completed":
+        Payment.objects.create(
+            created_at=datetime.now(),
+            user_id=request.user.id,
+            paid_amount_in_paisa=amount,
+            pidx=pidx,
+            txn_id=txn_id,
+        )
+        messages.success(request, "Payment Successful")
+        return redirect("payment_done_page")
+    else:
+        # message = request.GET.get("message")
+        return redirect("payment_failed")
+
+
+def paypal_success_page(request):
+    """Users are redirected here if payment is successful in paypal."""
+    payer_id = request.GET.get("PayerID")
+    Payment.objects.create(
+        created_at=datetime.now(),
+        user_id=request.user.id,
+        paypal_payer_id=payer_id,
+    )
+    messages.success(request, "Payment Successful")
+    return redirect("payment_done_page")

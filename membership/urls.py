@@ -2,20 +2,14 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
+from config.helpers import currency_rates
+
 from . import views
 
 
 urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path("new-membership-page/", views.new_membership_page, name="new_membership_page"),
-    # path(
-    #     "institutional-membership/",
-    #     views.institutional_membership,
-    #     name="institutional_membership",
-    # ),
-    # path("general-membership/", views.general_membership, name="general_membership"),
-    # path("lifetime-membership/", views.lifetime_membership, name="lifetime_membership"),
-    # path("student-membership/", views.student_membership, name="student_membership"),
     path("payment/", views.payment_page, name="payment"),
     path(
         "institutional-payment/",
@@ -23,7 +17,6 @@ urlpatterns = [
         name="institutional_payment",
     ),
     path("payment-done/", views.payment_done_page, name="payment_done_page"),
-    path("verify-payment/", views.verify_payment, name="verify_payment"),
     path(
         "general-and-lifetime-verification-list/",
         views.general_and_lifetime_membership_verification_list,
@@ -82,4 +75,10 @@ urlpatterns = [
     path("remarks/", views.remarks, name="remarks"),
     path("no-remarks/", views.no_remarks, name="no_remarks"),
     path("upgrade-to-lifetime/", views.upgrade_to_lifetime, name="upgrade_to_lifetime"),
+    path("initiate-khalti/", views.initiate_khalti, name="initiate_khalti"),
+    path(
+        "payment-verification/", views.payment_verification, name="payment_verification"
+    ),
+    path("payment-failed/", views.payment_failed_page, name="payment_failed"),
+    path("paypal-success-page/", views.paypal_success_page, name="paypal_success_page"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

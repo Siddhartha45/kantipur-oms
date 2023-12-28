@@ -41,24 +41,24 @@
                         </div>
 
                         {% for message in messages %}
-                        {% if message.tags == success %}
+                        {% if message.tags == "success" %}
                         <div class="success-message">
-                        {{message}}
+                            {{message}}
                         </div>
-                        {% elif message.tags == error %}
+                        {% elif message.tags == "error" %}
                         <div class="failed-message">
-                        {{message}}
+                            {{message}}
                         </div>
-                        {% elif message.tags == info %}
+                        {% elif message.tags == "info" %}
                         <div class="info-message">
-                        {{message}}
+                            {{message}}
                         </div>
                         {% endif %}
                         {% endfor %}
 
                         <div class="payment-page">
                             <div class="payment-info">
-                                <h3>Please Deposit an amount of Rs. 1000 to continue Student Membership registration. </h3>
+                                <h3>Please Deposit an amount of Rs. 1,000 to continue Student Membership registration. </h3>
                                 <h5>Scan the QR below to pay:</h5>
                                 <div class="payment-detail">
                                     <div class="pay-img">
@@ -67,7 +67,7 @@
                                             {% csrf_token %}
                                             <div class="member-details">
                                                 <div class="member-info2">
-                                                    <p class="required">Upload Payment Screen Shot</p>
+                                                    <p class="required">Upload Payment Screen Shot/Voucher</p>
                                                     <div class="inner-image">
                                                         <input type="file" name="payment_ss" id="ss" accept="image/*" required>
                                                     </div>
@@ -77,8 +77,27 @@
                                         </form>
                                     </div>
                                     <div class="pay-khalti">
-                                            <h3>Pay Using Khalti: </h3>
-                                            <img id="payment-button" src="{% static 'images/khalti-logo.png' %}" alt="">
+                                                <div class="pay-in1">
+                                                    <h3>Account Details: </h3>
+                                                        <p>Account Name: Nepal Geotechnical Society</p>
+                                                        <p>Bank Name: Nabil Bank</p>
+                                                        <p>Branch: Pulchowk, Lalitpur</p>
+                                                        <p>Account Number: 1901017501614</p>
+                                                        <p>Swift Number: NBRBNPKA</p>
+                                                </div>
+                                                <h3>Pay With Khalti<h3>
+                                        <form action="{% url 'initiate_khalti' %}" method="POST">
+                                            {% csrf_token %}
+                                            <label for="khalti-submit">
+                                                <img src="{% static 'images/khalti-logo.png' %}" alt="">
+                                                <input type="hidden" name="purchase_order_id" value="{{uid}}">
+                                                <input type="hidden" name="amount" value="100000">
+                                                <input type="hidden" name="return_url" value="{{return_url}}">
+                                            </label>
+                                            <input type="submit" id="khalti-submit" style="display: none;">
+                                        </form>
+                                        <h3>Pay With Paypal<h3>
+                                            {{paypal.render}}
                                     </div>
                                 </div>
                             </div>
@@ -90,60 +109,6 @@
         </div>
     </div>
 </section>
-
-<script>
-    function verifyPayment(payload) {
-        $.ajax({
-            url: "{% url 'verify_payment' %}",
-            type: "POST",
-            data: payload,
-            dataType: 'json',
-            success: function (response) {
-                // Handle success here
-                alert("Payment verification successful");
-                if (response.redirect_url) {
-                    // Redirect the user to the specified URL
-                    window.location.href = response.redirect_url;
-                }
-            },
-            error: function (error) {
-                // Handle error here
-                alert("Payment verification failed");
-            }
-        });
-    }
-
-    var config = {
-        // replace the publicKey with yours
-        "publicKey": "live_public_key_d15ec20985d8484ba9f062c2b004ec9d",
-        "productIdentity": "{{request.user.id}}",
-        "productName": "Membership Payment",
-        "productUrl": "https://ss.com",
-        "paymentPreference": [
-            "KHALTI",
-            ],
-        "eventHandler": {
-            onSuccess (payload) {
-                // hit merchant api for initiating verfication
-                console.log(payload);
-                verifyPayment(payload)
-            },
-            onError (error) {
-                console.log(error);
-            },
-            onClose () {
-                console.log('widget is closing');
-            }
-        }
-    };
-
-    var checkout = new KhaltiCheckout(config);
-    var btn = document.getElementById("payment-button");
-    btn.onclick = function () {
-        // minimum transaction amount must be 10, i.e 1000 in paisa.
-        checkout.show({amount: 3000});
-    }
-</script>
 
 </body>
 </html>

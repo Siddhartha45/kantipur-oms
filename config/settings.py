@@ -12,9 +12,15 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+# Find the .env file in the BASE_DIR
+load_dotenv()
 
 
 # Quick-start development settings - unsuitable for production
@@ -46,6 +52,8 @@ INSTALLED_APPS = [
     'accounts',
     'membership',
     'general',
+    'django_celery_results',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -160,10 +168,20 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'dipeshthapa709@gmail.com'
-EMAIL_HOST_PASSWORD = 'noso gutx ogjm qcuz'
+EMAIL_HOST_USER = os.getenv('email_host_user')
+EMAIL_HOST_PASSWORD = os.getenv('email_host_password')
 
 
-# Celery settings
-# CELERY_BROKER_URL = "redis://127.0.0.1:6379"
-# CELERY_RESULT_BACKEND = "redis://localhost:6379"
+# celery settings
+# CELERY_BROKER_URL = 'redis://64.227.182.105:6379'
+# CELERY_ACCEPT_CONTENT = {'application/json'}
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_TIMEZONE = 'Asia/Kathmandu'
+# CELERY_RESULT_BACKEND = 'django-db'
+
+
+#paypal settings
+PAYPAL_RECEIVER_EMAIL = os.getenv('paypal_receiver_email')
+PAYPAL_TEST = True
+PAYPAL_BUY_BUTTON_IMAGE = "/static/images/paypal-logo.png"
