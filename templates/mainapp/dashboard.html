@@ -94,7 +94,9 @@
 
                                                     <div class="end-card">
                                                         <div class="end-first">
+                                                            {% if not request.user.general_and_lifetime_user.membership_type == "L" %}
                                                             <p>The card will be expired in 1 year of Issued date.</p>
+                                                            {% endif %}
                                                         </div>
                                                         <div class="end-second">
                                                             <img src="{% static 'images/signature.png' %}" alt="">

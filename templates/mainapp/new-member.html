@@ -214,7 +214,7 @@
                                                 <p class="required">Country</p>
                                                 <div class="info-inner">
                                                     <select id="country" name="me_country">
-                                                        <option>select country</option>
+                                                        <option value="">select country</option>
                                                         {% for k, v in countries %}
                                                             <option value="{{k}}" {% if form.me_country.value == k %}selected{% endif %}>{{v}}</option>
                                                         {% endfor %}

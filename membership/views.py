@@ -91,6 +91,7 @@ def new_membership_page(request):
                 )
                 return redirect("payment")
             else:
+                print(form.errors)
                 messages.error(
                     request, "Form not saved!!!. Please fill all the fields correctly."
                 )
