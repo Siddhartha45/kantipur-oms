@@ -1408,11 +1408,10 @@ a.complain1 {
 /* Login Page */
 
 #login-page {
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .login-left {
-  height: 93%;
   padding: 50px;
   background: var(--Pra-Yellow);
   /* text-align: end; */
@@ -2176,7 +2175,7 @@ a.login-social {
 }
 
 .info-inner input {
-  color: var(--TextColor);
+  
     font-family: Poppins;
     font-size: 12px;
     font-style: normal;
@@ -2186,6 +2185,14 @@ a.login-social {
     align-self: stretch;
     width: 100%;
     border: none;
+    color: var(--Pra-Black);
+    font-weight: 600;
+}
+
+
+input::placeholder {
+  color: var(--TextColor);
+  font-weight: 400;
 }
 
 .info-inner select {
