@@ -1408,11 +1408,10 @@ a.complain1 {
 /* Login Page */
 
 #login-page {
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .login-left {
-  height: 93%;
   padding: 50px;
   background: var(--Pra-Yellow);
   /* text-align: end; */
