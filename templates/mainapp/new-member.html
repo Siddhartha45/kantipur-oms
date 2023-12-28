@@ -417,24 +417,24 @@
 
                                         <h3>2. Education</h3>
 
-                                        <h4 class="edu-head">i. BE/ Equivalent</h4>
+                                        <h4 class="required edu-head">i. BE/ Equivalent</h4>
                                         <div class="member-details">
                                             <div class="member-info3">
-                                                <p>Subject</p>
+                                                <p class="required">Subject</p>
                                                 <div class="info-inner">
                                                     <input type="text" name="be_subject" id="besubject" placeholder="Enter the Subject" value="{{ form.be_subject.value }}" required>
                                                 </div>
                                             </div>
 
                                             <div class="member-info3">
-                                                <p>Institution</p>
+                                                <p class="required">Institution</p>
                                                 <div class="info-inner">
                                                     <input type="text" name="be_institution" id="beinstitute" placeholder="Enter the Institution" value="{{ form.be_institution.value }}" required>
                                                 </div>
                                             </div>
 
                                             <div class="member-info3">
-                                                <p>Country</p>
+                                                <p class="required">Country</p>
                                                 <div class="info-inner">
                                                     <select id="country" name="be_country" required>
                                                         <option>select country</option>
@@ -446,31 +446,31 @@
                                             </div>
 
                                             <div class="member-info3">
-                                                <p>Passed Year</p>
+                                                <p class="required">Passed Year</p>
                                                 <div class="info-inner" {% if form.be_passed_year.errors %}style="border: 1px solid red;"{% endif %}>
                                                     <input type="text" name="be_passed_year" id="bepass" placeholder="Enter the Passed Year" value="{{ form.be_passed_year.value }}" required>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <h4 class="required edu-head">ii. ME/ Equivalent</h4>
+                                        <h4 class="edu-head">ii. ME/ Equivalent</h4>
                                         <div class="member-details">
                                             <div class="member-info3">
-                                                <p class="required">Subject</p>
+                                                <p>Subject</p>
                                                 <div class="info-inner">
                                                     <input type="text" name="me_subject" id="mesubject" placeholder="Enter the Subject" value="{{ form.me_subject.value }}">
                                                 </div>
                                             </div>
 
                                             <div class="member-info3">
-                                                <p class="required">Institution</p>
+                                                <p>Institution</p>
                                                 <div class="info-inner">
                                                     <input type="text" name="me_institution" id="meinstitute" placeholder="Enter the Institution" value="{{ form.me_institution.value }}">
                                                 </div>
                                             </div>
 
                                             <div class="member-info3">
-                                                <p class="required">Country</p>
+                                                <p>Country</p>
                                                 <div class="info-inner">
                                                     <select id="country" name="me_country">
                                                         <option value="">select country</option>
@@ -482,7 +482,7 @@
                                             </div>
 
                                             <div class="member-info3">
-                                                <p class="required">Passed Year</p>
+                                                <p>Passed Year</p>
                                                 <div class="info-inner" {% if form.me_passed_year.errors %}style="border: 1px solid red;"{% endif %}>
                                                     <input type="text" name="me_passed_year" id="mepass" placeholder="Enter the Passed Year" value="{{ form.me_passed_year.value }}">
                                                 </div>

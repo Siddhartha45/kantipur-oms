@@ -28,11 +28,11 @@
                         {% endif %}
                     {% endif %}
 
-                    {% if request.user.general_and_lifetime_user.membership_type == "G" %}
+                    {% comment %} {% if request.user.general_and_lifetime_user.membership_type == "G" %}
                         <a href="{% url 'upgrade_to_lifetime' %}" class="left-dash-item">
                             <p>Upgrade to Lifetime</p>
                         </a>
-                    {% endif %}
+                    {% endif %} {% endcomment %}
                     {% if request.user.general_and_lifetime_user.membership_type == "G" or request.user.general_and_lifetime_user.membership_type == "L" or request.user.general_and_lifetime_user.membership_type == "S" %}
                         <a href="{% url 'payment' %}" class="left-dash-item">
                             <p>Payment</p>
