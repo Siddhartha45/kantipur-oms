@@ -3118,6 +3118,10 @@ a.kit-hover:hover .logo-inner2 h2{
   margin-bottom: 0px;
 }
 
+#public-view {
+  min-height: 100vh;
+}
+
 /* Responsive */
 
 @media only screen and (max-width: 600px) {
