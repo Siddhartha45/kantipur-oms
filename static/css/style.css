@@ -3118,6 +3118,50 @@ a.kit-hover:hover .logo-inner2 h2{
   margin-bottom: 0px;
 }
 
+button.paid-btn {
+  background: #27d935;
+  border-color: #27d935;
+}
+
+button.paid-btn:hover {
+  background: green;
+  border-color: green;
+}
+
+button.unpaid-btn {
+  background: #ed2027;
+  border-color: #ed2027;
+}
+
+button.unpaid-btn:hover {
+  background: red;
+  border-color: red;
+}
+
+.action-tab a{
+  color: var(--Pra-Black);
+  font-size: 20px;
+}
+
+.action-tab a:hover{
+  color: var(--Pra-Black);
+  opacity: 0.7;
+}
+
+.action-tab a:not(:last-child){
+  margin-right: 10px;
+}
+
+.right-field p {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.right-field img {
+  width: 120px;
+  margin-bottom: 10px;
+}
+
 #public-view {
   min-height: 100vh;
 }
