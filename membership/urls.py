@@ -81,4 +81,6 @@ urlpatterns = [
     ),
     path("payment-failed/", views.payment_failed_page, name="payment_failed"),
     path("paypal-success-page/", views.paypal_success_page, name="paypal_success_page"),
+    path("send-mail/", views.send_mail_to_user, name="mail"),
+    path("create-groups/", views.create_group, name="create_group"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
