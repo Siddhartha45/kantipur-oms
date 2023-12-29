@@ -158,6 +158,54 @@
                         
                                 </div>
 
+                                <div class="card card-struture">
+                                    <div class="card-header">
+                                        <button type="button" class="btn btn-warning">3. Payment Details </button>
+                                    </div>
+                                    <div class="card-body fi experience">
+                                        <div class="doc">
+                                            <div class="left-field">
+                                                <h6 class="heading-title">Payment Screenshot</h6>
+                        
+                                            </div>
+                                            <div class="right-field">
+                                                
+                                                <span> 
+                                                    <a href="{{ins.pan_document.url}}" data-fancybox data-caption="Photo">
+                                                        <img src="{{ins.pan_document.url}}" />
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="doc">
+                                            <div class="left-field">
+                                                <h6 class="heading-title">Paid With: </h6>
+                        
+                                            </div>
+                                            <div class="right-field">
+                                                <img src="{% static 'images/khalti-logo.png' %}" alt="">
+                                                <p>Amount:Rs. 10</p>
+                                                <p> Payment Date:Dec. 10, 2023, 10:59 a.m.</p> 
+                                            </div>
+                                        </div>
+
+                                        <div class="doc">
+                                            <div class="left-field">
+                                                <h6 class="heading-title">Paid With:</h6>
+                        
+                                            </div>
+                                            <div class="right-field">
+                                                <img src="{% static 'images/paypal.jpg' %}" alt="">
+                                                <p>Amount:Rs. 10</p>
+                                                <p> Payment Date:Dec. 10, 2023, 10:59 a.m.</p>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
                                 
                                 {% if ins.verification == False %}
                                 <h6 class="verfication-text">
