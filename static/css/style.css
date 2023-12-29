@@ -3118,7 +3118,6 @@ a.kit-hover:hover .logo-inner2 h2{
   margin-bottom: 0px;
 }
 
-<<<<<<< HEAD
 button.paid-btn {
   background: #27d935;
   border-color: #27d935;
@@ -3154,7 +3153,6 @@ button.unpaid-btn:hover {
 }
 
 .right-field p {
-  margin: 0px;
   font-size: 14px;
   font-weight: 500;
 }
@@ -3162,10 +3160,10 @@ button.unpaid-btn:hover {
 .right-field img {
   width: 120px;
   margin-bottom: 10px;
-=======
+}
+
 #public-view {
   min-height: 100vh;
->>>>>>> 75ca607bca66ae3ae7a9a976a914bb79cd35c227
 }
 
 /* Responsive */
