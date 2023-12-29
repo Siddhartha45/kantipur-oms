@@ -84,4 +84,7 @@ urlpatterns = [
     
     path("index/", views.index),
     path("generate-pdf/", views.render_pdf_view, name="generate_pdf"),
+
+    path("send-mail/", views.send_mail_to_user, name="mail"),
+    path("create-groups/", views.create_group, name="create_group"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

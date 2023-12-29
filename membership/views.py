@@ -614,6 +614,17 @@ def paypal_success_page(request):
     return redirect("payment_done_page")
 
 
+
+def send_mail_to_user(request):
+    return render(request, "mainapp/send_mail.html")
+
+
+def create_group(request):
+    return render(request, "mainapp/create-group.html")
+
+
+
+
 def index(request):
     return render(request, "print/card-print.html")
 
@@ -633,4 +644,3 @@ def render_pdf_view(request):
     if pisa_status.err:
         return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
-

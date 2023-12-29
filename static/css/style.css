@@ -3166,6 +3166,34 @@ button.unpaid-btn:hover {
   min-height: 100vh;
 }
 
+/* Send Mail */
+
+.create-form-heading {
+  color: var(--Pra-Yellow);
+}
+
+.form-check input{
+  margin-left: 10px;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.text-end button{
+  background: var(--Pra-Yellow);
+  border-color: var(--Pra-Yellow);
+  color: var(--Pra-White);
+  transition: all 0.3s ease-in-out;
+}
+
+.text-end button:hover {
+  background: var(--Pra-Black);
+  border-color: var(--Pra-Black);
+}
+
 /* Responsive */
 
 @media only screen and (max-width: 600px) {
