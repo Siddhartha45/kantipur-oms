@@ -625,24 +625,25 @@ def create_group(request):
 
 
 def index(request):
-    return render(request, "pdfs/card.html")
+    return render(request, "print/view-print.html")
 
 
 def render_pdf_view(request):
-    template_path = 'user_printer.html'
-    context = {'myvar': 'this is your template context'}
-    # Create a Django response object, and specify content_type as pdf
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-    # find the template and render it.
+    template_path = 'print/view-print.html'
+    
     template = get_template(template_path)
-    html = template.render(context)
+    html = template.render()
 
-    # create a pdf
+#     default_css = '''
+
+# '''
+    
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="report.pdf"'
+
     pisa_status = pisa.CreatePDF(
     html, dest=response)
-    # if error then show some funny view
+    print(html)
     if pisa_status.err:
         return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
-

@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Page</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        
+        th {
+            padding: 3px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        td {
+            padding: 3px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 400;
+        }
+        
+    </style>
+    
+  
+  </head>
+  <body style="font-family: Poppins;">
+    
+    <div class="list-view">
+        <h3 style="color: #fcb810; font-size: 20px; margin-bottom: 10px;">1. Personal Information</h3>
+        <table style="border: 1px solid black; width: 50%;">
+                <tr>
+                    <th >Name of Applicant</th>
+                    <td > Trilochan Adhikari </td>
+                </tr>
+                <tr>
+                    <th>Date of Birth</th>
+                    <td>11/11/2001</td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td>Male</td>
+                </tr>
+                <tr>
+                    <th>Permanent Address</th>
+                    <td>Bhaktapur</td>
+                </tr>
+                <tr>
+                    <th>Affiliation</th>
+                    <td>KIT</td>
+                </tr>
+                <tr>
+                    <th>Nationality</th>
+                    <td>Nepali</td>
+                </tr>
+                <tr>
+                    <th>Citizenship No.</th>
+                    <td>465465657</td>
+                </tr>
+                <tr>
+                    <th>Issued From</th>
+                    <td>Bhaktapur</td>
+                </tr>
+        </table>
+    </div>
+
+    <div class="list-view">
+
+        
+        <h3 style="color: #fcb810; font-size: 20px; margin-top: 10px; margin-bottom: 10px;">2. Education</h3>
+
+        <!-- BE Education -->
+        <h4 style="color: black; font-size: 18px; margin-bottom: 10px;">BE / Equivalent</h4>
+        <table style="border: 1px solid black; width: 50%;">
+                <tr>
+                    <th >Subject</th>
+                    <td > BBIS </td>
+                </tr>
+                <tr>
+                    <th>Institution</th>
+                    <td>KU</td>
+                </tr>
+                <tr>
+                    <th>Counrty</th>
+                    <td>Nepal</td>
+                </tr>
+                <tr>
+                    <th>Passed Year</th>
+                    <td>2023</td>
+                </tr>
+        </table>
+
+        <!-- ME Education -->
+        <h4 style="color: black; font-size: 18px; margin-top: 10px; margin-bottom: 10px;">ME / Equivalent</h4>
+        <table style="border: 1px solid black; width: 50%;">
+                <tr>
+                    <th >Subject</th>
+                    <td > BBIS </td>
+                </tr>
+                <tr>
+                    <th>Institution</th>
+                    <td>KU</td>
+                </tr>
+                <tr>
+                    <th>Counrty</th>
+                    <td>Nepal</td>
+                </tr>
+                <tr>
+                    <th>Passed Year</th>
+                    <td>2023</td>
+                </tr>
+        </table>
+
+        <!-- PHD Education -->
+        <h4 style="color: black; font-size: 18px; margin-top: 10px; margin-bottom: 10px;">PHD / Equivalent</h4>
+        <table style="border: 1px solid black; width: 50%;">
+                <tr>
+                    <th >Subject</th>
+                    <td > BBIS </td>
+                </tr>
+                <tr>
+                    <th>Institution</th>
+                    <td>KU</td>
+                </tr>
+                <tr>
+                    <th>Counrty</th>
+                    <td>Nepal</td>
+                </tr>
+                <tr>
+                    <th>Passed Year</th>
+                    <td>2023</td>
+                </tr>
+        </table>
+
+    </div>
+
+    <div class="list-view">
+        <h3 style="color: #fcb810; font-size: 20px; margin-top: 10px; margin-bottom: 10px;">3. Documents</h3>
+        <table style="border: 1px solid black; width: 50%;">
+                <tr>
+                    <th >PP photo</th>
+                    <th>Citizenship</th>
+                    <th>Master's Documents</th>
+                </tr>
+                <tr>
+                    <td><img src="{% static 'images/image.jpg' %}" alt="" style="width: 100px;"></td>
+                    <td><img src="{% static 'images/image.jpg' %}" alt="" style="width: 100px;"></td>
+                    <td><img src="{% static 'images/image.jpg' %}" alt="" style="width: 100px;"></td>
+                </tr>
+                
+        </table>
+    </div>
+
+    <div class="list-view">
+        <h3 style="color: #fcb810; font-size: 20px; margin-top: 10px; margin-bottom: 10px;">4. Work Description</h3>
+        <table style="border: 1px solid black; width: 50%;">
+                <tr>
+                    <th >Brief Description</th>
+                    <td  style="font-size: 10px !important;"> Mi luctus quis mattis magnis pharetra sodales, urna consequat faucibus volutpat eros. Feugiat nullam a tempor, cum lobortis conubia pharetra? Est sollicitudin vehicula non odio tellus velit netus. Eleifend habitasse, tortor cursus viverra parturient bibendum litora conubia eros hac id sit? Urna facilisi gravida sapien proin lobortis malesuada id. Porttitor non morbi id fermentum feugiat potenti? Dis sapien dolor integer justo nec netus integer fames netus purus. Phasellus facilisi vel vestibulum dapibus pretium nullam etiam, lobortis conubia quam. Cursus lectus elementum fusce tincidunt sit nisl tristique. Sed ipsum.</td>
+                </tr>
+                
+        </table>
+    </div>
+
+    <div class="list-view">
+        <h3 style="color: #fcb810; font-size: 20px; margin-top: 10px; margin-bottom: 10px;">5. Payment Details</h3>
+        <table style="border: 1px solid black; width: 50%;">
+                <tr>
+                    <th >Payment Screenshot</th>
+                    <td><img src="{% static 'images/image.jpg' %}" alt="" style="width: 100px;"></td>
+                </tr>
+                <tr>
+                    <th >Paid Using Khalti</th>
+                    <td><img src="{% static 'images/image.jpg' %}" alt="" style="width: 100px;"> <br>
+                        Amount: Rs 20 <br>
+                        Payment Date:Dec. 10, 2023, 10:59 a.m.
+                    </td>
+                </tr>
+                <tr>
+                    <th >Paid Using Paypal</th>
+                    <td><img src="{% static 'images/image.jpg' %}" alt="" style="width: 100px;"> <br>
+                        Amount: Rs 20 <br>
+                        Payment Date:Dec. 10, 2023, 10:59 a.m.
+                    </td>
+                </tr>
+                
+        </table>
+    </div>
+    
+  </body>
+</html>
