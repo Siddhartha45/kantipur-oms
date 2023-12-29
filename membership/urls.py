@@ -6,6 +6,8 @@ from config.helpers import currency_rates
 
 from . import views
 
+from accounts.tasks import send_user_mail, aa
+
 
 urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
@@ -81,6 +83,13 @@ urlpatterns = [
     ),
     path("payment-failed/", views.payment_failed_page, name="payment_failed"),
     path("paypal-success-page/", views.paypal_success_page, name="paypal_success_page"),
+<<<<<<< HEAD
     path("send-mail/", views.send_mail_to_user, name="mail"),
     path("create-groups/", views.create_group, name="create_group"),
+=======
+    path('index/', views.index, name='index'),
+    
+    
+    path("mail/", aa),
+>>>>>>> 11659b67a87e1fb29628ef0ae4e9a95e83864cd2
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
