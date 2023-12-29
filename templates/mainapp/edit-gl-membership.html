@@ -62,6 +62,21 @@
                                         {% csrf_token %}
                                         <h3>1. Personal Information</h3>
                                         <div class="member-details">
+                                            <div class="member-info">
+                                                <p class="required">Salutation</p>
+                                                <div class="info-inner">
+                                                    <select name="salutation" id="salutation">
+                                                        {% if gl.salutation %}
+                                                            <option value="{{gl.salutation}}" selected>{{gl.get_salutation_display}}</option>
+                                                        {% endif %}
+                                                        {% for k, v in salutation %}
+                                                            {% if k != gl.salutation %}
+                                                                <option value="{{k}}">{{v}}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
                                             
                                             <div class="member-info">
                                                 <p class="required">Name of Applicant</p>
@@ -91,6 +106,18 @@
                                                 </div>
                                             </div>
                                             <div class="member-info">
+                                                <p class="required">Permanent Address</p>
+                                                <div class="info-inner">
+                                                    <input type="text" name="permanent_address" id="address" value="{{gl.permanent_address}}" required>
+                                                </div>
+                                            </div>
+                                            <div class="member-info">
+                                                <p class="required">Affiliation</p>
+                                                <div class="info-inner">
+                                                    <input type="text" name="affiliation" id="affiliation" value="{{gl.affiliation}}" required>
+                                                </div>
+                                            </div>
+                                            <div class="member-info">
                                                 <p class="required">Nationality</p>
                                                 <div class="info-inner">
                                                     <select id="country" name="nationality" required>
@@ -105,35 +132,27 @@
                                                     </select>
                                                 </div>
                                             </div>
-
-                                            <div class="member-info">
-                                                <p class="required">Issued From</p>
-                                                <div class="info-inner">
-                                                    <input type="text" name="issued_from" id="issued" value="{{gl.issued_from}}" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="member-info">
-                                                <p class="required">Permanent Address</p>
-                                                <div class="info-inner">
-                                                    <input type="text" name="permanent_address" id="address" value="{{gl.permanent_address}}" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="member-info">
-                                                <p class="required">Affiliation</p>
-                                                <div class="info-inner">
-                                                    <input type="text" name="affiliation" id="affiliation" value="{{gl.affiliation}}" required>
-                                                </div>
-                                            </div>
-
                                             <div class="member-info">
                                                 <p class="required">Citizenship Card No.</p>
                                                 <div class="info-inner">
                                                     <input type="text" name="citizenship_card_no" id="citizen" value="{{gl.citizenship_card_no}}" required>
                                                 </div>
                                             </div>
-                                            
+                                            <div class="member-info">
+                                                <p class="required">Issued From</p>
+                                                <div class="info-inner">
+                                                    <select name="issued_from" id="issued_from" required>
+                                                        {% if gl.districts %}
+                                                            <option value="{{gl.districts}}" selected>{{gl.get_districts_display}}</option>
+                                                        {% endif %}
+                                                        {% for k, v in districts %}
+                                                            {% if k != gl.districts %}
+                                                                <option value="{{k}}">{{v}}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <h3>2. Education</h3>
@@ -178,28 +197,30 @@
                                             </div>
                                         </div>
 
-                                        <h4 class="required edu-head">ii. ME/ Equivalent</h4>
+                                        <h4 class="edu-head">ii. ME/ Equivalent</h4>
                                         <div class="member-details">
                                             <div class="member-info3">
-                                                <p class="required">Subject</p>
+                                                <p>Subject</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="me_subject" id="mesubject" value="{{gl.me_subject}}" required>
+                                                    <input type="text" name="me_subject" id="mesubject" value="{{gl.me_subject|default:""}}">
                                                 </div>
                                             </div>
 
                                             <div class="member-info3">
-                                                <p class="required">Institution</p>
+                                                <p>Institution</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="me_institution" id="meinstitute" value="{{gl.me_institution}}" required>
+                                                    <input type="text" name="me_institution" id="meinstitute" value="{{gl.me_institution|default:""}}">
                                                 </div>
                                             </div>
 
                                             <div class="member-info3">
-                                                <p class="required">Country</p>
+                                                <p>Country</p>
                                                 <div class="info-inner">
-                                                    <select id="country" name="me_country" required>
+                                                    <select id="country" name="me_country">
                                                         {% if gl.me_country %}
                                                             <option value="{{gl.me_country}}" selected>{{gl.get_me_country_display}}</option>
+                                                        {% else %}
+                                                            <option value="" selected>Select Country</option>
                                                         {% endif %}
                                                         {% for k, v in countries %}
                                                             {% if k != gl.me_country %}
@@ -211,9 +232,9 @@
                                             </div>
 
                                             <div class="member-info3">
-                                                <p class="required">Passed Year</p>
+                                                <p>Passed Year</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="me_passed_year" id="mepass" value="{{gl.me_passed_year}}" required>
+                                                    <input type="text" name="me_passed_year" id="mepass" value="{{gl.me_passed_year|default:""}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -223,14 +244,14 @@
                                             <div class="member-info3">
                                                 <p>Subject</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="phd_subject" id="phdsubject" value="{{gl.phd_subject}}">
+                                                    <input type="text" name="phd_subject" id="phdsubject" value="{{gl.phd_subject|default:""}}">
                                                 </div>
                                             </div>
 
                                             <div class="member-info3">
                                                 <p>Institution</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="phd_institution" id="phdinstitute" value="{{gl.phd_institution}}">
+                                                    <input type="text" name="phd_institution" id="phdinstitute" value="{{gl.phd_institution|default:""}}">
                                                 </div>
                                             </div>
 
@@ -240,6 +261,8 @@
                                                     <select id="country" name="phd_country">
                                                         {% if gl.phd_country %}
                                                             <option value="{{gl.phd_country}}" selected>{{gl.get_phd_country_display}}</option>
+                                                        {% else %}
+                                                            <option value="" selected>Select Country</option>
                                                         {% endif %}
                                                         {% for k, v in countries %}
                                                             {% if k != gl.phd_country %}
@@ -253,7 +276,7 @@
                                             <div class="member-info3">
                                                 <p>Passed Year</p>
                                                 <div class="info-inner">
-                                                    <input type="text" name="phd_passed_year" id="phdpass" value="{{gl.phd_passed_year}}">
+                                                    <input type="text" name="phd_passed_year" id="phdpass" value="{{gl.phd_passed_year|default:""}}">
                                                 </div>
                                             </div>
                                         </div>

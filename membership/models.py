@@ -23,10 +23,10 @@ class GeneralAndLifetimeMembership(models.Model):
     dob = models.CharField(max_length=10)
     gender = models.CharField(max_length=1, choices=choices.GENDER_CHOICES)
     nationality = models.CharField(max_length=2, choices=choices.COUNTRY_CHOICES)
-    issued_from = models.CharField(max_length=200)
+    issued_from = models.CharField(max_length=150, choices=choices.DISTRICT_CHOICES)
     permanent_address = models.CharField(max_length=200)
     affiliation = models.CharField(max_length=200)
-    citizenship_card_no = models.CharField(max_length=20)
+    citizenship_card_no = models.CharField(max_length=80)
     # Educational Details
     be_subject = models.CharField(max_length=200)
     be_institution = models.CharField(max_length=200)

@@ -59,6 +59,7 @@ def new_membership_page(request):
     countries = choices.COUNTRY_CHOICES
     student_level = choices.STUDENT_LEVEL_CHOICES
     salutation = choices.SALUTATION_CHOICES
+    districts = choices.DISTRICT_CHOICES
 
     if request.method == "POST":
         form_name = request.POST.get("form_name")
@@ -79,6 +80,7 @@ def new_membership_page(request):
                     "countries": countries,
                     "student_level": student_level,
                     "salutation": salutation,
+                    "districts": districts,
                     "form": form,
                 }
                 return render(request, "mainapp/new-member.html", general_context)
@@ -91,6 +93,7 @@ def new_membership_page(request):
                 )
                 return redirect("payment")
             else:
+                print(form.errors)
                 messages.error(
                     request, "Form not saved!!!. Please fill all the fields correctly."
                 )
@@ -99,6 +102,7 @@ def new_membership_page(request):
                     "countries": countries,
                     "student_level": student_level,
                     "salutation": salutation,
+                    "districts": districts,
                     "form": form,
                 }
                 return render(request, "mainapp/new-member.html", lifetime_context)
@@ -119,6 +123,7 @@ def new_membership_page(request):
                     "countries": countries,
                     "student_level": student_level,
                     "salutation": salutation,
+                    "districts": districts,
                     "form": form,
                 }
                 return render(request, "mainapp/new-member.html", student_context)
@@ -142,6 +147,7 @@ def new_membership_page(request):
         "countries": countries,
         "student_level": student_level,
         "salutation": salutation,
+        "districts": districts,
     }
     return render(request, "mainapp/new-member.html", context)
 
@@ -360,7 +366,7 @@ def edit_institutional_membership(request, id):
         return redirect("dashboard")
 
     if user.institutional_user.rejected == False:
-        return redirect("index")
+        return redirect("no_remarks")
 
     if request.method == "POST":
         form = InstitutionalMembershipEditForm(
@@ -388,6 +394,8 @@ def edit_gl_membership(request, id):
 
     gender = choices.GENDER_CHOICES
     countries = choices.COUNTRY_CHOICES
+    salutation = choices.SALUTATION_CHOICES
+    districts = choices.DISTRICT_CHOICES
     instance = get_object_or_404(GeneralAndLifetimeMembership, id=id)
     user = request.user
 
@@ -412,7 +420,7 @@ def edit_gl_membership(request, id):
             messages.error(request, "Please fill the form with correct data")
     else:
         form = GeneralAndLifetimeMembershipEditForm(instance=instance)
-    context = {"gl": instance, "gender": gender, "countries": countries}
+    context = {"gl": instance, "gender": gender, "countries": countries, "salutation": salutation, "districts": districts}
     return render(request, "mainapp/edit-gl-membership.html", context)
 
 
@@ -442,7 +450,7 @@ def reject_gl_membership(request, id):
             return redirect("gl_verification_list")
 
 
-@admin_only
+@login_required
 def remarks(request):
     """
     If admin rejects and sends remarks then acc to membership_type of user it redirects

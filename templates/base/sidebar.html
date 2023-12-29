@@ -23,16 +23,16 @@
                         {% endif %}
                         {% if request.user.general_and_lifetime_user.rejected == True or request.user.institutional_user.rejected == True %}
                         <a href="{% url 'remarks' %}" class="left-dash-item">
-                            <p>Remarks</p>
+                            <p class="required">Remarks</p>
                         </a>
                         {% endif %}
                     {% endif %}
 
-                    {% if request.user.general_and_lifetime_user.membership_type == "G" %}
+                    {% comment %} {% if request.user.general_and_lifetime_user.membership_type == "G" %}
                         <a href="{% url 'upgrade_to_lifetime' %}" class="left-dash-item">
                             <p>Upgrade to Lifetime</p>
                         </a>
-                    {% endif %}
+                    {% endif %} {% endcomment %}
                     {% if request.user.general_and_lifetime_user.membership_type == "G" or request.user.general_and_lifetime_user.membership_type == "L" or request.user.general_and_lifetime_user.membership_type == "S" %}
                         <a href="{% url 'payment' %}" class="left-dash-item">
                             <p>Payment</p>

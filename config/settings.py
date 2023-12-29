@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'accounts',
     'membership',
     'general',
-    'django_celery_results',
     'paypal.standard.ipn',
 ]
 
@@ -178,7 +177,6 @@ EMAIL_HOST_PASSWORD = os.getenv('email_host_password')
 # CELERY_RESULT_SERIALIZER = 'json'
 # CELERY_TASK_SERIALIZER = 'json'
 # CELERY_TIMEZONE = 'Asia/Kathmandu'
-# CELERY_RESULT_BACKEND = 'django-db'
 
 
 #paypal settings

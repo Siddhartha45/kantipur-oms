@@ -255,3 +255,95 @@ COUNTRY_CHOICES = (
     ("ZM", "Zambia"),
     ("ZW", "Zimbabwe"),
 )
+
+DISTRICT_CHOICES = (
+    ('Taplejung', 'Taplejung'),
+    ('Panchthar', 'Panchthar'),
+    ('Ilam', 'Ilam'),
+    ('Jhapa', 'Jhapa'),
+    
+    ('Morang', 'Morang'),
+    ('Sunsari', 'Sunsari'),
+    ('Dhankutta', 'Dhankutta'),
+    ('Sankhuwasabha', 'Sankhuwasabha'),
+    ('Bhojpur', 'Bhojpur'),
+    ('Terhathum', 'Terhathum'),
+    
+    ('Okhaldunga', 'Okhaldunga'),
+    ('Khotang', 'Khotang'),
+    ('Solukhumbu', 'Solukhumbu'),
+    ('Udaypur', 'Udaypur'),
+    ('Saptari', 'Saptari'),
+    ('Siraha', 'Siraha'),
+    
+    ('Dhanusa', 'Dhanusa'),
+    ('Mahottari', 'Mahottari'),
+    ('Sarlahi', 'Sarlahi'),
+    ('Sindhuli', 'Sindhuli'),
+    ('Ramechhap', 'Ramechhap'),
+    ('Dolkha', 'Dolkha'),
+    
+    ('Sindhupalchauk', 'Sindhupalchauk'),
+    ('Kavreplanchauk', 'Kavreplanchauk'),
+    ('Lalitpur', 'Lalitpur'),
+    ('Bhaktapur', 'Bhaktapur'),
+    ('Kathmandu', 'Kathmandu'),
+    ('Nuwakot', 'Nuwakot'),
+    ('Rasuwa', 'Rasuwa'),
+    ('Dhading', 'Dhading'),
+    
+    ('Makwanpur', 'Makwanpur'),
+    ('Rauthat', 'Rauthat'),
+    ('Bara', 'Bara'),
+    ('Parsa', 'Parsa'),
+    ('Chitwan', 'Chitwan'),
+    
+    ('Gorkha', 'Gorkha'),
+    ('Lamjung', 'Lamjung'),
+    ('Tanahun', 'Tanahun'),
+    ('Syangja', 'Syangja'),
+    ('Kaski', 'Kaski'),
+    ('Manag', 'Manag'),
+    
+    ('Mustang', 'Mustang'),
+    ('Parwat', 'Parwat'),
+    ('Myagdi', 'Myagdi'),
+    ('Baglung', 'Baglung'),
+    
+    ('Gulmi', 'Gulmi'),
+    ('Palpa', 'Palpa'),
+    ('Nawalparasi', 'Nawalparasi'),
+    ('Rupandehi', 'Rupandehi'),
+    ('Arghakhanchi', 'Arghakhanchi'),
+    ('Kapilvastu', 'Kapilvastu'),
+    
+    ('Pyuthan', 'Pyuthan'),
+    ('Rolpa', 'Rolpa'),
+    ('Western_Rukum', 'Western Rukum'),
+    ('Eastern_Rukum', 'Eastern Rukum'),
+    ('Salyan', 'Salyan'),
+    ('Dang', 'Dang'),
+    
+    ('Bardiya', 'Bardiya'),
+    ('Surkhet', 'Surkhet'),
+    ('Dailekh', 'Dailekh'),
+    ('Banke', 'Banke'),
+    ('Jajarkot', 'Jajarkot'),
+    
+    ('Dolpa', 'Dolpa'),
+    ('Humla', 'Humla'),
+    ('Kalikot', 'Kalikot'),
+    ('Mugu', 'Mugu'),
+    ('Jumla', 'Jumla'),
+    
+    ('Bajura', 'Bajura'),
+    ('Bajhang', 'Bajhang'),
+    ('Achham', 'Achham'),
+    ('Doti', 'Doti'),
+    ('Kailali', 'Kailali'),
+    
+    ('Kanchanpur', 'Kanchanpur'),
+    ('Dadeldhura', 'Dadeldhura'),
+    ('Baitadi', 'Baitadi'),
+    ('Darchula', 'Darchula')
+)
