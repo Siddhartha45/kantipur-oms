@@ -13,8 +13,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.views import View
+from django.views.generic import TemplateView
+from django.template.loader import get_template
 
 from paypal.standard.forms import PayPalPaymentsForm
+from xhtml2pdf import pisa
 
 from config.helpers import currency_rates
 
@@ -608,3 +612,31 @@ def paypal_success_page(request):
     )
     messages.success(request, "Payment Successful")
     return redirect("payment_done_page")
+
+
+
+
+
+
+def index(request):
+    return render(request, "pdfs/card.html")
+
+
+def render_pdf_view(request):
+    template_path = 'user_printer.html'
+    context = {'myvar': 'this is your template context'}
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+    html, dest=response)
+    # if error then show some funny view
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+

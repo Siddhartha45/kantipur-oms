@@ -66,6 +66,9 @@ class GeneralAndLifetimeMembership(models.Model):
 
     def __str__(self):
         return self.name_of_applicant
+    # @property
+    # def email(self):
+    #     return self.created_by.email
 
 
 class InstitutionalMembership(models.Model):

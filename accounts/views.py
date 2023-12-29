@@ -26,19 +26,17 @@ def sign_up(request):
             password = form.cleaned_data.get("password")
             confirm_password = form.cleaned_data.get("confirm_password")
 
-            if (
-                CustomUser.objects.filter(email=email).exists()
-                or CustomUser.objects.filter(phone=phone).exists()
-            ):
-                messages.error(request, "User with this email or phone already exists")
+            if CustomUser.objects.filter(email=email).exists():
+                messages.error(request, "User with this email already exists")
                 return render(request, "auth/signup.html", {"form": form})
-
+            if CustomUser.objects.filter(phone=phone).exists():
+                messages.error(request, "User with this phone number already exists")
+                return render(request, "auth/signup.html", {"form": form})
             if password != confirm_password:
                 messages.error(request, "Password didn't match!")
                 return render(request, "auth/signup.html", {"form": form})
-
             if len(password) < 5:
-                messages.error(request, "Password is short")
+                messages.error(request, "Password is too short.")
                 return render(request, "auth/signup.html", {"form": form})
 
             new_user = CustomUser.objects.create(
@@ -52,7 +50,7 @@ def sign_up(request):
             )
 
             try:
-                send_token_mail(new_user.email, new_user.token)
+                send_token_mail.delay(new_user.email, new_user.token)
             except:
                 messages.success(request, f"Your pin is {new_user.token}")
                 return redirect("login")
