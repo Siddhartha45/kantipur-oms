@@ -246,10 +246,11 @@
                                         <button type="button" class="btn btn-warning">5. Payment Details </button>
                                     </div>
                                     <div class="card-body fi experience">
+                                        
+                                        {% if gl.created_by.payment_user.payment_ss != "" %}
                                         <div class="doc">
                                             <div class="left-field">
                                                 <h6 class="heading-title">Payment Screenshot</h6>
-                        
                                             </div>
                                             <div class="right-field">
                                                 
@@ -260,11 +261,10 @@
                                                 </span>
                                             </div>
                                         </div>
-
+                                        {% elif gl.created_by.payment_user.paid_amount_in_paisa %}
                                         <div class="doc">
                                             <div class="left-field">
-                                                <h6 class="heading-title">Paid With: </h6>
-                        
+                                                <h6 class="heading-title">Paid With: Khalti</h6>
                                             </div>
                                             <div class="right-field">
                                                 <img src="{% static 'images/khalti-logo.png' %}" alt="">
@@ -272,11 +272,10 @@
                                                 <p> Payment Date:Dec. 10, 2023, 10:59 a.m.</p> 
                                             </div>
                                         </div>
-
+                                        {% elif gl.created_by.payment_user.paypal_payer_id %}
                                         <div class="doc">
                                             <div class="left-field">
-                                                <h6 class="heading-title">Paid With:</h6>
-                        
+                                                <h6 class="heading-title">Paid With: Paypal</h6>
                                             </div>
                                             <div class="right-field">
                                                 <img src="{% static 'images/paypal.jpg' %}" alt="">
@@ -284,8 +283,13 @@
                                                 <p> Payment Date:Dec. 10, 2023, 10:59 a.m.</p>
                                             </div>
                                         </div>
-
-
+                                        {% elif not gl.created_by.payment_user %}
+                                        <div class="doc">
+                                            <div class="left-field">
+                                                <h6 class="heading-title">Payment Not Done</h6>
+                                            </div>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                         

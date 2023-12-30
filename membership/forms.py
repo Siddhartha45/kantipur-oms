@@ -111,3 +111,9 @@ class StudentMembershipForm(forms.ModelForm):
             "country_of_institution",
             "expected_pass_year",
         ]
+
+
+class EmailForm(forms.Form):
+    subject = forms.CharField()
+    message = forms.CharField(widget=forms.Textarea)
+    

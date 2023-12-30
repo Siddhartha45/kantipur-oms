@@ -21,6 +21,8 @@ from paypal.standard.forms import PayPalPaymentsForm
 from xhtml2pdf import pisa
 
 from config.helpers import currency_rates
+from accounts.models import CustomUser
+from accounts.tasks import send_group_mail
 
 from .forms import (
     InstitutionalMembershipForm,
@@ -31,8 +33,9 @@ from .forms import (
     GeneralAndLifetimeMembershipEditForm,
     RejectMembershipForm,
     StudentMembershipForm,
+    EmailForm
 )
-from .models import InstitutionalMembership, GeneralAndLifetimeMembership, Payment
+from .models import InstitutionalMembership, GeneralAndLifetimeMembership, Payment, StoreMail
 from .decorators import only_verified_users_without_any_membership, admin_only
 from . import choices
 
@@ -366,11 +369,12 @@ def edit_institutional_membership(request, id):
     instance = get_object_or_404(InstitutionalMembership, id=id)
     user = request.user
 
-    if user.id != instance.created_by.id:
+    if user.role == "U" and user.id != instance.created_by.id:
         return redirect("dashboard")
 
-    if user.institutional_user.rejected == False:
-        return redirect("no_remarks")
+    if user.role == "U":
+        if user.institutional_user.rejected == False:
+            return redirect("no_remarks")
 
     if request.method == "POST":
         form = InstitutionalMembershipEditForm(
@@ -403,11 +407,12 @@ def edit_gl_membership(request, id):
     instance = get_object_or_404(GeneralAndLifetimeMembership, id=id)
     user = request.user
 
-    if user.id != instance.created_by.id:
+    if user.role == "U" and user.id != instance.created_by.id:
         return redirect("dashboard")
 
-    if user.general_and_lifetime_user.rejected == False:
-        return redirect("no_remarks")
+    if user.role == "U":
+        if user.general_and_lifetime_user.rejected == False:
+            return redirect("no_remarks")
 
     if request.method == "POST":
         form = GeneralAndLifetimeMembershipEditForm(
@@ -614,8 +619,44 @@ def paypal_success_page(request):
     return redirect("payment_done_page")
 
 
-
-def send_mail_to_user(request):
+def group_mail(request):
+    """Sends mail in groups."""
+    if request.method == "POST":
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            subject = form.cleaned_data.get("subject")
+            message = form.cleaned_data.get("message")
+            group = request.POST.getlist("group")
+            if not group:
+                messages.error(request, "Please select a group to send mail!")
+                return render(request, "mainapp/send_mail.html", {"form": form})
+            mail_lists = [] #Initialized empty list for storing emails
+            if "lifetime" in group:
+                lifetime_mails = CustomUser.objects.filter(general_and_lifetime_user__membership_type="L", general_and_lifetime_user__verification=True).values_list("email", flat=True)
+                for lifetime_mail in lifetime_mails:
+                    mail_lists.append(lifetime_mail)
+            if "general" in group:
+                general_mails = CustomUser.objects.filter(general_and_lifetime_user__membership_type="G", general_and_lifetime_user__verification=True).values_list("email", flat=True)
+                for general_mail in general_mails:
+                    mail_lists.append(general_mail)
+            if "student" in group:
+                student_mails = CustomUser.objects.filter(general_and_lifetime_user__membership_type="S", general_and_lifetime_user__verification=True).values_list("email", flat=True)
+                for student_mail in student_mails:
+                    mail_lists.append(student_mail)
+            if "institutional" in group:
+                institutional_mails = InstitutionalMembership.objects.filter(verification=True).values_list("created_by__email", flat=True)
+                for institutional_mail in institutional_mails:
+                    mail_lists.append(institutional_mail)
+            print(mail_lists)
+            store_mail_instance = StoreMail.objects.create(subject=subject, message=message)
+            custom_users = CustomUser.objects.filter(email__in=mail_lists)
+            store_mail_instance.groups_mail.add(*custom_users)
+            store_mail_instance.save()
+            #Sending mails to a particular group
+            send_group_mail(subject, message, mail_lists)
+        else:
+            messages.error(request, "Please enter the subject and message correctly.")
+            return render(request, "mainapp/send_mail.html", {"form": form})
     return render(request, "mainapp/send_mail.html")
 
 

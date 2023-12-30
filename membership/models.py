@@ -121,3 +121,13 @@ class Payment(models.Model):
             return str(int(rs))
         else:
             return "Paid by Paypal"
+
+
+class StoreMail(models.Model):
+    """To store mails sent in groups"""
+    subject = models.CharField(max_length=250)
+    message = models.TextField()
+    groups_mail = models.ManyToManyField(CustomUser, related_name="groups_mail")
+    
+    def __str__(self):
+        return self.subject

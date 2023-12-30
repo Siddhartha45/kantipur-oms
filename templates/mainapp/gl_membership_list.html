@@ -169,7 +169,7 @@
                                       {% endif %}
       
                                       {% if not members.created_by.payment_user %}
-                                          <button type="button" class="btn btn-primary uppaid-btn" data-bs-toggle="modal" data-bs-target="#staticBackdroph1">
+                                          <button type="button" class="btn btn-primary unpaid-btn" data-bs-toggle="modal" data-bs-target="#staticBackdroph1">
                                               Not Paid
                                           </button>
                                           <div class="modal fade" id="staticBackdroph1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelh1" aria-hidden="true">
@@ -195,7 +195,7 @@
                                       </td>
                                   <td class="action-tab">
                                       <a href="{% url 'gl_verification_page' id=members.id %}"><i class="fa-regular fa-eye"></i></a>
-                                      <a href=""><i class="fa-regular fa-pen-to-square"></i></a>
+                                      <a href="{% url 'edit_gl_membership' id=members.id %}"><i class="fa-regular fa-pen-to-square"></i></a>
                                   </td>
                               </tr>
                               {% endfor %}
