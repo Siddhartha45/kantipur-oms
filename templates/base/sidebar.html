@@ -43,6 +43,10 @@
                             <p>Institutional Payment</p>
                         </a>
                     {% endif %}
+                    
+                    <a href="{% url 'view_gl_details' %}" class="left-dash-item">
+                        <p>View Membership Details</p>
+                    </a>
 
                     {% if request.user.role == "A" %}
                     <a href="{% url 'gl_verification_list' %}" class="left-dash-item">

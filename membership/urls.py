@@ -81,8 +81,9 @@ urlpatterns = [
     path("paypal-success-page/", views.paypal_success_page, name="paypal_success_page"),
     
     path("index/", views.index),
-    path("generate-pdf/", views.render_pdf_view, name="generate_pdf"),
+    path("generate-pdf/<int:id>/", views.render_pdf_view, name="generate_pdf"),
 
     path("send-group-mail/", views.group_mail, name="group_mail"),
     path("create-group/", views.create_group, name="create_group"),
+    path("view-gl-details/", views.view_gl_details, name="view_gl_details"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

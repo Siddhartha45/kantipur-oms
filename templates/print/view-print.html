@@ -33,35 +33,35 @@
         <table style="border: 1px solid black; width: 50%;">
                 <tr>
                     <th >Name of Applicant</th>
-                    <td > Trilochan Adhikari </td>
+                    <td > {{membership.created_by.full_name}} </td>
                 </tr>
                 <tr>
                     <th>Date of Birth</th>
-                    <td>11/11/2001</td>
+                    <td>{{membership.dob}}</td>
                 </tr>
                 <tr>
                     <th>Gender</th>
-                    <td>Male</td>
+                    <td>{{membership.get_gender_display}}</td>
                 </tr>
                 <tr>
                     <th>Permanent Address</th>
-                    <td>Bhaktapur</td>
+                    <td>{{membership.permanent_address}}</td>
                 </tr>
                 <tr>
                     <th>Affiliation</th>
-                    <td>KIT</td>
+                    <td>{{membership.affiliation}}</td>
                 </tr>
                 <tr>
                     <th>Nationality</th>
-                    <td>Nepali</td>
+                    <td>{{membership.get_nationality_display}}</td>
                 </tr>
                 <tr>
                     <th>Citizenship No.</th>
-                    <td>465465657</td>
+                    <td>{{membership.citizenship_card_no}}</td>
                 </tr>
                 <tr>
                     <th>Issued From</th>
-                    <td>Bhaktapur</td>
+                    <td>{{membership.get_issued_from_display}}</td>
                 </tr>
         </table>
     </div>
@@ -76,19 +76,19 @@
         <table style="border: 1px solid black; width: 50%;">
                 <tr>
                     <th >Subject</th>
-                    <td > BBIS </td>
+                    <td > {{membership.be_subject}} </td>
                 </tr>
                 <tr>
                     <th>Institution</th>
-                    <td>KU</td>
+                    <td>{{membership.be_institution}}</td>
                 </tr>
                 <tr>
                     <th>Counrty</th>
-                    <td>Nepal</td>
+                    <td>{{membership.get_be_country_display}}</td>
                 </tr>
                 <tr>
                     <th>Passed Year</th>
-                    <td>2023</td>
+                    <td>{{membership.be_passed_year}}</td>
                 </tr>
         </table>
 
@@ -97,19 +97,19 @@
         <table style="border: 1px solid black; width: 50%;">
                 <tr>
                     <th >Subject</th>
-                    <td > BBIS </td>
+                    <td > {{membership.me_subject|default:"------"}} </td>
                 </tr>
                 <tr>
                     <th>Institution</th>
-                    <td>KU</td>
+                    <td>{{membership.me_institution|default:"------"}}</td>
                 </tr>
                 <tr>
                     <th>Counrty</th>
-                    <td>Nepal</td>
+                    <td>{{membership.get_me_country_display|default:"------"}}</td>
                 </tr>
                 <tr>
                     <th>Passed Year</th>
-                    <td>2023</td>
+                    <td>{{membership.me_passed_year|default:"------"}}</td>
                 </tr>
         </table>
 
@@ -118,19 +118,19 @@
         <table style="border: 1px solid black; width: 50%;">
                 <tr>
                     <th >Subject</th>
-                    <td > BBIS </td>
+                    <td > {{membership.phd_subject|default:"------"}} </td>
                 </tr>
                 <tr>
                     <th>Institution</th>
-                    <td>KU</td>
+                    <td>{{membership.phd_institution|default:"------"}}</td>
                 </tr>
                 <tr>
                     <th>Counrty</th>
-                    <td>Nepal</td>
+                    <td>{{membership.get_phd_country_display|default:"------"}}</td>
                 </tr>
                 <tr>
                     <th>Passed Year</th>
-                    <td>2023</td>
+                    <td>{{membership.phd_passed_year|default:"------"}}</td>
                 </tr>
         </table>
 
@@ -145,9 +145,9 @@
                     <th>Master's Documents</th>
                 </tr>
                 <tr>
-                    <td><img src="{% static 'images/image.jpg' %}" alt="" style="width: 100px;"></td>
-                    <td><img src="{% static 'images/image.jpg' %}" alt="" style="width: 100px;"></td>
-                    <td><img src="{% static 'images/image.jpg' %}" alt="" style="width: 100px;"></td>
+                    <td><img src="{{membership.pp_photo.path}}" alt="" style="width: 100px;"></td>
+                    <td><img src="{{membership.citizenship.path}}" alt="" style="width: 100px;"></td>
+                    <td><img src="{{membership.masters_document.path}}" alt="" style="width: 100px;"></td>
                 </tr>
                 
         </table>
@@ -158,7 +158,7 @@
         <table style="border: 1px solid black; width: 50%;">
                 <tr>
                     <th >Brief Description</th>
-                    <td  style="font-size: 10px !important;"> Mi luctus quis mattis magnis pharetra sodales, urna consequat faucibus volutpat eros. Feugiat nullam a tempor, cum lobortis conubia pharetra? Est sollicitudin vehicula non odio tellus velit netus. Eleifend habitasse, tortor cursus viverra parturient bibendum litora conubia eros hac id sit? Urna facilisi gravida sapien proin lobortis malesuada id. Porttitor non morbi id fermentum feugiat potenti? Dis sapien dolor integer justo nec netus integer fames netus purus. Phasellus facilisi vel vestibulum dapibus pretium nullam etiam, lobortis conubia quam. Cursus lectus elementum fusce tincidunt sit nisl tristique. Sed ipsum.</td>
+                    <td  style="font-size: 10px !important;">{{membership.affiliation}}</td>
                 </tr>
                 
         </table>
@@ -167,25 +167,27 @@
     <div class="list-view">
         <h3 style="color: #fcb810; font-size: 20px; margin-top: 10px; margin-bottom: 10px;">5. Payment Details</h3>
         <table style="border: 1px solid black; width: 50%;">
+            {% if membership.created_by.payment_user.payment_ss != "" %}
                 <tr>
                     <th >Payment Screenshot</th>
-                    <td><img src="{% static 'images/image.jpg' %}" alt="" style="width: 100px;"></td>
+                    <td><img src="{{membership.created_by.payment_user.payment_ss.path}}" alt="" style="width: 100px;"></td>
                 </tr>
+            {% elif membership.created_by.payment_user.paid_amount_in_paisa %}
                 <tr>
                     <th >Paid Using Khalti</th>
-                    <td><img src="{% static 'images/image.jpg' %}" alt="" style="width: 100px;"> <br>
-                        Amount: Rs 20 <br>
-                        Payment Date:Dec. 10, 2023, 10:59 a.m.
+                    <td><img src="static/images/khalti-logo.png" alt="" style="width: 100px;"> <br>
+                        Amount: Rs {{membership.created_by.payment_user.amount_in_rs}} <br>
+                        Payment Date: {{membership.created_by.payment_user.created_at|date:"M. d, Y"}}
                     </td>
                 </tr>
+            {% elif membership.created_by.payment_user.paypal_payer_id %}
                 <tr>
                     <th >Paid Using Paypal</th>
-                    <td><img src="{% static 'images/image.jpg' %}" alt="" style="width: 100px;"> <br>
-                        Amount: Rs 20 <br>
-                        Payment Date:Dec. 10, 2023, 10:59 a.m.
+                    <td><img src="static/images/paypal-logo.png" alt="" style="width: 100px;"> <br>
+                        Payment Date: {{membership.created_by.payment_user.created_at|date:"M. d, Y"}}
                     </td>
                 </tr>
-                
+            {% endif %}
         </table>
     </div>
     
