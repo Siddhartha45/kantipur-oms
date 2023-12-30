@@ -114,6 +114,12 @@ class StudentMembershipForm(forms.ModelForm):
 
 
 class EmailForm(forms.Form):
+    """Form for handling email details while sending group mails."""
     subject = forms.CharField()
     message = forms.CharField(widget=forms.Textarea)
-    
+
+
+class CreateGroupForm(forms.Form):
+    """Form for handling group creation."""
+    name = forms.CharField()
+    description = forms.CharField(widget=forms.Textarea)

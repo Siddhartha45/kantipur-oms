@@ -6,6 +6,7 @@ from . import choices
 
 
 class GeneralAndLifetimeMembership(models.Model):
+    """Model for Individual Membership."""
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.OneToOneField(
@@ -72,6 +73,7 @@ class GeneralAndLifetimeMembership(models.Model):
 
 
 class InstitutionalMembership(models.Model):
+    """Model for Institutional Membership."""
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.OneToOneField(
@@ -98,6 +100,7 @@ class InstitutionalMembership(models.Model):
 
 
 class Payment(models.Model):
+    """To hold payment record of users."""
     created_at = models.DateTimeField()
     user = models.OneToOneField(
         CustomUser, on_delete=models.CASCADE, related_name="payment_user"
@@ -124,10 +127,26 @@ class Payment(models.Model):
 
 
 class StoreMail(models.Model):
-    """To store mails sent in groups"""
+    """Model to store group mails."""
+    MAIL_STATUS = (
+        ("S", "Sent"),
+        ("D", "Draft"),
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
     subject = models.CharField(max_length=250)
     message = models.TextField()
     groups_mail = models.ManyToManyField(CustomUser, related_name="groups_mail")
+    mail_status = models.CharField(max_length=1, choices=MAIL_STATUS, default="D")
     
     def __str__(self):
         return self.subject
+
+
+class CreateGroups(models.Model):
+    """Model for custom group."""
+    name = models.CharField(max_length=250, unique=True)
+    description = models.TextField()
+    custom_users = models.ManyToManyField(CustomUser, related_name="create_group_users")
+    
+    def __str__(self):
+        return self.name
