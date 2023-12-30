@@ -4,6 +4,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    </head>
   <body>
 
 <section id="new-member">
@@ -56,6 +59,16 @@
                                         <textarea  id="mailBox" name="mailBox" class="form-control cm" rows="6"></textarea>
                                     </div>
                                 </div>
+
+                                <div class="row mb-2">
+                                    <div class="mb-3 col-md-12">
+                                        <label for="" class="form-label cm">Select User</label>
+                                        <select class="multiple-group" name="states[]" multiple="multiple">
+                                            <option value="AL">Alabama</option>
+                                            <option value="WY">Wyoming</option>
+                                          </select>
+                                    </div>
+                                </div>
                                 
                                 <div class="row mt-3">
                                     <div class="col-md-12 text-end"><button type="submit" name="verify" class="btn btn-primary">Create Group</button></div>
@@ -75,6 +88,8 @@
         </div>
     </div>
 </section>
+
+        
 </body>
 </html>
 

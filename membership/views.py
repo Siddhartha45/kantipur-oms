@@ -667,14 +667,18 @@ def create_group(request):
 
 
 def index(request):
-    return render(request, "print/card-print.html")
+    return render(request, "print/view-print.html")
 
 
 def render_pdf_view(request):
-    template_path = 'print/card-print.html'
+    template_path = 'print/view-print.html'
     
     template = get_template(template_path)
     html = template.render()
+
+#     default_css = '''
+
+# '''
     
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'inline; filename="report.pdf"'
