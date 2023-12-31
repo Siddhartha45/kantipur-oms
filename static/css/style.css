@@ -3209,6 +3209,62 @@ button.unpaid-btn:hover {
   color: var(--Pra-White);
 }
 
+.left-drop button {
+    display: flex;
+    height: 40px;
+    padding: 0px 16px;
+    align-items: center;
+    gap: 12px;
+    border-radius: 6px;
+    background: var(--Pra-White);
+    transition: all 0.3s ease-in-out;
+    color: #58667e;
+    width: 100%;
+    justify-content: space-between;
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19.6px;
+    transition: all 0.3s ease-in-out;
+}
+
+.left-drop button:hover {
+  background: var(--Pra-Yellow);
+}
+
+.left-drop button:focus-visible {
+  background: var(--Pra-Yellow);
+  border: none;
+  box-shadow: none;
+}
+
+.left-drop button:active {
+  background: var(--Pra-Yellow);
+}
+
+.left-drop .dropdown-menu {
+  width: 100%;
+}
+ 
+.left-drop .dropdown-item:hover {
+  background-color: var(--Pra-Yellow);
+  color: #fff;
+}
+
+.left-drop .btn.show {
+  background: var(--Pra-Yellow);
+  border-color: var(--Pra-Yellow);
+}
+
+.left-drop a {
+  font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19.6px;
+    color: #58667e;
+}
 
 /* Responsive */
 

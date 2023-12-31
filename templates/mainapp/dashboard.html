@@ -62,46 +62,48 @@
                                         </div>
 
                                         {% if gl_user_membership.verification == True %}
-                                            <div class="member-card">
-                                                <div class="card-first">
-                                                    {% if gl_user_membership.membership_type == "G" %}
-                                                        <h3>General Membership</h3>
-                                                    {% elif gl_user_membership.membership_type == "L" %}
-                                                        <h3>Lifetime Membership</h3>
-                                                    {% elif gl_user_membership.membership_type == "S" %}
-                                                        <h3>Student Membership</h3>
-                                                    {% endif %}
-                                                </div>
-
-                                                <div class="card-second">
-                                                    <div class="top-card">
-                                                        <img src="{% static 'images/card-logo.png' %}" alt="">
-                                                        <div class="top-inner">
-                                                            <h3>Nepal Geotechnical Society</h3>
-                                                            <h2>भूप्रविधि समाज नेपाल</h2>
-                                                            <p>ngeotechs.org</p>
-                                                        </div>
+                                            <div class="main-card" id='printable_div_id'>
+                                                <div class="member-card" >
+                                                    <div class="card-first">
+                                                        {% if gl_user_membership.membership_type == "G" %}
+                                                            <h3>General Membership</h3>
+                                                        {% elif gl_user_membership.membership_type == "L" %}
+                                                            <h3>Lifetime Membership</h3>
+                                                        {% elif gl_user_membership.membership_type == "S" %}
+                                                            <h3>Student Membership</h3>
+                                                        {% endif %}
                                                     </div>
-
-                                                    <div class="middle-card">
-                                                        <img src="{{ gl_user_membership.pp_photo.url }}" alt="">
-                                                        <div class="card-user">
-                                                            <h3>{{gl_user_membership.name_of_applicant}}</h3>
-                                                            <p>Member Since: {{gl_user_membership.membership_since}}</p>
-                                                            <p>Member ID: {{gl_user_membership.membership_no}}</p>
+    
+                                                    <div class="card-second">
+                                                        <div class="top-card">
+                                                            <img src="{% static 'images/card-logo.png' %}" alt="">
+                                                            <div class="top-inner">
+                                                                <h3>Nepal Geotechnical Society</h3>
+                                                                <h2>भूप्रविधि समाज नेपाल</h2>
+                                                                <p>ngeotechs.org</p>
+                                                            </div>
                                                         </div>
-                                                    </div>
-
-                                                    <div class="end-card">
-                                                        <div class="end-first">
-                                                            {% if not request.user.general_and_lifetime_user.membership_type == "L" %}
-                                                            <p>The card will be expired in 1 year of Issued date.</p>
-                                                            {% endif %}
+    
+                                                        <div class="middle-card">
+                                                            <img src="{{ gl_user_membership.pp_photo.url }}" alt="">
+                                                            <div class="card-user">
+                                                                <h3>{{gl_user_membership.name_of_applicant}}</h3>
+                                                                <p>Member Since: {{gl_user_membership.membership_since}}</p>
+                                                                <p>Member ID: {{gl_user_membership.membership_no}}</p>
+                                                            </div>
                                                         </div>
-                                                        <div class="end-second">
-                                                            <img src="{% static 'images/signature.png' %}" alt="">
-                                                            <p>Authorized Signature</p>
-                                                            <p>Issued Date: {{gl_user_membership.verified_date|date}}</p>
+    
+                                                        <div class="end-card">
+                                                            <div class="end-first">
+                                                                {% if not request.user.general_and_lifetime_user.membership_type == "L" %}
+                                                                <p>The card will be expired in 1 year of Issued date.</p>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="end-second">
+                                                                <img src="{% static 'images/signature.png' %}" alt="">
+                                                                <p>Authorized Signature</p>
+                                                                <p>Issued Date: {{gl_user_membership.verified_date|date}}</p>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -149,8 +151,12 @@
                                                 </div>
                                             </div>
                                         </div>
+
     
                                         <div class="right-dash-buttons">
+                                        <a href="">
+                                            <button onClick="printdiv('printable_div_id');">Print Card</button>
+                                        </a>
                                         <a href="{% url 'edit_profile' %}">
                                             <button>
                                                 Edit profile
