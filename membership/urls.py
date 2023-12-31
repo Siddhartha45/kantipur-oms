@@ -86,4 +86,5 @@ urlpatterns = [
     path("send-group-mail/", views.group_mail, name="group_mail"),
     path("create-group/", views.create_group, name="create_group"),
     path("view-gl-details/", views.view_gl_details, name="view_gl_details"),
+    path("ins-pdf/", views.render_pdf_view_ins),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

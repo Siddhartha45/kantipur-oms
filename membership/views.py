@@ -741,6 +741,25 @@ def render_pdf_view(request, id):
     return response
 
 
+def render_pdf_view_ins(request):
+    membership_instance = InstitutionalMembership.objects.get(id=2)
+    data = {"membership": membership_instance}
+    template_path = 'print/print-ins.html'
+    
+    template = get_template(template_path)
+    html = template.render()
+    
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="report.pdf"'
+
+    pisa_status = pisa.CreatePDF(
+    html, dest=response)
+    
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+
 def view_gl_details(request):
     gl_instance = GeneralAndLifetimeMembership.objects.get(created_by=request.user)
     context = {"gl": gl_instance}
