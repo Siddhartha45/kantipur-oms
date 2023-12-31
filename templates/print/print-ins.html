@@ -35,19 +35,19 @@
         <table style="border: 1px solid black; width: 50%;">
                 <tr>
                     <th >Company Name</th>
-                    <td > KIT </td>
+                    <td >{{membership.company_name}}</td>
                 </tr>
                 <tr>
                     <th>Address</th>
-                    <td>Baneshwor</td>
+                    <td>{{membership.company_address}}</td>
                 </tr>
                 <tr>
                     <th>Registration No.</th>
-                    <td>456559898</td>
+                    <td>{{membership.registration_no}}</td>
                 </tr>
                 <tr>
                     <th>Website</th>
-                    <td>ktkjiksx.com</td>
+                    <td>{{membership.website}}</td>
                 </tr>
         </table>
     </div>
@@ -58,14 +58,18 @@
                 <tr>
                     <th >PAN</th>
                     <th>Registration</th>
+                </tr>
+                <tr>
+                    <td><img src="{{membership.pan_document.path}}" alt="" style="width: 200px; height: 100px;"></td>
+                    <td><img src="{{membership.registration_document.path}}" alt="" style="width: 200px; height: 100px;"></td>
+                </tr>
+                <tr>
                     <th>Application Letter</th>
                     <th>Company Logo</th>
                 </tr>
                 <tr>
-                    <td><img src="{{membership.pp_photo.path}}" alt="" style="width: 100px;"></td>
-                    <td><img src="{{membership.citizenship.path}}" alt="" style="width: 100px;"></td>
-                    <td><img src="{{membership.masters_document.path}}" alt="" style="width: 100px;"></td>
-                    <td><img src="{{membership.masters_document.path}}" alt="" style="width: 100px;"></td>
+                    <td><img src="{{membership.company_document.path}}" alt="" style="width: 200px; height: 100px;"></td>
+                    <td><img src="{{membership.logo.path}}" alt="" style="width: 200px; height: 100px;"></td>
                 </tr>
                 
         </table>
@@ -75,15 +79,15 @@
         <table style="border: 1px solid black; width: 50%;">
                 <tr>
                     <th >Working Field:</th>
-                    <td > IT </td>
+                    <td >{{membership.working_field}}</td>
                 </tr>
                 <tr>
                     <th>Contact Person:</th>
-                    <td>jiduid@gmail.com</td>
+                    <td>{{membership.contact_person}}</td>
                 </tr>
                 <tr>
                     <th>Contact Number:</th>
-                    <td>9854571555</td>
+                    <td>{{membership.contact_number}}</td>
                 </tr>
         </table>
     </div>
@@ -93,12 +97,12 @@
     <div class="list-view">
         <h3 style="color: #fcb810; font-size: 20px; margin-top: 10px; margin-bottom: 10px;">3. Payment Details</h3>
         <table style="border: 1px solid black; width: 50%;">
-            {% comment %} {% if membership.created_by.payment_user.payment_ss != "" %} {% endcomment %}
+            {% if membership.created_by.payment_user.payment_ss != "" %}
                 <tr>
                     <th >Payment Screenshot</th>
-                    <td><img src="{{membership.created_by.payment_user.payment_ss.path}}" alt="" style="width: 100px;"></td>
+                    <td><img src="{{membership.created_by.payment_user.payment_ss.path}}" alt="" style="width: 200px; height: 150px;"></td>
                 </tr>
-            {% comment %} {% elif membership.created_by.payment_user.paid_amount_in_paisa %} {% endcomment %}
+            {% elif membership.created_by.payment_user.paid_amount_in_paisa %}
                 <tr>
                     <th >Paid Using Khalti</th>
                     <td><img src="static/images/khalti-logo.png" alt="" style="width: 100px;"> <br>
@@ -106,14 +110,14 @@
                         Payment Date: {{membership.created_by.payment_user.created_at|date:"M. d, Y"}}
                     </td>
                 </tr>
-            {% comment %} {% elif membership.created_by.payment_user.paypal_payer_id %} {% endcomment %}
+            {% elif membership.created_by.payment_user.paypal_payer_id %}
                 <tr>
                     <th >Paid Using Paypal</th>
                     <td><img src="static/images/paypal-logo.png" alt="" style="width: 100px;"> <br>
                         Payment Date: {{membership.created_by.payment_user.created_at|date:"M. d, Y"}}
                     </td>
                 </tr>
-            {% comment %} {% endif %} {% endcomment %}
+            {% endif %}
         </table>
     </div>
     

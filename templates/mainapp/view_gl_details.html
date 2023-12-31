@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
                                 <div class="heading">
-                                    <a href="{% url 'generate_pdf' id=gl.id %}" target="_blank"><p>Download PDF</p></a>
+                                    <a href="{% url 'gl_generate_pdf' id=gl.id %}"><p>Download PDF</p></a>
                                 </div>
                             </div>
     
@@ -271,8 +271,8 @@
                                             </div>
                                             <div class="right-field">
                                                 <img src="{% static 'images/khalti-logo.png' %}" alt="">
-                                                <p>Amount:Rs. 10</p>
-                                                <p> Payment Date:Dec. 10, 2023, 10:59 a.m.</p> 
+                                                <p>Amount: Rs. {{gl.created_by.payment_user.amount_in_rs}}</p>
+                                                <p> Payment Date: {{gl.created_by.payment_user.created_at|date:"M. d, Y"}}</p> 
                                             </div>
                                         </div>
                                         {% elif gl.created_by.payment_user.paypal_payer_id %}
@@ -282,8 +282,7 @@
                                             </div>
                                             <div class="right-field">
                                                 <img src="{% static 'images/paypal.jpg' %}" alt="">
-                                                <p>Amount:Rs. 10</p>
-                                                <p> Payment Date:Dec. 10, 2023, 10:59 a.m.</p>
+                                                <p> Payment Date: {{gl.created_by.payment_user.created_at|date:"M. d, Y"}}</p>
                                             </div>
                                         </div>
                                         {% elif not gl.created_by.payment_user %}

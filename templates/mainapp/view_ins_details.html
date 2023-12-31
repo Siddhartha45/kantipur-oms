@@ -37,8 +37,11 @@
                                         </svg>
                                     </div></a>
                                     <div class="heading">
-                                        <p>Approval Form</p>
+                                        <p>My Membership Details</p>
                                     </div>
+                                </div>
+                                <div class="heading">
+                                    <a href="{% url 'ins_generate_pdf' id=ins.id %}"><p>Download PDF</p></a>
                                 </div>
                             </div>
 
@@ -151,10 +154,7 @@
                                             </div>
                                         </div>
                         
-                        
                                     </div>
-                        
-                                    
                         
                                 </div>
 
@@ -162,12 +162,13 @@
                                     <div class="card-header">
                                         <button type="button" class="btn btn-warning">3. Payment Details </button>
                                     </div>
+
                                     <div class="card-body fi experience">
 
                                         {% if ins.created_by.payment_user.payment_ss != "" %}
                                         <div class="doc">
                                             <div class="left-field">
-                                                <h6 class="heading-title">Payment Screenshot</h6>
+                                                <h6 class="heading-title">Payment Screenshot</h6>                        
                                             </div>
                                             <div class="right-field">
                                                 <span> 
@@ -208,53 +209,15 @@
 
                                     </div>
                                 </div>
-
-                                
-                                {% if ins.verification == False %}
-                                <h6 class="verfication-text">
-                                    If the above information is correct proceed to verify
-                                </h6>
-                                    <div class="mb-3">                        
-                                    </div>
-                                    <div class="buttons">
-                                        <a href="{% url 'verify_ins_membership' id=ins.id %}"><button class="btn btn-primary">Verify</button></a>
-                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Recheck</button>
-                                    </div>
-                                {% endif %}
                             
-                            <form action="{% url 'reject_ins_membership' id=ins.id %}" method="post">
-                                {% csrf_token %}
-                                <div class="modal" tabindex="-1" id="exampleModal">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Remarks(Write what should be corrected.)</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                
-                                                <textarea name="remarks" id="" cols="30" rows="10" required></textarea>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Send for Recheck</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
                             </div>
                         
                         </div>
                         
                     </div>
-    
-    
+        
                 </div>
-    
-    
-    
-    
+
             </div>
         </div>
     </section>
