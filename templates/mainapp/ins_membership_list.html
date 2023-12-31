@@ -177,7 +177,7 @@
 
                                 <td class="action-tab">
                                     <a href="{% url 'ins_verification_page' id=members.id %}"><i class="fa-regular fa-eye"></i></a>
-                                    <a href=""><i class="fa-regular fa-pen-to-square"></i></a>
+                                    <a href="{% url 'edit_ins_membership' id=members.id %}"><i class="fa-regular fa-pen-to-square"></i></a>
                                 </td>
                             </tr>
                             {% endfor %}

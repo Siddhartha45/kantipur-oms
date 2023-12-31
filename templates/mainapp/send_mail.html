@@ -36,78 +36,97 @@
                             </div>
                         </div>
 
+                        {% for message in messages %}
+                        {% if message.tags == "success" %}
+                        <div class="success-message">
+                            {{message}}
+                        </div>
+                        {% elif message.tags == "error" %}
+                        <div class="failed-message">
+                            {{message}}
+                        </div>
+                        {% elif message.tags == "info" %}
+                        <div class="info-message">
+                            {{message}}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
 
                         <div class="new-member">
-                            <form action="=" method="POST" class="form-cm row" enctype="multipart/form-data" id="myForm">
-                                
+                            <form action="" method="post" class="form-cm row" enctype="multipart/form-data" id="myForm">
+                                {% csrf_token %}
                                 <div class="col-md-12">
                                     <h3 class="create-form-heading">Compose Mail</h3>
                                 </div>
-                                <input type="hidden"  value=""  name="message_">
+                            
                                 <div class="row mb-2">
                                     <div class="mb-3 col-md-12">
                                         <label for="" class="form-label cm">Mail Subject</label>
-                                        <input type="text"  value=""  class="form-control cm" placeholder="Enter subject" name="subject">
+                                        <input type="text" class="form-control cm" placeholder="Enter subject" name="subject" value="{{ form.subject.value }}" required>
                                     </div>
                                 </div>
                           
                                 <div class="row mb-2">
                                     <div class="mb-3 col-md-12">
                                         <label for="" class="form-label cm">Mail message</label>
-                                        <textarea  id="mailBox" name="mailBox" class="form-control cm"></textarea>
+                                        <textarea id="mailBox" name="message" class="form-control cm" required>{{ form.message.value }}</textarea>
                                     </div>
                                 </div>
-                               
-                          
+                            
+                        
                                 <div class="row mb-2">
                                     <div class="mb-3 col-md-12">
                                         <label for="" class="form-label cm">Choose Group</label>
                                         <div class="checkbox-group">
-                                         
-                                          <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="group" value="">
+                                        
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="group" value="lifetime">
                                             <label class="form-check-label">
                                                 Lifetime
                                             </label>
 
-                                          </div>
-                                          
-                                          <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="group" value="">
-                                            <label class="form-check-label">
-                                                General
-                                            </label>
-                                          </div>
+                                        </div>
+                                        
+                                        <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="group" value="general">
+                                        <label class="form-check-label">
+                                            General
+                                        </label>
+                                        </div>
 
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="group" value="">
+                                                <input class="form-check-input" type="checkbox" name="group" value="student">
                                                 <label class="form-check-label">
                                                     Student
                                                 </label>
                                             </div>
 
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="group" value="">
+                                                <input class="form-check-input" type="checkbox" name="group" value="institutional">
                                                 <label class="form-check-label">
                                                     Institutional
                                                 </label>
                                             </div>
 
-                                          
-                                      
-                                        
+                                            {% for group in groups %}
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="group" value="{{group.name}}">
+                                                <label class="form-check-label">
+                                                    {{group.name}}
+                                                </label>
+                                            </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                 </div>
-                          
+                        
                                 <div class="row mt-3">
-                                  <div class="col-md-12 text-end">
-                                      <button type="submit" name="draft" class="btn btn-primary draft">Draft</button>
-                                      
-                                      <button type="submit" name="sent" class="btn btn-primary">Send Mail</button>
-                                  </div>
+                                <div class="col-md-12 text-end">
+                                    <button type="submit" name="draft" class="btn btn-primary draft">Draft</button>
+                                    <button type="submit" name="send" class="btn btn-primary">Send Mail</button>
                                 </div>
-                          
+                                </div>
+                        
                             </form>               
                         </div>
                     </div>

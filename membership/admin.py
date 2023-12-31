@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import GeneralAndLifetimeMembership, InstitutionalMembership, Payment
+from .models import GeneralAndLifetimeMembership, InstitutionalMembership, Payment, StoreMail, CreateGroups
 
 
 class PaymentModelAdmin(admin.ModelAdmin):
@@ -17,4 +17,6 @@ class PaymentModelAdmin(admin.ModelAdmin):
 
 admin.site.register(GeneralAndLifetimeMembership)
 admin.site.register(InstitutionalMembership)
+admin.site.register(StoreMail)
+admin.site.register(CreateGroups)
 admin.site.register(Payment, PaymentModelAdmin)

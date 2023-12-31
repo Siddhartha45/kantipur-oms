@@ -34,14 +34,30 @@
                                     </svg>
                                 </div></a>
                                 <div class="heading">
-                                    <p>Send Mail</p>
+                                    <p>Create Group</p>
                                 </div>
                             </div>
                         </div>
 
+                        {% for message in messages %}
+                        {% if message.tags == "success" %}
+                        <div class="success-message">
+                            {{message}}
+                        </div>
+                        {% elif message.tags == "error" %}
+                        <div class="failed-message">
+                            {{message}}
+                        </div>
+                        {% elif message.tags == "info" %}
+                        <div class="info-message">
+                            {{message}}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
 
                         <div class="new-member">
                             <form action="" method="POST" class="form-cm" enctype="multipart/form-data" id="myForm">
+                                {% csrf_token %}
                                 <div class="col-md-12">
                                     <h3 class="create-form-heading">Create Group</h3>
                                 </div>
@@ -49,29 +65,30 @@
                                 <div class="row mb-2">
                                     <div class="mb-3 col-md-12">
                                         <label for="" class="form-label cm">Group Name</label>
-                                        <input type="text" class="form-control cm" placeholder="Enter subject" name="group_name">
+                                        <input type="text" class="form-control cm" placeholder="Enter Group Name" name="name" value="{{ form.name.value }}" required>
                                     </div>
                                 </div>
                         
                                 <div class="row mb-2">
                                     <div class="mb-3 col-md-12">
                                         <label for="" class="form-label cm">Group Description</label>
-                                        <textarea  id="mailBox" name="mailBox" class="form-control cm" rows="6"></textarea>
+                                        <textarea  id="mailBox" name="description" class="form-control cm" rows="6" required>{{ form.description.value }}</textarea>
                                     </div>
                                 </div>
 
                                 <div class="row mb-2">
                                     <div class="mb-3 col-md-12">
                                         <label for="" class="form-label cm">Select User</label>
-                                        <select class="multiple-group" name="states[]" multiple="multiple">
-                                            <option value="AL">Alabama</option>
-                                            <option value="WY">Wyoming</option>
-                                          </select>
+                                        <select class="multiple-group" name="users" multiple="multiple">
+                                            {% for user in users %}
+                                            <option value="{{user.id}}">{{user.email}}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
                                 
                                 <div class="row mt-3">
-                                    <div class="col-md-12 text-end"><button type="submit" name="verify" class="btn btn-primary">Create Group</button></div>
+                                    <div class="col-md-12 text-end"><button type="submit" class="btn btn-primary">Create Group</button></div>
                                 </div>
                         
                             </form>                               

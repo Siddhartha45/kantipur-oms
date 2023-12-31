@@ -21,6 +21,8 @@ from paypal.standard.forms import PayPalPaymentsForm
 from xhtml2pdf import pisa
 
 from config.helpers import currency_rates
+from accounts.models import CustomUser
+from accounts.tasks import send_group_mail
 
 from .forms import (
     InstitutionalMembershipForm,
@@ -31,8 +33,10 @@ from .forms import (
     GeneralAndLifetimeMembershipEditForm,
     RejectMembershipForm,
     StudentMembershipForm,
+    EmailForm,
+    CreateGroupForm
 )
-from .models import InstitutionalMembership, GeneralAndLifetimeMembership, Payment
+from .models import InstitutionalMembership, GeneralAndLifetimeMembership, Payment, StoreMail, CreateGroups
 from .decorators import only_verified_users_without_any_membership, admin_only
 from . import choices
 
@@ -366,11 +370,12 @@ def edit_institutional_membership(request, id):
     instance = get_object_or_404(InstitutionalMembership, id=id)
     user = request.user
 
-    if user.id != instance.created_by.id:
+    if user.role == "U" and user.id != instance.created_by.id:
         return redirect("dashboard")
 
-    if user.institutional_user.rejected == False:
-        return redirect("no_remarks")
+    if user.role == "U":
+        if user.institutional_user.rejected == False:
+            return redirect("no_remarks")
 
     if request.method == "POST":
         form = InstitutionalMembershipEditForm(
@@ -403,11 +408,12 @@ def edit_gl_membership(request, id):
     instance = get_object_or_404(GeneralAndLifetimeMembership, id=id)
     user = request.user
 
-    if user.id != instance.created_by.id:
+    if user.role == "U" and user.id != instance.created_by.id:
         return redirect("dashboard")
 
-    if user.general_and_lifetime_user.rejected == False:
-        return redirect("no_remarks")
+    if user.role == "U":
+        if user.general_and_lifetime_user.rejected == False:
+            return redirect("no_remarks")
 
     if request.method == "POST":
         form = GeneralAndLifetimeMembershipEditForm(
@@ -614,36 +620,128 @@ def paypal_success_page(request):
     return redirect("payment_done_page")
 
 
-def send_mail_to_user(request):
-    return render(request, "mainapp/send_mail.html")
+@admin_only
+def group_mail(request):
+    """Sends mail in groups."""
+    custom_groups = CreateGroups.objects.all()
+    if request.method == "POST":
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            subject = form.cleaned_data.get("subject")
+            message = form.cleaned_data.get("message")
+            group = request.POST.getlist("group")
+            if not group:
+                messages.error(request, "Please select a group to send mail!")
+                return render(request, "mainapp/send_mail.html", {"form": form})
+            
+            #Initialized empty list for storing emails
+            mail_lists = []
+            if "lifetime" in group:
+                lifetime_mails = CustomUser.objects.filter(general_and_lifetime_user__membership_type="L", general_and_lifetime_user__verification=True).values_list("email", flat=True)
+                for lifetime_mail in lifetime_mails:
+                    mail_lists.append(lifetime_mail)
+            if "general" in group:
+                general_mails = CustomUser.objects.filter(general_and_lifetime_user__membership_type="G", general_and_lifetime_user__verification=True).values_list("email", flat=True)
+                for general_mail in general_mails:
+                    mail_lists.append(general_mail)
+            if "student" in group:
+                student_mails = CustomUser.objects.filter(general_and_lifetime_user__membership_type="S", general_and_lifetime_user__verification=True).values_list("email", flat=True)
+                for student_mail in student_mails:
+                    mail_lists.append(student_mail)
+            if "institutional" in group:
+                institutional_mails = InstitutionalMembership.objects.filter(verification=True).values_list("created_by__email", flat=True)
+                for institutional_mail in institutional_mails:
+                    mail_lists.append(institutional_mail)
+            for custom_group in custom_groups:
+                if custom_group.name in group:
+                    for user in custom_group.custom_users.all():
+                        mail_lists.append(user.email)
+                        
+            #Removes duplicate emails in case they exist
+            unique_email_list = list(set(mail_lists))
+            # print(unique_email_list)
+            custom_users = CustomUser.objects.filter(email__in=unique_email_list)
+            store_mail_instance = StoreMail.objects.create(subject=subject, message=message)
+            store_mail_instance.groups_mail.add(*custom_users)
+            
+            if "send" in request.POST:
+                store_mail_instance.mail_status = "S"
+                store_mail_instance.save()
+                send_group_mail(subject, message, unique_email_list)
+                messages.success(request, "Mail Sent to Group.")
+                return HttpResponse("mail sent in groups")
+            elif "draft" in request.POST:
+                store_mail_instance.mail_status = "D"
+                store_mail_instance.save()
+                messages.success(request, "Mail Saved as Draft.")
+                return HttpResponse("mail saved as draft")
+        else:
+            messages.error(request, "Please enter the subject and message correctly.")
+            return render(request, "mainapp/send_mail.html", {"form": form})
+    else:
+        form = EmailForm()
+    context = {"groups": custom_groups}
+    return render(request, "mainapp/send_mail.html", context)
 
 
+@admin_only
 def create_group(request):
-    return render(request, "mainapp/create-group.html")
-
-
+    """Lets admin create custom groups by associating verified users."""
+    custom_users = CustomUser.objects.filter(is_verified=True)
+    if request.method == "POST":
+        form = CreateGroupForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data.get("name")
+            description = form.cleaned_data.get("description")
+            users = request.POST.getlist("users")
+            if name in ["lifetime", "general", "student", "institutional"]:
+                messages.error(request, "Group name cannot be one of these: lifetime, general, student, institutional")
+                return render(request, "mainapp/create-group.html", {"form": form})
+            if CreateGroups.objects.filter(name=name).exists():
+                messages.error(request, "Group with this name already exists! Enter another unique group name.")
+                return render(request, "mainapp/create-group.html", {"form": form})
+            if not users:
+                messages.error(request, "Please select users to create group!")
+                return render(request, "mainapp/create-group.html", {"form": form})
+            create_group_instance = CreateGroups.objects.create(name=name, description=description)
+            create_group_instance.custom_users.add(*users)
+            create_group_instance.save()
+            messages.success(request, "Group created successfully.")
+            return HttpResponse("Done")
+        else:
+            messages.error(request, "Please enter the details correctly.")
+            return render(request, "mainapp/create-group.html", {"form": form})
+    else:
+        form = CreateGroupForm()
+    context = {"users": custom_users}
+    return render(request, "mainapp/create-group.html", context)
 
 
 def index(request):
     return render(request, "print/view-print.html")
 
 
-def render_pdf_view(request):
+@login_required
+def render_pdf_view(request, id):
+    membership_instance = GeneralAndLifetimeMembership.objects.get(id=id)
+    data = {"membership": membership_instance}
     template_path = 'print/view-print.html'
     
     template = get_template(template_path)
-    html = template.render()
-
-#     default_css = '''
-
-# '''
+    html = template.render(data)
     
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'inline; filename="report.pdf"'
 
     pisa_status = pisa.CreatePDF(
     html, dest=response)
-    print(html)
+    
     if pisa_status.err:
         return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
+
+
+def view_gl_details(request):
+    gl_instance = GeneralAndLifetimeMembership.objects.get(created_by=request.user)
+    context = {"gl": gl_instance}
+    return render(request, "mainapp/view_gl_details.html", context)
