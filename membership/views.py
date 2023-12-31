@@ -255,7 +255,7 @@ def institutional_payment_page(request):
     """Handles the payment for institutional users."""
 
     try:
-        if request.user.institutional_user:
+        if not request.user.institutional_user:
             return redirect("dashboard")
     except:
         pass
@@ -729,7 +729,7 @@ def render_pdf_view(request, id):
     html = template.render(data)
     
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="membership.pdf"'
+    response['Content-Disposition'] = 'inline; filename="membership.pdf"'
 
     pisa_status = pisa.CreatePDF(
     html, dest=response)
@@ -749,7 +749,7 @@ def render_pdf_view_ins(request, id):
     html = template.render(data)
     
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="membership.pdf"'
+    response['Content-Disposition'] = 'inline; filename="membership.pdf"'
 
     pisa_status = pisa.CreatePDF(
     html, dest=response)

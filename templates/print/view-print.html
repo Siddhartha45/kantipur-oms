@@ -10,16 +10,16 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
         
         th {
-            padding: 3px;
+            padding: 1px;
             text-align: center;
-            font-size: 16px;
+            font-size: 12px;
         }
 
         td {
-            padding: 3px;
+            padding: 1px;
             text-align: center;
-            font-size: 14px;
-            font-weight: 400;
+            font-size: 10px;
+            font-weight: 500;
         }
         
     </style>
@@ -27,7 +27,7 @@
   
   </head>
   <body style="font-family: Poppins;">
-    <img src="static/images/card-logo.png" alt="" style=""> 
+    <img src="static/images/fulllogo.jpg" alt=""> 
     
     <div class="list-view">
         <h3 style="color: #fcb810; font-size: 20px; margin-bottom: 10px;">1. Personal Information</h3>
@@ -138,24 +138,7 @@
     </div>
 
     <div class="list-view">
-        <h3 style="color: #fcb810; font-size: 20px; margin-top: 10px; margin-bottom: 10px;">3. Documents</h3>
-        <table style="border: 1px solid black; width: 50%;">
-                <tr>
-                    <th >PP photo</th>
-                    <th>Citizenship</th>
-                    <th>Master's Documents</th>
-                </tr>
-                <tr>
-                    <td><img src="{{membership.pp_photo.path}}" alt="" style="width: 100px;"></td>
-                    <td><img src="{{membership.citizenship.path}}" alt="" style="width: 100px;"></td>
-                    <td><img src="{{membership.masters_document.path}}" alt="" style="width: 100px;"></td>
-                </tr>
-                
-        </table>
-    </div>
-
-    <div class="list-view">
-        <h3 style="color: #fcb810; font-size: 20px; margin-top: 10px; margin-bottom: 10px;">4. Work Description</h3>
+        <h3 style="color: #fcb810; font-size: 20px; margin-top: 10px; margin-bottom: 10px;">3. Work Description</h3>
         <table style="border: 1px solid black; width: 50%;">
                 <tr>
                     <th >Brief Description</th>
@@ -166,30 +149,43 @@
     </div>
 
     <div class="list-view">
-        <h3 style="color: #fcb810; font-size: 20px; margin-top: 10px; margin-bottom: 10px;">5. Payment Details</h3>
-        <table style="border: 1px solid black; width: 50%;">
-            {% if membership.created_by.payment_user.payment_ss != "" %}
-                <tr>
-                    <th >Payment Screenshot</th>
-                    <td><img src="{{membership.created_by.payment_user.payment_ss.path}}" alt="" style="width: 100px;"></td>
-                </tr>
-            {% elif membership.created_by.payment_user.paid_amount_in_paisa %}
-                <tr>
-                    <th >Paid Using Khalti</th>
-                    <td><img src="static/images/khalti-logo.png" alt="" style="width: 100px;"> <br>
+        <h3 style="color: #fcb810; font-size: 20px; margin-top: 10px; margin-top: 400px; margin-bottom: 10px;">4. Documents</h3>
+
+        <h5 style="color: #000; font-size: 16px; font-weight: 600; text-decoration: underline; margin-top: 10px; margin-bottom: 10px;">PP photo:</h5>
+        <img src="{{membership.pp_photo.path}}" alt="" style="width: 200px; padding-bottom: 20px; border-bottom: 1px solid black;">
+
+        <h5 style="color: #000; font-size: 16px; font-weight: 600; text-decoration: underline; margin-top: 100px; margin-bottom: 10px;">Citizenship:</h5>
+        <img src="{{membership.citizenship.path}}" alt="" style="width: 100%; height: 300px;">
+
+        <h5 style="color: #000; font-size: 16px; font-weight: 600; text-decoration: underline; margin-top: 1000px; margin-bottom: 10px;">Master's Documents:</h5>
+        <img src="{{membership.masters_document.path}}" alt="" style="width: 100%;">
+
+       
+    </div>
+
+    <div class="list-view">
+        <h3 style="color: #fcb810; font-size: 20px; margin-top: 10px; margin-bottom: 10px; margin-top: 1000px;">5. Payment Details</h3>
+
+        {% if membership.created_by.payment_user.payment_ss != "" %}
+        
+        <h5 style="color: #000; font-size: 16px; font-weight: 600; text-decoration: underline; margin-top: 40px; margin-bottom: 10px;">Paid with ScreenShot</h5>
+        <img src="{{membership.created_by.payment_user.payment_ss.path}}" alt="" style=" height: 500px;">
+
+        {% elif membership.created_by.payment_user.paid_amount_in_paisa %}
+
+                        <h5 style="color: #000; font-size: 16px; font-weight: 600; text-decoration: underline; margin-top: 40px; margin-bottom: 10px;">Paid with Khalti</h5>
+                        <img src="static/images/khalti-logo.png" alt="" style="width: 100px;"> <br>
                         Amount: Rs {{membership.created_by.payment_user.amount_in_rs}} <br>
                         Payment Date: {{membership.created_by.payment_user.created_at|date:"M. d, Y"}}
-                    </td>
-                </tr>
-            {% elif membership.created_by.payment_user.paypal_payer_id %}
-                <tr>
-                    <th >Paid Using Paypal</th>
-                    <td><img src="static/images/paypal-logo.png" alt="" style="width: 100px;"> <br>
+     
+        {% elif membership.created_by.payment_user.paypal_payer_id %}
+
+                        <h5 style="color: #000; font-size: 16px; font-weight: 600; text-decoration: underline; margin-top: 40px; margin-bottom: 10px;">Paid with Paypal</h5>    
+                        <img src="static/images/paypal-logo.png" alt="" style="width: 100px;"> <br>
                         Payment Date: {{membership.created_by.payment_user.created_at|date:"M. d, Y"}}
-                    </td>
-                </tr>
+                    
             {% endif %}
-        </table>
+
     </div>
     
   </body>

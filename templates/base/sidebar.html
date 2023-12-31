@@ -59,13 +59,26 @@
                         <p>Ins Verification List</p>
                     </a>
 
-                    <a href="{% url 'group_mail' %}" class="left-dash-item">
-                        <p>Send Mail</p>
-                    </a>
+                    <div class="dropdown left-drop">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Mail
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="{% url 'group_mail' %}">Send Mail</a></li>
+                          <li><a class="dropdown-item" href="#">Mail List</a></li>
+                        </ul>
+                    </div>
 
-                    <a href="{% url 'create_group' %}" class="left-dash-item">
-                        <p>Create Group</p>
-                    </a>
+                    <div class="dropdown left-drop">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Group
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="{% url 'create_group' %}">Create Group</a></li>
+                          <li><a class="dropdown-item" href="#">Group List</a></li>
+                        </ul>
+                    </div>                    
+
                     {% endif %}
 
                     <a href="{% url 'logout' %}" class="left-dash-item">
