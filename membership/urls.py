@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from . import views
+from . import views, api
 
 
 urlpatterns = [
@@ -80,10 +80,13 @@ urlpatterns = [
     path("payment-failed/", views.payment_failed_page, name="payment_failed"),
     path("paypal-success-page/", views.paypal_success_page, name="paypal_success_page"),
     
-    path("gl-generate-pdf/<int:id>/", views.render_pdf_view, name="gl_generate_pdf"),
+    # path("gl-generate-pdf/<int:id>/", views.render_pdf_view, name="gl_generate_pdf"),
 
     path("send-group-mail/", views.group_mail, name="group_mail"),
     path("create-group/", views.create_group, name="create_group"),
     path("view-gl-details/", views.view_gl_details, name="view_gl_details"),
-    path("ins-generate-pdf/<int:id>/", views.render_pdf_view_ins, name="ins_generate_pdf"),
+    # path("ins-generate-pdf/<int:id>/", views.render_pdf_view_ins, name="ins_generate_pdf"),
+    
+    #APIS
+    path("api/user/<int:id>/", api.membership_api, name="gls_user_details"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

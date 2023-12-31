@@ -44,7 +44,7 @@
                         </a>
                     {% endif %}
                     
-                    {% if request.user.role == "U" and request.user.payment_user %}
+                    {% if request.user.role == "U"%}
                         <a href="{% url 'view_gl_details' %}" class="left-dash-item">
                             <p>View Membership Details</p>
                         </a>

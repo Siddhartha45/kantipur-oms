@@ -3198,6 +3198,18 @@ button.unpaid-btn:hover {
   width: 100% !important;
 }
 
+.heading2 .btn {
+  background: var(--Member-card);
+  color: var(--Pra-White);
+  transition: all 0.3s ease-in-out;
+}
+
+.heading2 .btn:hover {
+  background: #335bd0;
+  color: var(--Pra-White);
+}
+
+
 /* Responsive */
 
 @media only screen and (max-width: 600px) {

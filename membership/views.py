@@ -18,7 +18,7 @@ from django.views.generic import TemplateView
 from django.template.loader import get_template
 
 from paypal.standard.forms import PayPalPaymentsForm
-from xhtml2pdf import pisa
+# from xhtml2pdf import pisa
 
 from config.helpers import currency_rates
 from accounts.models import CustomUser
@@ -255,7 +255,7 @@ def institutional_payment_page(request):
     """Handles the payment for institutional users."""
 
     try:
-        if request.user.institutional_user:
+        if not request.user.institutional_user:
             return redirect("dashboard")
     except:
         pass
@@ -718,51 +718,49 @@ def create_group(request):
     return render(request, "mainapp/create-group.html", context)
 
 
-@login_required
-def render_pdf_view(request, id):
-    """To render membership details of individual users in pdf view."""
-    membership_instance = GeneralAndLifetimeMembership.objects.get(id=id)
-    data = {"membership": membership_instance}
-    template_path = 'print/view-print.html'
+# @login_required
+# def render_pdf_view(request, id):
+#     """To render membership details of individual users in pdf view."""
+#     membership_instance = GeneralAndLifetimeMembership.objects.get(id=id)
+#     data = {"membership": membership_instance}
+#     template_path = 'print/view-print.html'
     
-    template = get_template(template_path)
-    html = template.render(data)
+#     template = get_template(template_path)
+#     html = template.render(data)
     
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="membership.pdf"'
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition'] = 'attachment; filename="membership.pdf"'
 
-    pisa_status = pisa.CreatePDF(
-    html, dest=response)
+#     pisa_status = pisa.CreatePDF(
+#     html, dest=response)
     
-    if pisa_status.err:
-        return HttpResponse('We had some errors <pre>' + html + '</pre>')
-    return response
+#     if pisa_status.err:
+#         return HttpResponse('We had some errors <pre>' + html + '</pre>')
+#     return response
 
 
-def render_pdf_view_ins(request, id):
-    """To render membership details of institutional in pdf view."""
-    membership_instance = InstitutionalMembership.objects.get(id=id)
-    data = {"membership": membership_instance}
-    template_path = 'print/print-ins.html'
+# def render_pdf_view_ins(request, id):
+#     """To render membership details of institutional in pdf view."""
+#     membership_instance = InstitutionalMembership.objects.get(id=id)
+#     data = {"membership": membership_instance}
+#     template_path = 'print/print-ins.html'
     
-    template = get_template(template_path)
-    html = template.render(data)
+#     template = get_template(template_path)
+#     html = template.render(data)
     
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="membership.pdf"'
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition'] = 'attachment; filename="membership.pdf"'
 
-    pisa_status = pisa.CreatePDF(
-    html, dest=response)
+#     pisa_status = pisa.CreatePDF(
+#     html, dest=response)
     
-    if pisa_status.err:
-        return HttpResponse('We had some errors <pre>' + html + '</pre>')
-    return response
+#     if pisa_status.err:
+#         return HttpResponse('We had some errors <pre>' + html + '</pre>')
+#     return response
 
 
 def view_gl_details(request):
     """To let users see their membership details."""
-    if not Payment.objects.filter(user=request.user).exists():
-        return redirect("dashboard")
     
     gl_instance = None
     ins_instance = None
@@ -781,3 +779,10 @@ def view_gl_details(request):
         return render(request, "mainapp/view_gl_details.html", context)
     elif ins_instance:
         return render(request, "mainapp/view_ins_details.html", context)
+
+
+def group_mail_list(request):
+    stored_mails = StoreMail.objects.all()
+    context = {"mails": stored_mails}
+    return render(request, "mainapp/mail_list.html")
+

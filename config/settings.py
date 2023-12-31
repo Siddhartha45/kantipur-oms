@@ -36,6 +36,7 @@ ALLOWED_HOSTS = [
     "oms.kantipurinfotech.com.np",
     "127.0.0.1",
     "localhost",
+    "*"
 ]
 
 

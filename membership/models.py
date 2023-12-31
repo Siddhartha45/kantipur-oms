@@ -122,10 +122,12 @@ class Payment(models.Model):
             amount_int = int(self.paid_amount_in_paisa)
             rs = amount_int / 100
             return str(int(rs))
-        elif self.payment_ss != "":
-            return "Paid By QR"
-        elif self.paypal_payer_id:
-            return "Paid By Paypal"
+        # elif self.payment_ss != "":
+        #     return "Paid By QR"
+        # elif self.paypal_payer_id:
+        #     return "Paid By Paypal"
+        else:
+            return None
 
 
 class StoreMail(models.Model):
