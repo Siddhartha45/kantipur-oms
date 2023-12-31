@@ -154,9 +154,11 @@
 
     
                                         <div class="right-dash-buttons">
+                                        {% if request.user.general_and_lifetime_user.verification == True %}
                                         <a href="">
                                             <button onClick="printdiv('printable_div_id');">Print Card</button>
                                         </a>
+                                        {% endif %}
                                         <a href="{% url 'edit_profile' %}">
                                             <button>
                                                 Edit profile
