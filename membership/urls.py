@@ -80,7 +80,6 @@ urlpatterns = [
     path("payment-failed/", views.payment_failed_page, name="payment_failed"),
     path("paypal-success-page/", views.paypal_success_page, name="paypal_success_page"),
     
-    path("index/", views.index),
     path("generate-pdf/<int:id>/", views.render_pdf_view, name="generate_pdf"),
 
     path("send-group-mail/", views.group_mail, name="group_mail"),

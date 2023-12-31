@@ -255,9 +255,10 @@ def institutional_payment_page(request):
     """Handles the payment for institutional users."""
 
     try:
-        request.user.institutional_user
+        if request.user.institutional_user:
+            return redirect("dashboard")
     except:
-        return redirect("dashboard")
+        pass
 
     if request.method == "POST":
         form = PaymentForm(request.POST, request.FILES)
@@ -717,12 +718,9 @@ def create_group(request):
     return render(request, "mainapp/create-group.html", context)
 
 
-def index(request):
-    return render(request, "print/view-print.html")
-
-
 @login_required
 def render_pdf_view(request, id):
+    """To render membership details in pdf view."""
     membership_instance = GeneralAndLifetimeMembership.objects.get(id=id)
     data = {"membership": membership_instance}
     template_path = 'print/view-print.html'
@@ -741,7 +739,26 @@ def render_pdf_view(request, id):
     return response
 
 
+@login_required
 def view_gl_details(request):
-    gl_instance = GeneralAndLifetimeMembership.objects.get(created_by=request.user)
-    context = {"gl": gl_instance}
-    return render(request, "mainapp/view_gl_details.html", context)
+    """To let users see their membership details."""
+    if not Payment.objects.filter(user=request.user).exists():
+        return redirect("dashboard")
+    
+    gl_instance = None
+    ins_instance = None
+    
+    try:
+        gl_instance = GeneralAndLifetimeMembership.objects.get(created_by=request.user)
+    except GeneralAndLifetimeMembership.DoesNotExist:
+        pass
+    try:
+        ins_instance = InstitutionalMembership.objects.get(created_by=request.user)
+    except InstitutionalMembership.DoesNotExist:
+        pass
+
+    context = {"gl": gl_instance, "ins": ins_instance}
+    if gl_instance:
+        return render(request, "mainapp/view_gl_details.html", context)
+    elif ins_instance:
+        return render(request, "mainapp/view_ins_details.html", context)
