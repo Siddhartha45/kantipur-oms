@@ -12,6 +12,12 @@ def membership_api(request, id):
     except Payment.DoesNotExist:
         payment_instance = None
     
+    payment_created_at = payment_instance.created_at if payment_instance else None
+    payment_ss = f"http://{host}{payment_instance.payment_ss.url}" if payment_instance else None
+    amount = payment_instance.amount_in_rs if payment_instance else None
+    paypal_id = payment_instance.paypal_payer_id if payment_instance else None
+    
+    
     if payment_instance:
         payment_status = True
     else:
@@ -43,11 +49,12 @@ def membership_api(request, id):
         "pp_photo": f"http://{host}{membership_instance.pp_photo.url}",
         "citizenship_photo": f"http://{host}{membership_instance.citizenship.url}",
         "masters_document": f"http://{host}{membership_instance.masters_document.url}",
+        
         "payment_status": payment_status,
-        "payment_created_at": payment_instance.created_at,
-        "payment_ss": f"http://{host}{payment_instance.payment_ss.url}",
-        "amount": payment_instance.amount_in_rs,
-        "paypal_id": payment_instance.paypal_payer_id,
+        "payment_created_at": payment_created_at,
+        "payment_ss": payment_ss,
+        "amount": amount,
+        "paypal_id": paypal_id,
     }
     return JsonResponse(serialized_data, safe=False)
 
