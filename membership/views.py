@@ -720,7 +720,7 @@ def create_group(request):
 
 @login_required
 def render_pdf_view(request, id):
-    """To render membership details in pdf view."""
+    """To render membership details of individual users in pdf view."""
     membership_instance = GeneralAndLifetimeMembership.objects.get(id=id)
     data = {"membership": membership_instance}
     template_path = 'print/view-print.html'
@@ -729,7 +729,7 @@ def render_pdf_view(request, id):
     html = template.render(data)
     
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'inline; filename="report.pdf"'
+    response['Content-Disposition'] = 'attachment; filename="membership.pdf"'
 
     pisa_status = pisa.CreatePDF(
     html, dest=response)
@@ -739,7 +739,26 @@ def render_pdf_view(request, id):
     return response
 
 
-@login_required
+def render_pdf_view_ins(request, id):
+    """To render membership details of institutional in pdf view."""
+    membership_instance = InstitutionalMembership.objects.get(id=id)
+    data = {"membership": membership_instance}
+    template_path = 'print/print-ins.html'
+    
+    template = get_template(template_path)
+    html = template.render(data)
+    
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="membership.pdf"'
+
+    pisa_status = pisa.CreatePDF(
+    html, dest=response)
+    
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+
 def view_gl_details(request):
     """To let users see their membership details."""
     if not Payment.objects.filter(user=request.user).exists():

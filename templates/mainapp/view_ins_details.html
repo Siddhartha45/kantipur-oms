@@ -41,7 +41,7 @@
                                     </div>
                                 </div>
                                 <div class="heading">
-                                    <a href="" target="_blank"><p>Download PDF</p></a>
+                                    <a href="{% url 'ins_generate_pdf' id=ins.id %}"><p>Download PDF</p></a>
                                 </div>
                             </div>
 
@@ -181,7 +181,7 @@
                                         {% elif ins.created_by.payment_user.paid_amount_in_paisa %}
                                         <div class="doc">
                                             <div class="left-field">
-                                                <h6 class="heading-title">Paid With: </h6>
+                                                <h6 class="heading-title">Paid With: Khalti</h6>
                                             </div>
                                             <div class="right-field">
                                                 <img src="{% static 'images/khalti-logo.png' %}" alt="">
@@ -192,7 +192,7 @@
                                         {% elif ins.created_by.payment_user.paypal_payer_id %}
                                         <div class="doc">
                                             <div class="left-field">
-                                                <h6 class="heading-title">Paid With:</h6>
+                                                <h6 class="heading-title">Paid With: Paypal</h6>
                                             </div>
                                             <div class="right-field">
                                                 <img src="{% static 'images/paypal.jpg' %}" alt="">
