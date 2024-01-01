@@ -18,7 +18,6 @@ from django.views.generic import TemplateView
 from django.template.loader import get_template
 
 from paypal.standard.forms import PayPalPaymentsForm
-# from xhtml2pdf import pisa
 
 from config.helpers import currency_rates
 from accounts.models import CustomUser
@@ -670,12 +669,12 @@ def group_mail(request):
                 store_mail_instance.save()
                 send_group_mail(subject, message, unique_email_list)
                 messages.success(request, "Mail Sent to Group.")
-                return HttpResponse("mail sent in groups")
+                return redirect("mail_lists")
             elif "draft" in request.POST:
                 store_mail_instance.mail_status = "D"
                 store_mail_instance.save()
                 messages.success(request, "Mail Saved as Draft.")
-                return HttpResponse("mail saved as draft")
+                return redirect("mail_lists")
         else:
             messages.error(request, "Please enter the subject and message correctly.")
             return render(request, "mainapp/send_mail.html", {"form": form})
@@ -708,7 +707,7 @@ def create_group(request):
             create_group_instance.custom_users.add(*users)
             create_group_instance.save()
             messages.success(request, "Group created successfully.")
-            return HttpResponse("Done")
+            return redirect("group_lists")
         else:
             messages.error(request, "Please enter the details correctly.")
             return render(request, "mainapp/create-group.html", {"form": form})
@@ -718,48 +717,7 @@ def create_group(request):
     return render(request, "mainapp/create-group.html", context)
 
 
-# @login_required
-# def render_pdf_view(request, id):
-#     """To render membership details of individual users in pdf view."""
-#     membership_instance = GeneralAndLifetimeMembership.objects.get(id=id)
-#     data = {"membership": membership_instance}
-#     template_path = 'print/view-print.html'
-    
-#     template = get_template(template_path)
-#     html = template.render(data)
-    
-#     response = HttpResponse(content_type='application/pdf')
-#     response['Content-Disposition'] = 'attachment; filename="membership.pdf"'
-
-#     pisa_status = pisa.CreatePDF(
-#     html, dest=response)
-    
-#     if pisa_status.err:
-#         return HttpResponse('We had some errors <pre>' + html + '</pre>')
-#     return response
-
-
-# def render_pdf_view_ins(request, id):
-#     """To render membership details of institutional in pdf view."""
-#     membership_instance = InstitutionalMembership.objects.get(id=id)
-#     data = {"membership": membership_instance}
-#     template_path = 'print/print-ins.html'
-    
-#     template = get_template(template_path)
-#     html = template.render(data)
-    
-#     response = HttpResponse(content_type='application/pdf')
-#     response['Content-Disposition'] = 'attachment; filename="membership.pdf"'
-
-#     pisa_status = pisa.CreatePDF(
-#     html, dest=response)
-    
-#     if pisa_status.err:
-#         return HttpResponse('We had some errors <pre>' + html + '</pre>')
-#     return response
-
-
-def view_gl_details(request):
+def view_gl_or_ins_details(request):
     """To let users see their membership details."""
     
     gl_instance = None
@@ -784,5 +742,49 @@ def view_gl_details(request):
 def group_mail_list(request):
     stored_mails = StoreMail.objects.all()
     context = {"mails": stored_mails}
-    return render(request, "mainapp/mail_list.html")
+    return render(request, "mainapp/mail_list.html", context)
 
+
+def group_list(request):
+    custom_groups = CreateGroups.objects.all()
+    context = {"groups": custom_groups}
+    return render(request, "mainapp/group_list.html", context)
+
+
+def edit_groups(request, id):
+    custom_users = CustomUser.objects.filter(is_verified=True)
+    group_instance = CreateGroups.objects.get(id=id)
+    if request.method == "POST":
+        form = CreateGroupForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data.get("name")
+            description = form.cleaned_data.get("description")
+            users = request.POST.getlist("users")
+            print(name)
+            print(description)
+            print(users)
+            if name in ["lifetime", "general", "student", "institutional"]:
+                messages.error(request, "Group name cannot be one of these: lifetime, general, student, institutional")
+                return redirect("edit_group", id=group_instance.id)
+            if CreateGroups.objects.exclude(name=group_instance.name).filter(name=name).exists():
+                messages.error(request, "Group with this name already exists! Enter another unique group name.")
+                return redirect("edit_group", id=group_instance.id)
+            if not users:
+                messages.error(request, "Please select users to create group!")
+                return redirect("edit_group", id=group_instance.id)
+            group_instance.name = name
+            group_instance.description = description
+            group_instance.custom_users.set(users)
+            group_instance.save()
+            messages.success(request, "Group Updated")
+            return redirect("group_lists")
+        else:
+            messages.error(request, "Fill form correctly")
+            # return render(request, "mainapp/edit_groups.html", {"form": form}) 
+
+    context = {"group": group_instance, "users": custom_users}
+    return render(request, "mainapp/edit_groups.html", context)
+
+
+def edit_stored_mail(request):
+    pass

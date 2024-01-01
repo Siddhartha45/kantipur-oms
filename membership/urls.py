@@ -79,14 +79,16 @@ urlpatterns = [
     ),
     path("payment-failed/", views.payment_failed_page, name="payment_failed"),
     path("paypal-success-page/", views.paypal_success_page, name="paypal_success_page"),
-    
-    # path("gl-generate-pdf/<int:id>/", views.render_pdf_view, name="gl_generate_pdf"),
 
     path("send-group-mail/", views.group_mail, name="group_mail"),
+    path("mail-lists/", views.group_mail_list, name="mail_lists"),
     path("create-group/", views.create_group, name="create_group"),
-    path("view-gl-details/", views.view_gl_details, name="view_gl_details"),
-    # path("ins-generate-pdf/<int:id>/", views.render_pdf_view_ins, name="ins_generate_pdf"),
+    path("group-lists/", views.group_list, name="group_lists"),
+    path("edit-group/<int:id>/", views.edit_groups, name="edit_group"),
+    path("view-gl-details/", views.view_gl_or_ins_details, name="view_gl_details"),
     
     #APIS
     path("api/user/<int:id>/", api.membership_api, name="gls_user_details"),
+    path("api/student-user/<int:id>/", api.student_membership_api, name="student_details"),
+    path("api/institutional-user/<int:id>/", api.institutional_membership_api, name="ins_details"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

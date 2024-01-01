@@ -44,7 +44,7 @@
                               </svg>
                           </div></a>
                           <div class="heading">
-                              <p>Mail Lists</p>
+                              <p>Group Lists</p>
                           </div>
                       </div>
                     </div>
@@ -70,19 +70,17 @@
                         <thead>
                             <tr>
                                 <th>SN.</th>
-                                <th>Subject</th>
-                                <th>Mail Status</th>
+                                <th>Group Name</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for mail in mails %}
+                            {% for group in groups %}
                             <tr>
                                 <td>{{forloop.counter}}</td>
-                                <td>{{mail.subject}}</td>
-                                <td>{{mail.get_mail_status_display}}</td>
+                                <td>{{group.name}}</td>
                                 <td class="action-tab">
-                                    <a href=""><i class="fa-regular fa-pen-to-square"></i></a>
+                                    <a href="{% url 'edit_group' id=group.id %}"><i class="fa-regular fa-pen-to-square"></i></a>
                                 </td>
                             </tr>
                             {% endfor %}
