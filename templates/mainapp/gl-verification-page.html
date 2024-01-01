@@ -27,7 +27,7 @@
                             <div class="mid-complain-heading">
                             
                                 <div class="dash-header">
-                                    <a href="#" id="back-button">
+                                    <a onclick="goBack()" href="#" id="back-button">
                                     <div class="pointer">
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                             width="24" height="24" viewBox="0 0 24 24"
@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
                                 <div class="heading2">
-                                    <a href="https://pdfmachine.kantipurinfotech.com.np/public/api/usercard/{{gl.id}}">
+                                    <a href="https://pdfmachine.kantipurinfotech.com.np/public/api/usercard/{{gl.id}}" target="_blank">
                                         <button class="btn">Download PDF</button>
                                     </a>
                                 </div>
@@ -260,8 +260,8 @@
                                             <div class="right-field">
                                                 
                                                 <span> 
-                                                    <a href="{{gl.pp_photo.url}}" data-fancybox data-caption="Photo">
-                                                        <img src="{{gl.pp_photo.url}}" />
+                                                    <a href="{{gl.created_by.payment_user.payment_ss.url}}" data-fancybox data-caption="Photo">
+                                                        <img src="{{gl.created_by.payment_user.payment_ss.url}}" />
                                                     </a>
                                                 </span>
                                             </div>
@@ -273,8 +273,8 @@
                                             </div>
                                             <div class="right-field">
                                                 <img src="{% static 'images/khalti-logo.png' %}" alt="">
-                                                <p>Amount:Rs. 10</p>
-                                                <p> Payment Date:Dec. 10, 2023, 10:59 a.m.</p> 
+                                                <p>Amount:Rs. {{gl.created_by.payment_user.amount_in_rs}}</p>
+                                                <p> Payment Date: {{gl.created_by.payment_user.created_at|date:"M. d, Y"}}</p> 
                                             </div>
                                         </div>
                                         {% elif gl.created_by.payment_user.paypal_payer_id %}
@@ -284,8 +284,7 @@
                                             </div>
                                             <div class="right-field">
                                                 <img src="{% static 'images/paypal.jpg' %}" alt="">
-                                                <p>Amount:Rs. 10</p>
-                                                <p> Payment Date:Dec. 10, 2023, 10:59 a.m.</p>
+                                                <p> Payment Date: {{gl.created_by.payment_user.created_at|date:"M. d, Y"}}</p>
                                             </div>
                                         </div>
                                         {% elif not gl.created_by.payment_user %}

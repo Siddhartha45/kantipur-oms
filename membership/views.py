@@ -734,7 +734,10 @@ def view_gl_or_ins_details(request):
 
     context = {"gl": gl_instance, "ins": ins_instance}
     if gl_instance:
-        return render(request, "mainapp/view_gl_details.html", context)
+        if gl_instance.be_subject:
+            return render(request, "mainapp/view_gl_details.html", context)
+        elif gl_instance.level:
+            return render(request, "mainapp/view_student_details.html", context)
     elif ins_instance:
         return render(request, "mainapp/view_ins_details.html", context)
 
