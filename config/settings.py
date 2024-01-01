@@ -182,5 +182,7 @@ CELERY_TIMEZONE = 'Asia/Kathmandu'
 
 #paypal settings
 PAYPAL_RECEIVER_EMAIL = os.getenv('paypal_receiver_email')
-PAYPAL_TEST = True
+PAYPAL_TEST = False
+PAYPAL_CLIENT_ID = 'your_paypal_client_id'
+PAYPAL_SECRET_KEY = 'your_paypal_secret_key'
 PAYPAL_BUY_BUTTON_IMAGE = "/static/images/paypal-logo.png"

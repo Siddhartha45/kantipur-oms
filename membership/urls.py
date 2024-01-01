@@ -82,6 +82,7 @@ urlpatterns = [
 
     path("send-group-mail/", views.group_mail, name="group_mail"),
     path("mail-lists/", views.group_mail_list, name="mail_lists"),
+    path("edit-mail/<int:id>/", views.edit_stored_mail, name="edit_mail"),
     path("create-group/", views.create_group, name="create_group"),
     path("group-lists/", views.group_list, name="group_lists"),
     path("edit-group/<int:id>/", views.edit_groups, name="edit_group"),

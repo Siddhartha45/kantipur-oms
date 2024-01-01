@@ -663,6 +663,7 @@ def group_mail(request):
             custom_users = CustomUser.objects.filter(email__in=unique_email_list)
             store_mail_instance = StoreMail.objects.create(subject=subject, message=message)
             store_mail_instance.groups_mail.add(*custom_users)
+            store_mail_instance.set_associated_groups(group)
             
             if "send" in request.POST:
                 store_mail_instance.mail_status = "S"
@@ -717,6 +718,7 @@ def create_group(request):
     return render(request, "mainapp/create-group.html", context)
 
 
+@login_required
 def view_gl_or_ins_details(request):
     """To let users see their membership details."""
     
@@ -742,18 +744,21 @@ def view_gl_or_ins_details(request):
         return render(request, "mainapp/view_ins_details.html", context)
 
 
+@admin_only
 def group_mail_list(request):
     stored_mails = StoreMail.objects.all()
     context = {"mails": stored_mails}
     return render(request, "mainapp/mail_list.html", context)
 
 
+@admin_only
 def group_list(request):
     custom_groups = CreateGroups.objects.all()
     context = {"groups": custom_groups}
     return render(request, "mainapp/group_list.html", context)
 
 
+@admin_only
 def edit_groups(request, id):
     custom_users = CustomUser.objects.filter(is_verified=True)
     group_instance = CreateGroups.objects.get(id=id)
@@ -789,5 +794,68 @@ def edit_groups(request, id):
     return render(request, "mainapp/edit_groups.html", context)
 
 
-def edit_stored_mail(request):
-    pass
+@admin_only
+def edit_stored_mail(request, id):
+    custom_groups = CreateGroups.objects.all()
+    mail_instance = StoreMail.objects.get(id=id)
+    if request.method == "POST":
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            subject = form.cleaned_data.get("subject")
+            message = form.cleaned_data.get("message")
+            group = request.POST.getlist("group")
+            print(subject)
+            print(message)
+            print(group)
+            if not group:
+                messages.error(request, "Please select a group to send mail!")
+                return redirect("edit_mail", id=id)
+            
+            #Initialized empty list for storing emails
+            mail_lists = []
+            if "lifetime" in group:
+                lifetime_mails = CustomUser.objects.filter(general_and_lifetime_user__membership_type="L", general_and_lifetime_user__verification=True).values_list("email", flat=True)
+                for lifetime_mail in lifetime_mails:
+                    mail_lists.append(lifetime_mail)
+            if "general" in group:
+                general_mails = CustomUser.objects.filter(general_and_lifetime_user__membership_type="G", general_and_lifetime_user__verification=True).values_list("email", flat=True)
+                for general_mail in general_mails:
+                    mail_lists.append(general_mail)
+            if "student" in group:
+                student_mails = CustomUser.objects.filter(general_and_lifetime_user__membership_type="S", general_and_lifetime_user__verification=True).values_list("email", flat=True)
+                for student_mail in student_mails:
+                    mail_lists.append(student_mail)
+            if "institutional" in group:
+                institutional_mails = InstitutionalMembership.objects.filter(verification=True).values_list("created_by__email", flat=True)
+                for institutional_mail in institutional_mails:
+                    mail_lists.append(institutional_mail)
+            for custom_group in custom_groups:
+                if custom_group.name in group:
+                    for user in custom_group.custom_users.all():
+                        mail_lists.append(user.email)
+            #Removes duplicate emails in case they exist
+            unique_email_list = list(set(mail_lists))
+            users = CustomUser.objects.filter(email__in=unique_email_list)
+            mail_instance.subject = subject
+            mail_instance.message = message
+            mail_instance.groups_mail.set(users)
+            mail_instance.set_associated_groups(group)
+            
+            if "send" in request.POST:
+                mail_instance.mail_status = "S"
+                mail_instance.save()
+                send_group_mail(subject, message, unique_email_list)
+                messages.success(request, "Mail Sent to Group.")
+                return redirect("mail_lists")
+            elif "draft" in request.POST:
+                mail_instance.mail_status = "D"
+                mail_instance.save()
+                messages.success(request, "Mail Saved as Draft.")
+                return redirect("mail_lists")
+        else:
+            messages.error(request, "Please enter the subject and message correctly.")
+            return redirect("edit_mail", id=id)
+    else:
+        form = EmailForm()
+    context = {"mail": mail_instance, "groups": custom_groups}
+    return render(request, "mainapp/edit_mail.html", context)

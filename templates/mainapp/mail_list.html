@@ -51,8 +51,9 @@
         
                     {% for message in messages %}
                     {% if message.tags == "success" %}
-                    <div class="success-message">
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
                         {{message}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     {% elif message.tags == "error" %}
                     <div class="failed-message">
@@ -82,7 +83,7 @@
                                 <td>{{mail.subject}}</td>
                                 <td>{{mail.get_mail_status_display}}</td>
                                 <td class="action-tab">
-                                    <a href=""><i class="fa-regular fa-pen-to-square"></i></a>
+                                    <a href="{% url 'edit_mail' id=mail.id %}"><i class="fa-regular fa-pen-to-square"></i></a>
                                 </td>
                             </tr>
                             {% endfor %}

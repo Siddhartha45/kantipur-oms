@@ -63,14 +63,14 @@
                                 <div class="row mb-2">
                                     <div class="mb-3 col-md-12">
                                         <label for="" class="form-label cm">Mail Subject</label>
-                                        <input type="text" class="form-control cm" placeholder="Enter subject" name="subject" value="{{ form.subject.value }}" required>
+                                        <input type="text" class="form-control cm" placeholder="Enter subject" name="subject" value="{{mail.subject}}" required>
                                     </div>
                                 </div>
                           
                                 <div class="row mb-2">
                                     <div class="mb-3 col-md-12">
                                         <label for="" class="form-label cm">Mail message</label>
-                                        <textarea id="mailBox" name="message" class="form-control cm" required>{{ form.message.value }}</textarea>
+                                        <textarea id="mailBox" name="message" class="form-control cm" required>{{mail.message}}</textarea>
                                     </div>
                                 </div>
                             
@@ -81,42 +81,41 @@
                                         <div class="checkbox-group">
                                         
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="group" value="lifetime">
+                                            <input class="form-check-input" type="checkbox" name="group" value="lifetime" {% if "lifetime" in mail.get_associated_groups %}checked{% endif %}>
                                             <label class="form-check-label">
                                                 Lifetime
                                             </label>
-
                                         </div>
                                         
                                         <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="group" value="general">
+                                        <input class="form-check-input" type="checkbox" name="group" value="general" {% if "general" in mail.get_associated_groups %}checked{% endif %}>
                                         <label class="form-check-label">
                                             General
                                         </label>
                                         </div>
 
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="group" value="student">
-                                                <label class="form-check-label">
-                                                    Student
-                                                </label>
-                                            </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="group" value="student" {% if "student" in mail.get_associated_groups %}checked{% endif %}>
+                                            <label class="form-check-label">
+                                                Student
+                                            </label>
+                                        </div>
 
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="group" value="institutional">
-                                                <label class="form-check-label">
-                                                    Institutional
-                                                </label>
-                                            </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="group" value="institutional" {% if "institutional" in mail.get_associated_groups %}checked{% endif %}>
+                                            <label class="form-check-label">
+                                                Institutional
+                                            </label>
+                                        </div>
 
-                                            {% for group in groups %}
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="group" value="{{group.name}}">
-                                                <label class="form-check-label">
-                                                    {{group.name}}
-                                                </label>
-                                            </div>
-                                            {% endfor %}
+                                        {% for group in groups %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="group" value="{{group.name}}" {% if group.name in mail.get_associated_groups %}checked{% endif %}>
+                                            <label class="form-check-label">
+                                                {{group.name}}
+                                            </label>
+                                        </div>
+                                        {% endfor %}
                                         </div>
                                     </div>
                                 </div>

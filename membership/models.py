@@ -1,3 +1,5 @@
+import json
+
 from django.db import models
 
 from accounts.models import CustomUser
@@ -141,9 +143,16 @@ class StoreMail(models.Model):
     message = models.TextField()
     groups_mail = models.ManyToManyField(CustomUser, related_name="groups_mail")
     mail_status = models.CharField(max_length=1, choices=MAIL_STATUS, default="D")
+    associated_groups = models.CharField(max_length=255)
     
     def __str__(self):
         return self.subject
+    
+    def set_associated_groups(self, associated_groups):
+        self.associated_groups = json.dumps(associated_groups)
+        
+    def get_associated_groups(self):
+        return json.loads(self.associated_groups)
 
 
 class CreateGroups(models.Model):
