@@ -96,6 +96,8 @@ if (x.type === "password") {
       <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 
       <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+      <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
         <script>
             $(document).ready(function() {
                  $('.multiple-group').select2();
@@ -121,6 +123,22 @@ if (x.type === "password") {
         return false;
       }
       </script>
+
+  <script>
+    function saveAsImage(elem) {
+      var targetElement = document.getElementById(elem);
+
+      html2canvas(targetElement, { allowTaint: true, useCORS: true }).then(function (canvas) {
+        var imgData = canvas.toDataURL("image/png"); // You can also use "image/jpeg" for jpg format
+
+        var link = document.createElement("a");
+        link.href = imgData;
+        link.download = "Membership_card.png"; // You can change the filename here
+
+        link.click();
+      });
+    }
+  </script>
     
     </body>
   </html>

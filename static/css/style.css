@@ -2472,6 +2472,10 @@ h4.edu-head {
   padding: 25px 0px;
 }
 
+.card-first img {
+  height: 210px;
+}
+
 .card-first h3 {
   margin: 0px !important;
   writing-mode: vertical-rl; 
@@ -2549,6 +2553,7 @@ h4.edu-head {
   border-radius: 10px;
   max-height: 105px;
   min-height: 100px;
+  object-fit: cover;
 }
 
 .card-user {
@@ -2605,14 +2610,15 @@ h4.edu-head {
   color: var(--Member-card);
 }
 
-/* Table */
+
 
 /* table */
 
 
 table.dataTable tbody tr:nth-child(even) {
-  background-color: #FCD12A !important;
+  
 }
+
 
 table.dataTable{
   padding: 10px 0px;
@@ -2623,14 +2629,14 @@ div#example_wrapper {
 }
 
 table.dataTable  th{
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  border: 1px solid rgb(228, 228, 228);
   text-align: center !important;
 }
 
 
 table.dataTable  td{
   text-align: center;
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  border: 1px solid rgb(228, 228, 228);
 }
 
 /* general */
@@ -2990,9 +2996,6 @@ header {
     padding: 20px 0px;
 }
 
-table.dataTable tbody tr:nth-child(even) {
-  background-color: var(--Pra-Yellow) !important;
-}
 div#example_wrapper {
   padding: 21px;
 }
@@ -3119,28 +3122,52 @@ a.kit-hover:hover .logo-inner2 h2{
 }
 
 button.paid-btn {
-  background: #27d935;
-  border-color: #27d935;
+  margin-bottom: 1px;
+  padding: 0px 10px;
+  white-space: nowrap;
+  border-radius: 50px;
+  text-align: center;
+  width: max-content;
+  line-height: 1.4;
+  color: rgb(0, 200, 83);
+  background-color: rgba(185, 246, 202, 0.376);
+  font-size: 14px;
+  border: none;
 }
 
 button.paid-btn:hover {
-  background: green;
-  border-color: green;
+  background: rgb(0, 200, 83);
+  color: rgb(185, 246, 202);
+  border: none;
 }
 
 button.unpaid-btn {
-  background: #ed2027;
-  border-color: #ed2027;
+  padding: 0px 10px;
+  white-space: nowrap;
+  border-radius: 50px;
+  text-align: center;
+  width: max-content;
+  line-height: 1.4;
+  color: rgb(198, 40, 40);
+  background-color: rgba(239, 154, 154, 0.376);
+  font-size: 14px;
+  border: none;
 }
 
 button.unpaid-btn:hover {
-  background: red;
-  border-color: red;
+  background: rgb(198, 40, 40);
+  color: rgb(239, 154, 154);
+  border: none;
 }
 
 .action-tab a{
-  color: var(--Pra-Black);
-  font-size: 20px;
+    background: 0 0;
+    font-size: 14px;
+    font-weight: 400;
+    color: #2460b9;
+    background-color: #e7f0f7;
+    border-radius: 5px;
+    padding: 2px;
 }
 
 .action-tab a:hover{
@@ -3264,6 +3291,63 @@ button.unpaid-btn:hover {
     font-weight: 500;
     line-height: 19.6px;
     color: #58667e;
+}
+
+.print-img {
+  display: none;
+}
+
+.select2-container--default .select2-selection--multiple {
+  height: 50px;
+}
+
+table.dataTable tbody td {
+  padding: 3px 0px !important;
+}
+
+table.dataTable  thead th:not(:first-child) {
+  padding: 0px !important;
+}
+
+
+.save-card button {
+  color: var(--Pra-Black);
+    font-feature-settings: "calt" off, "liga" off;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16.1px;
+    text-decoration: none;
+}
+
+.upgrade {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.upgrade h3 {
+    text-decoration: underline;
+    line-height: 1.5;
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 0px;
+}
+
+.upgrade button {
+  background: #669e00;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  color: var(--Pra-White);
+  transition: all 0.3s ease-in-out;
+}
+
+.upgrade button:hover {
+  background: #8bd900;
 }
 
 /* Responsive */
@@ -3829,6 +3913,7 @@ button.unpaid-btn:hover {
     border-radius: 10px;
     max-height: 95px;
     min-height: 90px;
+    object-fit: cover;
 }
 
 .end-second p {
